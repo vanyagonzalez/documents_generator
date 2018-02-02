@@ -6,6 +6,6 @@ import ru.upt.repository.BuildingObjectRepository;
 import java.util.List;
 
 public interface BuildingObjectService {
-    List<BuildingObject> getAllBuildingObjects();
-    BuildingObject getBuildingObjectById(Integer id);
+    List<BuildingObject> getBuildingObjects();
+    BuildingObject getBuildingObjectById(Long id);
 }

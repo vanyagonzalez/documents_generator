@@ -1,33 +1,25 @@
 package ru.upt.model;
 
+import lombok.Data;
+
+import javax.persistence.*;
 import java.util.List;
 
+@Data
+@Entity
 public class BuildingObject {
-    private Integer id;
+    @Id
+    @GeneratedValue
+    private Long buildingObjectId;
     private String name;
+    @OneToMany(targetEntity=Partition.class, mappedBy="buildingObject", fetch= FetchType.EAGER)
     private List<Partition> partitions;
 
-    public Integer getId() {
-        return id;
+    public BuildingObject() {
     }
 
-    public void setId(Integer id) {
-        this.id = id;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
+    public BuildingObject(String name, List<Partition> partitions) {
         this.name = name;
-    }
-
-    public List<Partition> getPartitions() {
-        return partitions;
-    }
-
-    public void setPartitions(List<Partition> partitions) {
         this.partitions = partitions;
     }
 }

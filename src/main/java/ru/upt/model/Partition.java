@@ -1,22 +1,18 @@
 package ru.upt.model;
 
+import lombok.Data;
+
+import javax.persistence.*;
+
+@Data
+@Entity
 public class Partition {
-    private Integer id;
+    @Id
+    @GeneratedValue
+    private Long partitionId;
     private String name;
+    @ManyToOne
+    @JoinColumn(name="buildingObjectId")
+    private BuildingObject buildingObject;
 
-    public Integer getId() {
-        return id;
-    }
-
-    public void setId(Integer id) {
-        this.id = id;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
 }

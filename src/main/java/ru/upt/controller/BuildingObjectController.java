@@ -14,9 +14,9 @@ public class BuildingObjectController {
     @Autowired
     private BuildingObjectService buildingObjectService;
 
-    @RequestMapping("/allObjects")
+    @RequestMapping("/buildingObjects")
     @ResponseBody
-    public List<BuildingObject> getAllBuildingObjects() {
-        return buildingObjectService.getAllBuildingObjects();
+    public List<BuildingObject> getBuildingObjects() {
+        return buildingObjectService.getBuildingObjects();
     }
 }

@@ -1,8 +1,7 @@
 package ru.upt.repository.impl;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
-import ru.upt.datasource.AppDataSource;
+import ru.upt.config.AppDataSource;
 import ru.upt.model.BuildingObject;
 import ru.upt.repository.BuildingObjectRepository;
 

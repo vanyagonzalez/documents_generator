@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>React + Spring</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+</head>
+<body>
+<div id='root'></div>
+
+<script src="https://fb.me/react-15.0.1.js"></script>
+<script src="https://fb.me/react-dom-15.0.1.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/babel-core/5.8.23/browser.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+
+<script type="text/babel">
+
+    var BuildingObject = React.createClass({
+        render: function() {
+            return (
+                <tr>
+                    <td>{this.props.buildingObject.name}</td>
+                </tr>);
+        }
+    });
+
+    var BuildingObjectTable = React.createClass({
+        render: function() {
+            var rows = [];
+            this.props.buildingObjects.forEach(function(buildingObject) {
+                rows.push(<BuildingObject buildingObject={buildingObject} />);
+            });
+            return (
+                <table className="container">
+                    <thead className="table table-striped">
+                    <tr>
+                        <th>Name</th>
+                    </tr>
+                    </thead>
+                    <tbody>{rows}</tbody>
+                </table>);
+        }
+    });
+
+    var App = React.createClass({
+
+        loadBuildingObjectsServer: function () {
+            var self = this;
+            $.ajax({
+                url: "http://localhost:8080/buildingObjects"
+            }).then(function (data) {
+                console.log(data);
+                self.setState({buildingObjects: data});
+            });
+            // self.setState({buildingObjects: BOs});
+        },
+
+        getInitialState: function () {
+            return {buildingObjects: []};
+        },
+
+        componentDidMount: function () {
+            this.loadBuildingObjectsServer();
+        },
+
+        render() {
+            return ( <BuildingObjectTable buildingObjects={this.state.buildingObjects}/> );
+        }
+    });
+
+    ReactDOM.render(<App />, document.getElementById('root') );
+</script>
+</body>
+</html>
