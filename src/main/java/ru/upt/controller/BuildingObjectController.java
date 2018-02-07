@@ -11,8 +11,12 @@ import java.util.List;
 
 @Controller
 public class BuildingObjectController {
+    private final BuildingObjectService buildingObjectService;
+
     @Autowired
-    private BuildingObjectService buildingObjectService;
+    public BuildingObjectController(BuildingObjectService buildingObjectService) {
+        this.buildingObjectService = buildingObjectService;
+    }
 
     @RequestMapping("/buildingObjects")
     @ResponseBody

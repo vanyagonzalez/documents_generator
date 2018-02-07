@@ -4,7 +4,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import ru.upt.model.BuildingObject;
 import ru.upt.repository.BuildingObjectCrudRepository;
-import ru.upt.repository.BuildingObjectRepository;
 import ru.upt.service.BuildingObjectService;
 
 import java.util.ArrayList;
