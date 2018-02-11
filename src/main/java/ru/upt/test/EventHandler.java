@@ -1,4 +1,4 @@
-package ru.upt;
+package ru.upt.test;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.rest.core.annotation.HandleAfterCreate;
@@ -10,7 +10,7 @@ import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Component;
 import ru.upt.test.Employee;
 
-import static ru.upt.WebSocketConfiguration.MESSAGE_PREFIX;
+import static ru.upt.test.WebSocketConfiguration.MESSAGE_PREFIX;
 
 @Component
 @RepositoryEventHandler(Employee.class)

@@ -1,4 +1,4 @@
-package ru.upt;
+package ru.upt.test;
 
 import org.springframework.messaging.simp.config.MessageBrokerRegistry;
 import org.springframework.stereotype.Component;
