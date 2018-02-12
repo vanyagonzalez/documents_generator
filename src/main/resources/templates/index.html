@@ -6,8 +6,14 @@
     <link rel="stylesheet" href="main.css" />
 </head>
 <body>
-
-<h1>from static</h1>
+<!-- tag::logout[] -->
+<div>
+    Hello, <span th:text="${#authentication.name}">user</span>.
+    <form th:action="@{/logout}" method="post">
+        <input type="submit" value="Log Out"/>
+    </form>
+</div>
+<!-- end::logout[] -->
 
 <div id="react"></div>
 

@@ -1,12 +1,14 @@
-package ru.upt.controller;
+package ru.upt.test;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
 public class HomeController {
+
     @RequestMapping(value = "/")
     public String index() {
-        return "index.html";
+        return "index";
     }
+
 }
