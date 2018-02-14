@@ -9,10 +9,10 @@ import javax.persistence.*;
 public class Partition {
     @Id
     @GeneratedValue
-    private Long partitionId;
+    private Long id;
     private String name;
     @ManyToOne
-    @JoinColumn(name="buildingObjectId")
-    private BuildingObject buildingObject;
+    @JoinColumn(name = "constructionObjectId", referencedColumnName = "id")
+    private ConstructionObject constructionObject;
 
 }

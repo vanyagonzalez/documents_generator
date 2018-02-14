@@ -4,32 +4,38 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 import ru.upt.model.ConstructionObject;
-import ru.upt.repository.BuildingObjectCrudRepository;
+import ru.upt.model.Organization;
+import ru.upt.repository.ConstructionObjectCrudRepository;
+import ru.upt.repository.OrganizationCrudRepository;
 import ru.upt.test.EmployeeRepository;
 import ru.upt.test.ManagerRepository;
 
 @Component
 public class DatabaseLoader implements CommandLineRunner {
 
-    private final BuildingObjectCrudRepository buildingObjectCrudRepository;
+    private final ConstructionObjectCrudRepository constructionObjects;
+    private final OrganizationCrudRepository organizations;
     private final EmployeeRepository employees;
     private final ManagerRepository managers;
 
     @Autowired
-    public DatabaseLoader(BuildingObjectCrudRepository buildingObjectCrudRepository,
+    public DatabaseLoader(ConstructionObjectCrudRepository constructionObjects,
+                          OrganizationCrudRepository organizations,
                           EmployeeRepository employees,
                           ManagerRepository managers) {
-        this.buildingObjectCrudRepository = buildingObjectCrudRepository;
+        this.constructionObjects = constructionObjects;
+        this.organizations = organizations;
         this.employees = employees;
         this.managers = managers;
     }
 
     @Override
     public void run(String... strings) throws Exception {
-        this.buildingObjectCrudRepository.save(new ConstructionObject("Объект строительства 1", null));
-        this.buildingObjectCrudRepository.save(new ConstructionObject("Объект строительства 2", null));
-        this.buildingObjectCrudRepository.save(new ConstructionObject("Объект строительства 3", null));
-        this.buildingObjectCrudRepository.save(new ConstructionObject("Объект строительства 4", null));
+        Organization customer = this.organizations.save(new Organization("Застройщик", "ОГРН застройщика", "ИНН застройщика"));
+        Organization developer = this.organizations.save(new Organization("Застройщик", "ОГРН застройщика", "ИНН застройщика"));
+
+        this.constructionObjects.save(new ConstructionObject("Объект строительства 1", "код 1", customer, developer));
+        this.constructionObjects.save(new ConstructionObject("Объект строительства 2", "код 2", customer, developer));
 
         /*Manager greg = this.managers.save(new Manager("greg", "turnquist",
                 "ROLE_MANAGER"));
