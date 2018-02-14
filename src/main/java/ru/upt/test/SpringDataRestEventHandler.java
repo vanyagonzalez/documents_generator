@@ -3,7 +3,6 @@ package ru.upt.test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.rest.core.annotation.HandleBeforeCreate;
 import org.springframework.data.rest.core.annotation.RepositoryEventHandler;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 
 @Component
@@ -20,7 +19,7 @@ public class SpringDataRestEventHandler {
     @HandleBeforeCreate
     public void applyUserInformationUsingSecurityContext(Employee employee) {
 
-        String name = SecurityContextHolder.getContext().getAuthentication().getName();
+        /*String name = SecurityContextHolder.getContext().getAuthentication().getName();
         Manager manager = this.managerRepository.findByName(name);
         if (manager == null) {
             Manager newManager = new Manager();
@@ -28,6 +27,6 @@ public class SpringDataRestEventHandler {
             newManager.setRoles(new String[]{"ROLE_MANAGER"});
             manager = this.managerRepository.save(newManager);
         }
-        employee.setManager(manager);
+        employee.setManager(manager);*/
     }
 }

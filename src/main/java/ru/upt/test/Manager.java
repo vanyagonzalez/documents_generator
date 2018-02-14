@@ -3,8 +3,6 @@ package ru.upt.test;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
 import lombok.ToString;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.crypto.password.PasswordEncoder;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -15,7 +13,7 @@ import javax.persistence.Id;
 @Entity
 public class Manager {
 
-    public static final PasswordEncoder PASSWORD_ENCODER = new BCryptPasswordEncoder();
+//    public static final PasswordEncoder PASSWORD_ENCODER = new BCryptPasswordEncoder();
 
     private @Id
     @GeneratedValue
@@ -29,7 +27,7 @@ public class Manager {
     private String[] roles;
 
     public void setPassword(String password) {
-        this.password = PASSWORD_ENCODER.encode(password);
+//        this.password = PASSWORD_ENCODER.encode(password);
     }
 
     protected Manager() {}

@@ -2,15 +2,10 @@ package ru.upt;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.authority.AuthorityUtils;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
-import ru.upt.model.BuildingObject;
+import ru.upt.model.ConstructionObject;
 import ru.upt.repository.BuildingObjectCrudRepository;
-import ru.upt.test.Employee;
 import ru.upt.test.EmployeeRepository;
-import ru.upt.test.Manager;
 import ru.upt.test.ManagerRepository;
 
 @Component
@@ -31,12 +26,12 @@ public class DatabaseLoader implements CommandLineRunner {
 
     @Override
     public void run(String... strings) throws Exception {
-        this.buildingObjectCrudRepository.save(new BuildingObject("Объект строительства 1", null));
-        this.buildingObjectCrudRepository.save(new BuildingObject("Объект строительства 2", null));
-        this.buildingObjectCrudRepository.save(new BuildingObject("Объект строительства 3", null));
-        this.buildingObjectCrudRepository.save(new BuildingObject("Объект строительства 4", null));
+        this.buildingObjectCrudRepository.save(new ConstructionObject("Объект строительства 1", null));
+        this.buildingObjectCrudRepository.save(new ConstructionObject("Объект строительства 2", null));
+        this.buildingObjectCrudRepository.save(new ConstructionObject("Объект строительства 3", null));
+        this.buildingObjectCrudRepository.save(new ConstructionObject("Объект строительства 4", null));
 
-        Manager greg = this.managers.save(new Manager("greg", "turnquist",
+        /*Manager greg = this.managers.save(new Manager("greg", "turnquist",
                 "ROLE_MANAGER"));
         Manager oliver = this.managers.save(new Manager("oliver", "gierke",
                 "ROLE_MANAGER"));
@@ -57,6 +52,6 @@ public class DatabaseLoader implements CommandLineRunner {
         this.employees.save(new Employee("Merry", "Brandybuck", "pony rider", oliver));
         this.employees.save(new Employee("Peregrin", "Took", "pipe smoker", oliver));
 
-        SecurityContextHolder.clearContext();
+        SecurityContextHolder.clearContext();*/
     }
 }
