@@ -1,15 +1,20 @@
 package ru.upt.model;
 
-import lombok.Data;
+import lombok.*;
 
 import javax.persistence.*;
-import java.util.List;
+import java.util.LinkedHashSet;
+import java.util.Set;
 
 /**
  * Проектная документация -- проектная документация, входящая в состав раздела
  */
 @Data
 @Entity
+@NoArgsConstructor
+@RequiredArgsConstructor
+@ToString(exclude="projectPartition")
+@EqualsAndHashCode(of={"id"})
 public class ProjectDocument {
     @Id
     @GeneratedValue
@@ -18,11 +23,13 @@ public class ProjectDocument {
     /**
      * Наименование проектной документации
      */
+    @NonNull
     private String name;
 
     /**
      * Шифр проектной документации
      */
+    @NonNull
     private String code;
     /**
      * Стадия проектирования
@@ -32,6 +39,7 @@ public class ProjectDocument {
     /**
      * К какому разделу относится данная проектная документация
      */
+    @NonNull
     @ManyToOne
     @JoinColumn(name="projectPartitionId", referencedColumnName = "id")
     private ProjectPartition projectPartition;
@@ -58,6 +66,6 @@ public class ProjectDocument {
      * Листы проектной документации, входящие в состав проектной документации
      */
     @OneToMany(targetEntity=DocumentationSheet.class, mappedBy="projectDocument", fetch= FetchType.EAGER)
-    private List<DocumentationSheet> documentationSheets;
+    private Set<DocumentationSheet> documentationSheets = new LinkedHashSet<>();
 
 }

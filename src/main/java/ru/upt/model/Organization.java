@@ -1,14 +1,10 @@
 package ru.upt.model;
 
-import lombok.Data;
-import lombok.NoArgsConstructor;
-import lombok.NonNull;
-import lombok.RequiredArgsConstructor;
+import lombok.*;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
+import javax.persistence.*;
 import java.util.Date;
+import java.util.List;
 
 /**
  * описание организаций, имеющих отношение к строительству
@@ -17,6 +13,7 @@ import java.util.Date;
 @Entity
 @NoArgsConstructor
 @RequiredArgsConstructor
+@EqualsAndHashCode(of={"id"})
 public class Organization {
     @Id
     @GeneratedValue
@@ -60,5 +57,15 @@ public class Organization {
      * Номер факса организации
      */
     private String faxNumber;
+
+    /**
+     * Список сотрудников, задействованых на объекте
+     */
+    @ManyToMany(cascade = CascadeType.ALL)
+    @JoinTable(name = "organization_employee",
+            joinColumns = @JoinColumn(name = "employeeId", referencedColumnName = "id"),
+            inverseJoinColumns = @JoinColumn(name = "organizationId", referencedColumnName = "id")
+    )
+    private List<Employee> employees;
 
 }

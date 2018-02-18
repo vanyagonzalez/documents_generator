@@ -2,6 +2,7 @@ package ru.upt.service.impl;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import ru.upt.dto.ConstructionObjectDto;
 import ru.upt.model.ConstructionObject;
 import ru.upt.repository.ConstructionObjectCrudRepository;
 import ru.upt.service.ConstructionObjectService;

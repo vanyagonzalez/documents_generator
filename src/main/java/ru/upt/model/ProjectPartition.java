@@ -1,15 +1,20 @@
 package ru.upt.model;
 
-import lombok.Data;
+import lombok.*;
 
 import javax.persistence.*;
-import java.util.List;
+import java.util.LinkedHashSet;
+import java.util.Set;
 
 /**
  * Раздел проекта -- разделы проектной документации, входящих в стотав объекта
  */
 @Data
 @Entity
+@NoArgsConstructor
+@RequiredArgsConstructor
+@ToString(exclude="constructionObject")
+@EqualsAndHashCode(of={"id"})
 public class ProjectPartition {
     @Id
     @GeneratedValue
@@ -17,13 +22,16 @@ public class ProjectPartition {
     /**
      * Наименование раздела проектной документации
      */
+    @NonNull
     private String name;
 
     /**
      * Шифр раздела проектной документации
      */
+    @NonNull
     private String code;
 
+    @NonNull
     @ManyToOne
     @JoinColumn(name="constructionObjectId", referencedColumnName = "id")
     private ConstructionObject constructionObject;
@@ -31,6 +39,6 @@ public class ProjectPartition {
      * Проектная документация, входящая в  раздел
      */
     @OneToMany(targetEntity=ProjectDocument.class, mappedBy="projectPartition", fetch= FetchType.EAGER)
-    private List<ProjectDocument> projectDocuments;
+    private Set<ProjectDocument> projectDocuments = new LinkedHashSet<>();
 
 }

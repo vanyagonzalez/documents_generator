@@ -1,6 +1,7 @@
 package ru.upt.model;
 
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -9,6 +10,7 @@ import java.util.Date;
 
 @Data
 @Entity
+@EqualsAndHashCode(of={"id"})
 public class Confirmation {
     @Id
     @GeneratedValue

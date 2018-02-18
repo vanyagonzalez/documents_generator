@@ -1,17 +1,16 @@
 package ru.upt.model;
 
-import lombok.Data;
-import lombok.NoArgsConstructor;
-import lombok.NonNull;
-import lombok.RequiredArgsConstructor;
+import lombok.*;
 
 import javax.persistence.*;
-import java.util.List;
+import java.util.LinkedHashSet;
+import java.util.Set;
 
 @Data
 @Entity
 @NoArgsConstructor
 @RequiredArgsConstructor
+@EqualsAndHashCode(of={"id"})
 public class ConstructionObject {
     @Id
     @GeneratedValue
@@ -44,7 +43,7 @@ public class ConstructionObject {
      * Разделы проектной документации, входящие в состав объекта
      */
     @OneToMany(targetEntity=ProjectPartition.class, mappedBy="constructionObject", fetch= FetchType.EAGER)
-    private List<ProjectPartition> projectPartitions;
+    private Set<ProjectPartition> projectPartitions = new LinkedHashSet<>();
     /**
      * Количество экземпляров приемо-сдаточной документации, необходимой к оформлению
      */

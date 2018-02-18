@@ -1,17 +1,18 @@
 package ru.upt.model;
 
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
+import javax.persistence.*;
 import java.util.Date;
+import java.util.List;
 
 /**
  * Сотрудник -- сотруднк, участвующих в строительстве
  */
 @Data
 @Entity
+@EqualsAndHashCode(of={"id"})
 public class Employee {
     @Id
     @GeneratedValue
@@ -40,5 +41,8 @@ public class Employee {
      * Дата приказа о назначении на должность
      */
     private Date orderDate;
+
+    @ManyToMany(mappedBy = "employees")
+    private List<Organization> organizations;
 
 }

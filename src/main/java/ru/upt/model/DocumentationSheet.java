@@ -1,15 +1,19 @@
 package ru.upt.model;
 
-import lombok.Data;
+import lombok.*;
 
 import javax.persistence.*;
-import java.util.List;
+import java.util.LinkedHashSet;
+import java.util.Set;
 
 /**
  * лист, входящий в состав проектной документации
  */
 @Data
 @Entity
+@NoArgsConstructor
+@RequiredArgsConstructor
+@EqualsAndHashCode(of={"id"})
 public class DocumentationSheet {
     @Id
     @GeneratedValue
@@ -17,6 +21,7 @@ public class DocumentationSheet {
     /**
      * Наименование листа проектной документации
      */
+    @NonNull
     private String name;
     /**
      * Номер листа проектной документации
@@ -29,10 +34,11 @@ public class DocumentationSheet {
     /**
      * К какой проектной документации относится данный лист
      */
+    @NonNull
     @ManyToOne
     @JoinColumn(name="projectDocumentId", referencedColumnName = "id")
     private ProjectDocument projectDocument;
 
     @OneToMany(targetEntity=KindOfWork.class, mappedBy="documentationSheet", fetch= FetchType.EAGER)
-    private List<KindOfWork> kindOfWorks;
+    private Set<KindOfWork> kindOfWorks = new LinkedHashSet<>();
 }
