@@ -31,11 +31,13 @@ public class DatabaseLoader implements CommandLineRunner {
 
     @Override
     public void run(String... strings) throws Exception {
-        Organization customer = this.organizations.save(new Organization("Застройщик", "ОГРН застройщика", "ИНН застройщика"));
-        Organization developer = this.organizations.save(new Organization("Застройщик", "ОГРН застройщика", "ИНН застройщика"));
+        Organization customer1 = this.organizations.save(new Organization("Застройщик 1", "ОГРН застройщика", "ИНН застройщика"));
+        Organization customer2 = this.organizations.save(new Organization("Застройщик 2", "ОГРН застройщика", "ИНН застройщика"));
+        Organization developer1 = this.organizations.save(new Organization("Застройщик 1", "ОГРН застройщика", "ИНН застройщика"));
+        Organization developer2 = this.organizations.save(new Organization("Застройщик 2", "ОГРН застройщика", "ИНН застройщика"));
 
-        this.constructionObjects.save(new ConstructionObject("Объект строительства 1", "код 1", customer, developer));
-        this.constructionObjects.save(new ConstructionObject("Объект строительства 2", "код 2", customer, developer));
+        this.constructionObjects.save(new ConstructionObject("Объект строительства 1", "код 1", customer1, developer1));
+        this.constructionObjects.save(new ConstructionObject("Объект строительства 2", "код 2", customer2, developer2));
 
         /*Manager greg = this.managers.save(new Manager("greg", "turnquist",
                 "ROLE_MANAGER"));

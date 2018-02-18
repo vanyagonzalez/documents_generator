@@ -43,8 +43,8 @@ public class ConstructionObject {
     /**
      * Разделы проектной документации, входящие в состав объекта
      */
-    @OneToMany(targetEntity=Partition.class, mappedBy="constructionObject", fetch= FetchType.EAGER)
-    private List<Partition> partitions;
+    @OneToMany(targetEntity=ProjectPartition.class, mappedBy="constructionObject", fetch= FetchType.EAGER)
+    private List<ProjectPartition> projectPartitions;
     /**
      * Количество экземпляров приемо-сдаточной документации, необходимой к оформлению
      */
