@@ -51,21 +51,21 @@ public class DatabaseLoader implements CommandLineRunner {
                     new ConstructionObject("Объект строительства "  + i, "код " + i, customer, developer)
             );
 
-            for (int j = 1; j < 4; j++) {
+            for (int j = 1; j < 3; j++) {
                 ProjectPartition pp = projectPartitions.save(new ProjectPartition(
                         String.format("Раздел проекта %s для объекта %s", j, i),
                         String.format("код %s%s", i, j),
                         co
                 ));
 
-                for (int k = 1; k < 4; k++) {
+                for (int k = 1; k < 3; k++) {
                     ProjectDocument pd =  projectDocuments.save(new ProjectDocument(
                             String.format("Проектная документация %s для раздела %s%s", k, i, j),
                             String.format("код %s%s%s", i, j, k),
                             pp
                     ));
 
-                    for (int q = 1; q < 4; q++) {
+                    for (int q = 1; q < 3; q++) {
                         DocumentationSheet ds = documentationSheets.save(new DocumentationSheet(
                                 String.format("лист %s для документации %s%s%s", q, i, j, k),
                                 pd

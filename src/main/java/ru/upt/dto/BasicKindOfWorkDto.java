@@ -4,13 +4,10 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.util.List;
-
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class BasicDocumentationSheetDto {
+public class BasicKindOfWorkDto {
     private Long id;
     private String name;
-    private List<BasicKindOfWorkDto> kindOfWorks;
 }
