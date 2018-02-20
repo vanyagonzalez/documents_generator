@@ -22,12 +22,12 @@ public class ConstructionObjectController {
 
     @RequestMapping(method = RequestMethod.GET, value = "/AllConstructionObjects")
     public List<BasicConstructionObjectDto> getAllConstructionObjects() {
-        return constructionObjectService.getConstructionObjects().stream()
+        return constructionObjectService.getAll().stream()
                 .map(ConstructionObjectConverter::convertToBasicDto).collect(Collectors.toList());
     }
 
     @RequestMapping(method = RequestMethod.GET, value = "/constructionObject/{constructionObjectId}")
     public ConstructionObjectDto getGonstructionObject(@PathVariable Long constructionObjectId) {
-        return ConstructionObjectConverter.convertToDto(constructionObjectService.getConstructionObjectById(constructionObjectId));
+        return ConstructionObjectConverter.convertToDto(constructionObjectService.getById(constructionObjectId));
     }
 }

@@ -20,14 +20,14 @@ public class ConstructionObjectServiceImpl implements ConstructionObjectService 
     }
 
     @Override
-    public List<ConstructionObject> getConstructionObjects() {
+    public List<ConstructionObject> getAll() {
         List<ConstructionObject> target = new ArrayList<ConstructionObject>();
         constructionObjectCrudRepository.findAll().forEach(target::add);
         return target;
     }
 
     @Override
-    public ConstructionObject getConstructionObjectById(Long id) {
+    public ConstructionObject getById(Long id) {
         return constructionObjectCrudRepository.findOne(id);
     }
 }

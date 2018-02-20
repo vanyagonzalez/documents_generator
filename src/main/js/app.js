@@ -14,8 +14,14 @@ import ContentDrafts from 'material-ui/svg-icons/content/drafts';
 import ContentSend from 'material-ui/svg-icons/content/send';
 import Subheader from 'material-ui/Subheader';
 import Toggle from 'material-ui/Toggle';
+import SplitPane from 'react-split-pane/lib/SplitPane';
 
 import $ from 'jquery';
+
+const projectPartitionType = "projectPartition";
+const projectDocumentType = "projectDocument";
+const documentationSheetType = "documentationSheet";
+const kindOfWorkType = "kindOfWork";
 
 class SelectConstructionObject extends React.Component {
     render() {
@@ -86,6 +92,7 @@ class ConstrObjPartitionList extends React.Component {
     render() {
         let projectPartitions = [];
         let open = this.state.open;
+        let onClickFunction = this.props.onClick;
 
         if (this.props.constrObj.projectPartitions) {
             this.props.constrObj.projectPartitions.forEach(function (projectPartition) {
@@ -103,9 +110,10 @@ class ConstrObjPartitionList extends React.Component {
                                     documentationSheet.kindOfWorks.forEach(function (kindOfWork) {
                                         kindOfWorks.push(
                                             <ListItem
-                                                key={"/rest/kindOfWork/" + kindOfWork.id}
+                                                key={kindOfWorkType + kindOfWork.id}
                                                 primaryText={kindOfWork.name}
-                                                primaryTogglesNestedList={true}
+                                                //primaryTogglesNestedList={true}
+                                                onClick={() => onClickFunction(kindOfWorkType, kindOfWork.id)}
                                             />
                                         );
 
@@ -114,11 +122,12 @@ class ConstrObjPartitionList extends React.Component {
 
                                 documentationSheets.push(
                                     <ListItem
-                                        key={"/rest/documentationSheet/" + documentationSheet.id}
+                                        key={documentationSheetType + documentationSheet.id}
                                         primaryText={documentationSheet.name}
-                                        primaryTogglesNestedList={true}
+                                        //primaryTogglesNestedList={true}
                                         open={open}
                                         nestedItems={kindOfWorks}
+                                        onClick={() => onClickFunction(documentationSheetType, documentationSheet.id)}
                                     />
                                 );
                             });
@@ -126,11 +135,12 @@ class ConstrObjPartitionList extends React.Component {
 
                         projectDocuments.push(
                             <ListItem
-                                key={"/rest/projectDocument/" + projectDocument.id}
+                                key={projectDocumentType + projectDocument.id}
                                 primaryText={projectDocument.name}
-                                primaryTogglesNestedList={true}
+                                //primaryTogglesNestedList={true}
                                 open={open}
                                 nestedItems={documentationSheets}
+                                onClick={() => onClickFunction(projectDocumentType, projectDocument.id)}
                             />
                         );
                     });
@@ -138,11 +148,12 @@ class ConstrObjPartitionList extends React.Component {
 
                 projectPartitions.push(
                     <ListItem
-                        key={"/rest/projectPartition/" + projectPartition.id}
+                        key={projectPartitionType + projectPartition.id}
                         primaryText={projectPartition.name}
-                        primaryTogglesNestedList={true}
+                        //primaryTogglesNestedList={true}
                         open={open}
                         nestedItems={projectDocuments}
+                        onClick={() => onClickFunction(projectPartitionType, projectPartition.id)}
                     />
                 );
             });
@@ -161,7 +172,16 @@ class ConstrObjPartitionList extends React.Component {
                 </List>
             </div>
         )
+    }
+}
 
+class ListItemData extends React.Component {
+    render() {
+        return (
+            <div>
+                <h1>Hello</h1>
+            </div>
+        )
     }
 }
 
@@ -175,6 +195,7 @@ class App extends React.Component {
         };
 
         this.handleChoice = this.handleChoice.bind(this);
+        this.chooseListItem = this.chooseListItem.bind(this);
     }
 
     loadConstrObjsFromServer() {
@@ -211,18 +232,32 @@ class App extends React.Component {
         this.loadConstrObjFromServer(value);
     }
 
+    chooseListItem(type, id) {
+        this.setState({
+            //selectedConstrObjId: value
+        });
+    }
+
     render() {
         return (
             <MuiThemeProvider>
                 <div>
-                    <SelectConstructionObject
-                        value={this.state.selectedConstrObjId}
-                        constrObjs={this.state.constrObjs}
-                        onConstrObjSelect={i => this.handleChoice(i)}/>
-                    <br/>
-                    <ConstrObjBasicInfo constrObj={this.state.selectedConstrObj}/>
-                    <br/>
-                    <ConstrObjPartitionList constrObj={this.state.selectedConstrObj}/>
+                    <div>
+                        <SelectConstructionObject
+                            value={this.state.selectedConstrObjId}
+                            constrObjs={this.state.constrObjs}
+                            onConstrObjSelect={this.handleChoice}/>
+                        <br/>
+                        <ConstrObjBasicInfo constrObj={this.state.selectedConstrObj}/>
+                    </div>
+                    <SplitPane defaultSize="50%" split="vertical">
+                        <div>
+                            <ConstrObjPartitionList constrObj={this.state.selectedConstrObj} onClick={this.chooseListItem}/>
+                        </div>
+                        <div>
+                            <ListItemData/>
+                        </div>
+                    </SplitPane>
                 </div>
             </MuiThemeProvider>
         )
@@ -232,4 +267,4 @@ class App extends React.Component {
 ReactDOM.render(
     <App />,
     document.getElementById('react')
-)
+);

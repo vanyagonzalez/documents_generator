@@ -6,6 +6,6 @@ import ru.upt.model.ConstructionObject;
 import java.util.List;
 
 public interface ConstructionObjectService {
-    List<ConstructionObject> getConstructionObjects();
-    ConstructionObject getConstructionObjectById(Long id);
+    List<ConstructionObject> getAll();
+    ConstructionObject getById(Long id);
 }
