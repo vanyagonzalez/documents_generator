@@ -20,7 +20,7 @@ public class KindOfWorkController {
     }
 
     @RequestMapping(method = RequestMethod.GET, value = "/kindOfWork/{kindOfWorkId}")
-    public KindOfWorkDto getKindOfWork(@PathVariable Long kindOfWork) {
-        return KindOfWorkConverter.convertToDto(kindOfWorkService.getById(kindOfWork));
+    public KindOfWorkDto getKindOfWork(@PathVariable Long kindOfWorkId) {
+        return KindOfWorkConverter.convertToDto(kindOfWorkService.getById(kindOfWorkId));
     }
 }

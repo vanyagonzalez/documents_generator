@@ -20,7 +20,7 @@ public class ProjectPartitionController {
     }
 
     @RequestMapping(method = RequestMethod.GET, value = "/projectPartition/{projectPartitionId}")
-    public ProjectPartitionDto getProjectPartition(@PathVariable Long projectPartition) {
-        return ProjectPartitionConverter.convertToDto(projectPartitionService.getById(projectPartition));
+    public ProjectPartitionDto getProjectPartition(@PathVariable Long projectPartitionId) {
+        return ProjectPartitionConverter.convertToDto(projectPartitionService.getById(projectPartitionId));
     }
 }
