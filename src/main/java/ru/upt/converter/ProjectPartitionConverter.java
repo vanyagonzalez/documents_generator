@@ -17,9 +17,10 @@ public class ProjectPartitionConverter {
 
     public static ProjectPartitionDto convertToDto(ProjectPartition projectPartition) {
         return new ProjectPartitionDto(
-                projectPartition.getId()
-                , projectPartition.getName()
-                , projectPartition.getProjectDocuments().stream().map(ProjectDocumentConverter::convertToBasicDto).collect(Collectors.toList())
+                projectPartition.getId(),
+                projectPartition.getName(),
+                projectPartition.getCode(),
+                projectPartition.getProjectDocuments().stream().map(ProjectDocumentConverter::convertToBasicDto).collect(Collectors.toList())
         );
     }
 }

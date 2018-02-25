@@ -26,10 +26,6 @@ class ProjectPartition extends React.Component {
                             <TableRowColumn>Шифр раздела проектной документации</TableRowColumn>
                             <TableRowColumn>{this.props.item.code}</TableRowColumn>
                         </TableRow>
-                        <TableRow>
-                            <TableRowColumn>Номер изменения листа проектной документации</TableRowColumn>
-                            <TableRowColumn>{this.props.item.change}</TableRowColumn>
-                        </TableRow>
                     </TableBody>
                 </Table>
             </div>

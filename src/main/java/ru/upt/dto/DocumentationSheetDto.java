@@ -9,7 +9,22 @@ import java.util.List;
 @EqualsAndHashCode(callSuper = true)
 public class DocumentationSheetDto extends BasicDocumentationSheetDto {
 
-    public DocumentationSheetDto(Long id, String name, List<BasicKindOfWorkDto> kindOfWorks) {
+    /**
+     * Номер листа проектной документации
+     */
+    private Long number;
+    /**
+     * Номер изменения листа проектной документации
+     */
+    private Long change;
+
+    public DocumentationSheetDto(Long id,
+                                 String name,
+                                 List<BasicKindOfWorkDto> kindOfWorks,
+                                 Long number,
+                                 Long change) {
         super(id, name, kindOfWorks);
+        this.number = number;
+        this.change = change;
     }
 }

@@ -32,15 +32,15 @@ class ProjectDocument extends React.Component {
                         </TableRow>
                         <TableRow>
                             <TableRowColumn>Автор проектной документации</TableRowColumn>
-                            <TableRowColumn>{this.props.item.author}</TableRowColumn>
+                            <TableRowColumn>{this.props.item.author.fio}</TableRowColumn>
                         </TableRow>
                         <TableRow>
                             <TableRowColumn>Ответственный представитель Заказчика</TableRowColumn>
-                            <TableRowColumn>{this.props.item.customerRepresentative}</TableRowColumn>
+                            <TableRowColumn>{this.props.item.customerRepresentative.fio}</TableRowColumn>
                         </TableRow>
                         <TableRow>
                             <TableRowColumn>Ответственный представитель Застройщика</TableRowColumn>
-                            <TableRowColumn>{this.props.item.developerRepresentative}</TableRowColumn>
+                            <TableRowColumn>{this.props.item.developerRepresentative.fio}</TableRowColumn>
                         </TableRow>
                     </TableBody>
                 </Table>

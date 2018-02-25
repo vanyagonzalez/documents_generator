@@ -19,7 +19,9 @@ public class DocumentationSheetConverter {
         return new DocumentationSheetDto(
                 documentationSheet.getId(),
                 documentationSheet.getName(),
-                documentationSheet.getKindOfWorks().stream().map(KindOfWorkConverter::convertToBasicDto).collect(Collectors.toList())
+                documentationSheet.getKindOfWorks().stream().map(KindOfWorkConverter::convertToBasicDto).collect(Collectors.toList()),
+                documentationSheet.getNumber(),
+                documentationSheet.getChange()
         );
     }
 }

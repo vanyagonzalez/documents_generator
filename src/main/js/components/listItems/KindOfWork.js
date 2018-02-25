@@ -13,6 +13,33 @@ import {
 class KindOfWork extends React.Component {
 
     render() {
+        let otherRepresentatives = [];
+        if (this.props.item.otherRepresentatives) {
+            this.props.item.otherRepresentatives.forEach(function (otherRepresentative) {
+                otherRepresentatives.push(
+                    <li>{otherRepresentative.name}</li>
+                );
+            });
+        }
+
+        let certificates = [];
+        if (this.props.item.certificates) {
+            this.props.item.certificates.forEach(function (certificate) {
+                certificates.push(
+                    <li>{certificate.material}</li>
+                );
+            });
+        }
+
+        let confirmations = [];
+        if (this.props.item.confirmations) {
+            this.props.item.confirmations.forEach(function (confirmation) {
+                confirmations.push(
+                    <li>{confirmation.name}</li>
+                );
+            });
+        }
+
         return (
             <div>
                 <Table>
@@ -32,11 +59,23 @@ class KindOfWork extends React.Component {
                         </TableRow>
                         <TableRow>
                             <TableRowColumn>Организация - фактически выполнившая работу</TableRowColumn>
-                            <TableRowColumn>{this.props.item.executor}</TableRowColumn>
+                            <TableRowColumn>{this.props.item.executor.name}</TableRowColumn>
                         </TableRow>
                         <TableRow>
                             <TableRowColumn>Представитель исполнителя работы</TableRowColumn>
-                            <TableRowColumn>{this.props.item.executorRepresentative}</TableRowColumn>
+                            <TableRowColumn>{this.props.item.executorRepresentative.fio}</TableRowColumn>
+                        </TableRow>
+                        <TableRow>
+                            <TableRowColumn>Представители иных лиц, участвующих в освидетельствовании</TableRowColumn>
+                            <TableRowColumn><ul>{otherRepresentatives}</ul></TableRowColumn>
+                        </TableRow>
+                        <TableRow>
+                            <TableRowColumn>Материалы, примененные для выполнения данных работ</TableRowColumn>
+                            <TableRowColumn><ul>{certificates}</ul></TableRowColumn>
+                        </TableRow>
+                        <TableRow>
+                            <TableRowColumn>Документы, подтверждающие качество выполенных работ</TableRowColumn>
+                            <TableRowColumn><ul>{confirmations}</ul></TableRowColumn>
                         </TableRow>
                         <TableRow>
                             <TableRowColumn>Дополнительные нормативные документы согласно которых выполнены работы</TableRowColumn>

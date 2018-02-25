@@ -96,10 +96,10 @@ public class DatabaseLoader implements CommandLineRunner {
             organizations.save(authorOrg);
 
             Employee customerRepresentative = employees.save(new Employee(
-                    "Фамилия представителя Заказчика " + i,
-                    "Имя автора представителя Заказчика " + i,
-                    "Отчество автора представителя Заказчика " + i,
-                    "Должность автора представителя Заказчика " + i
+                    "Фамилия предст-я Заказчика " + i,
+                    "Имя предст-я Заказчика " + i,
+                    "Отчество предст-я Заказчика " + i,
+                    "Должность предст-я Заказчика " + i
             ));
             Set<Employee> customerRepresentatives = new HashSet<>();
             customerRepresentatives.add(customerRepresentative);
@@ -107,10 +107,10 @@ public class DatabaseLoader implements CommandLineRunner {
             organizations.save(customer);
 
             Employee developerRepresentative = employees.save(new Employee(
-                    "Фамилия представителя Застройщика " + i,
-                    "Имя представителя Застройщика " + i,
-                    "Отчество представителя Застройщика " + i,
-                    "Должность представителя Застройщика " + i
+                    "Фамилия предст-я Застройщика " + i,
+                    "Имя предст-я Застройщика " + i,
+                    "Отчество предст-я Застройщика " + i,
+                    "Должность предст-я Застройщика " + i
             ));
             Set<Employee> developerRepresentatives = new HashSet<>();
             developerRepresentatives.add(developerRepresentative);
