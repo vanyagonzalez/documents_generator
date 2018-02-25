@@ -26,11 +26,17 @@ public class DocumentationSheet {
     /**
      * Номер листа проектной документации
      */
+    @NonNull
     private Long number;
     /**
      * Номер изменения листа проектной документации
      */
+    @NonNull
     private Long change;
+
+    @OneToMany(targetEntity=KindOfWork.class, mappedBy="documentationSheet", fetch= FetchType.EAGER)
+    private Set<KindOfWork> kindOfWorks = new LinkedHashSet<>();
+
     /**
      * К какой проектной документации относится данный лист
      */
@@ -38,7 +44,4 @@ public class DocumentationSheet {
     @ManyToOne
     @JoinColumn(name="projectDocumentId", referencedColumnName = "id")
     private ProjectDocument projectDocument;
-
-    @OneToMany(targetEntity=KindOfWork.class, mappedBy="documentationSheet", fetch= FetchType.EAGER)
-    private Set<KindOfWork> kindOfWorks = new LinkedHashSet<>();
 }

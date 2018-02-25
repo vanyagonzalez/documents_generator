@@ -1,7 +1,6 @@
 package ru.upt.model;
 
-import lombok.Data;
-import lombok.EqualsAndHashCode;
+import lombok.*;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -14,6 +13,8 @@ import java.util.Date;
 @Data
 @Entity
 @EqualsAndHashCode(of={"id"})
+@NoArgsConstructor
+@RequiredArgsConstructor
 public class Certificate {
     @Id
     @GeneratedValue
@@ -21,38 +22,47 @@ public class Certificate {
     /**
      * Материал -- Наименование сертифицируемого материала
      */
+    @NonNull
     private String material;
     /**
      * Нормативный документ, согласно которого изготовлен материал
      */
+    @NonNull
     private String standardDocument;
     /**
      * Вид документа
      */
+    @NonNull
     private String documentKind;
     /**
-     * нормер документа, подтверждающего качество материала
+     * Нормер документа, подтверждающего качество материала
      */
+    @NonNull
     private String documentNumber;
     /**
      * Дата выдачи документа, подтверждающего качество материала
      */
+    @NonNull
     private Date documentDate;
     /**
      * Дата окончания срока действия документа
      */
+    @NonNull
     private Date documentEndDate;
     /**
      *  Объем материала, "засертифицированного" данным документом
      */
+    @NonNull
     private Double materialVolume;
     /**
      * единица измерения объема материала, "засертифицированного" данным документом
      */
+    @NonNull
     private String measureUnit;
     /**
      * скан-копия документа
      */
+    @NonNull
     private String documentCopy;
 
 }

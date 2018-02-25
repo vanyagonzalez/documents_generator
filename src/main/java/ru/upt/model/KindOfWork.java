@@ -27,68 +27,79 @@ public class KindOfWork {
     /**
      * Объем выполненной работы
      */
+    @NonNull
     private String amountOfWork;
     /**
      * единица измерения выполненного объема
      */
+    @NonNull
     private String measureUnit;
     /**
      * Организация - фактически выполнившая работу
      */
+    @NonNull
     @ManyToOne
     @JoinColumn(name="executorId", referencedColumnName = "id")
     private Organization executor;
     /**
      * Представитель исполнителя работы -- Ответственный представитель организации, физически выполневшией работу
      */
+    @NonNull
     @ManyToOne
     @JoinColumn(name="executorRepresentativeId", referencedColumnName = "id")
     private Employee executorRepresentative;
     /**
      * Представители иных лиц, участвующих в освидетельствовании
      */
-    @ManyToMany(cascade = CascadeType.ALL)
+    @NonNull
+    @ManyToMany(cascade = {CascadeType.MERGE,CascadeType.REFRESH})
     @JoinTable(name = "work_employee",
-            joinColumns = @JoinColumn(name = "employeeId", referencedColumnName = "id"),
-            inverseJoinColumns = @JoinColumn(name = "workId", referencedColumnName = "id")
+            joinColumns = @JoinColumn(name = "workId", referencedColumnName = "id"),
+            inverseJoinColumns = @JoinColumn(name = "employeeId", referencedColumnName = "id")
     )
-    private Set<Employee> otherRepresentatives = new LinkedHashSet<>();
+    private Set<Employee> otherRepresentatives;
 
     /**
      * Материалы, примененные для выполнения данных работ
      */
-    @ManyToMany(cascade = CascadeType.ALL)
+    @NonNull
+    @ManyToMany(cascade = {CascadeType.MERGE,CascadeType.REFRESH})
     @JoinTable(name = "work_certificate",
-            joinColumns = @JoinColumn(name = "certificateId", referencedColumnName = "id"),
-            inverseJoinColumns = @JoinColumn(name = "workId", referencedColumnName = "id")
+            joinColumns = @JoinColumn(name = "workId", referencedColumnName = "id"),
+            inverseJoinColumns = @JoinColumn(name = "certificateId", referencedColumnName = "id")
     )
-    private Set<Certificate> certificates = new LinkedHashSet<>();
+    private Set<Certificate> certificates;
 
     /**
      * Документы, подтверждающие качество выполенных работ
      */
-    @ManyToMany(cascade = CascadeType.ALL)
+    @NonNull
+    @ManyToMany(cascade = {CascadeType.MERGE,CascadeType.REFRESH})
     @JoinTable(name = "work_confirmation",
-            joinColumns = @JoinColumn(name = "confirmationId", referencedColumnName = "id"),
-            inverseJoinColumns = @JoinColumn(name = "workId", referencedColumnName = "id")
+            joinColumns = @JoinColumn(name = "workId", referencedColumnName = "id"),
+            inverseJoinColumns = @JoinColumn(name = "confirmationId", referencedColumnName = "id")
     )
-    private Set<Confirmation> confirmations = new LinkedHashSet<>();
+    private Set<Confirmation> confirmations;
 
     /**
      * Дополнительные нормативные документы согласно которых выполнены работы
      */
+    @NonNull
     private String additionalReason;
     /**
      * Дата начала производства работ
      */
+    @NonNull
     private Date beginDate;
     /**
      * Дата окончания производства работ
      */
+    @NonNull
     private Date endDate;
     /**
      * Дата проведения комиссии по приемке работ
      */
+    @NonNull
     private Date presentationDate;
     /**
      * К какому листу относится данный вид работы

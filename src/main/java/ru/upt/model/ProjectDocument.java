@@ -34,7 +34,35 @@ public class ProjectDocument {
     /**
      * Стадия проектирования
      */
+    @NonNull
     private String phase;
+    /**
+     * Автор проектной документации
+     */
+    @ManyToOne
+    @JoinColumn(name="authorId", referencedColumnName = "id")
+    @NonNull
+    private Employee author;
+    /**
+     * Ответственный представитель Заказчика
+     */
+    @ManyToOne
+    @JoinColumn(name="customerRepresentativeId", referencedColumnName = "id")
+    @NonNull
+    private Employee customerRepresentative;
+    /**
+     * Ответственный представитель Застройщика
+     */
+    @ManyToOne
+    @JoinColumn(name="developerRepresentativeId", referencedColumnName = "id")
+    @NonNull
+    private Employee developerRepresentative;
+
+    /**
+     * Листы проектной документации, входящие в состав проектной документации
+     */
+    @OneToMany(targetEntity=DocumentationSheet.class, mappedBy="projectDocument", fetch= FetchType.EAGER)
+    private Set<DocumentationSheet> documentationSheets = new LinkedHashSet<>();
 
     /**
      * К какому разделу относится данная проектная документация
@@ -43,29 +71,5 @@ public class ProjectDocument {
     @ManyToOne
     @JoinColumn(name="projectPartitionId", referencedColumnName = "id")
     private ProjectPartition projectPartition;
-    /**
-     * Автор проектной документации
-     */
-    @ManyToOne
-    @JoinColumn(name="authorId", referencedColumnName = "id")
-    private Employee author;
-    /**
-     * Ответственный представитель Заказчика
-     */
-    @ManyToOne
-    @JoinColumn(name="customerRepresentativeId", referencedColumnName = "id")
-    private Employee customerRepresentative;
-    /**
-     * Ответственный представитель Застройщика
-     */
-    @ManyToOne
-    @JoinColumn(name="developerRepresentativeId", referencedColumnName = "id")
-    private Employee developerRepresentative;
-
-    /**
-     * Листы проектной документации, входящие в состав проектной документации
-     */
-    @OneToMany(targetEntity=DocumentationSheet.class, mappedBy="projectDocument", fetch= FetchType.EAGER)
-    private Set<DocumentationSheet> documentationSheets = new LinkedHashSet<>();
 
 }

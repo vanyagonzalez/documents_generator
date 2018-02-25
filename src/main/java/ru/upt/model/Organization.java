@@ -4,7 +4,7 @@ import lombok.*;
 
 import javax.persistence.*;
 import java.util.Date;
-import java.util.List;
+import java.util.Set;
 
 /**
  * описание организаций, имеющих отношение к строительству
@@ -66,6 +66,6 @@ public class Organization {
             joinColumns = @JoinColumn(name = "employeeId", referencedColumnName = "id"),
             inverseJoinColumns = @JoinColumn(name = "organizationId", referencedColumnName = "id")
     )
-    private List<Employee> employees;
+    private Set<Employee> employees;
 
 }

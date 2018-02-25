@@ -1,7 +1,6 @@
 package ru.upt.model;
 
-import lombok.Data;
-import lombok.EqualsAndHashCode;
+import lombok.*;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -11,6 +10,8 @@ import java.util.Date;
 @Data
 @Entity
 @EqualsAndHashCode(of={"id"})
+@NoArgsConstructor
+@RequiredArgsConstructor
 public class Confirmation {
     @Id
     @GeneratedValue
@@ -18,17 +19,21 @@ public class Confirmation {
     /**
      * Наименование документа
      */
+    @NonNull
     private String name;
     /**
      * номер документа
      */
+    @NonNull
     private String number;
     /**
      * Дата выдачи документа
      */
+    @NonNull
     private Date issueDate;
     /**
      * скан-копия документа
      */
+    @NonNull
     private String copy;
 }
