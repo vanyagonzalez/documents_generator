@@ -1,3 +1,5 @@
+import $ from "jquery";
+
 const React = require('react');
 
 import {
@@ -9,8 +11,16 @@ import {
     TableRow,
     TableRowColumn,
 } from 'material-ui/Table';
+import FlatButton from 'material-ui/FlatButton';
 
 class KindOfWork extends React.Component {
+
+    generateDocument(id, type) {
+        /*$.ajax({
+            url: "/rest/kindOfWork/" + id + "/document/" + type
+        })*/
+        window.location="/rest/kindOfWork/" + id + "/document/" + type;
+    }
 
     render() {
         let otherRepresentatives = [];
@@ -42,6 +52,8 @@ class KindOfWork extends React.Component {
 
         return (
             <div>
+                <FlatButton label="Форма АОСР1" primary={true} onClick={() => this.generateDocument(this.props.item.id, "aosr1")}/>
+                <br/>
                 <Table>
                     <TableBody
                         displayRowCheckbox={false}>
