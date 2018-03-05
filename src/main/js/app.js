@@ -7,6 +7,7 @@ import $ from 'jquery';
 
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import SelectConstructionObject from './components/SelectConstructionObject'
+import ConstrObjectDlg from './components/itemDialogs/ConstrObjectDlg'
 import ConstrObjBasicInfo from './components/ConstrObjBasicInfo'
 import ConstrObjPartitionList from './components/ConstrObjPartitionList'
 import ListItemData from './components/ListItemData'
@@ -20,11 +21,20 @@ class App extends React.Component {
             selectedConstrObj: {},
             typeListItem: null,
             idListItem: null,
-            selectedItem: null
+            selectedItem: null,
+            customers: [],
+            developers: []
         };
 
+        this.loadConstrObjsFromServer = this.loadConstrObjsFromServer.bind(this);
         this.handleChoice = this.handleChoice.bind(this);
         this.chooseListItem = this.chooseListItem.bind(this);
+    }
+
+    componentDidMount() {
+        this.loadConstrObjsFromServer();
+        this.loadCustomers();
+        this.loadDevelopers();
     }
 
     loadConstrObjsFromServer() {
@@ -38,6 +48,28 @@ class App extends React.Component {
         });
     }
 
+    loadCustomers() {
+        const self = this;
+        $.ajax({
+            url: "/rest/AllOrganizations"
+        }).then(function (data) {
+            self.setState({
+                customers: data
+            });
+        });
+    }
+
+    loadDevelopers() {
+        const self = this;
+        $.ajax({
+            url: "/rest/AllOrganizations"
+        }).then(function (data) {
+            self.setState({
+                developers: data
+            });
+        });
+    }
+
     loadConstrObjFromServer(id) {
         const self = this;
         $.ajax({
@@ -47,10 +79,6 @@ class App extends React.Component {
                 selectedConstrObj: data
             });
         });
-    }
-
-    componentDidMount() {
-        this.loadConstrObjsFromServer();
     }
 
     handleChoice(value) {
@@ -77,16 +105,36 @@ class App extends React.Component {
         }
     }
 
+
     render() {
+        const floatLeftStyle = {
+            float: "left",
+            width: "50%",
+        };
+        const floatRightStyle = {
+            float: "right",
+            width: "50%",
+        };
+        const clearBothStyle = {
+            clear: "both ",
+        };
         return (
             <MuiThemeProvider>
                 <div>
-                    <div>
+                    <div style={floatLeftStyle}>
                         <SelectConstructionObject
                             value={this.state.selectedConstrObjId}
                             constrObjs={this.state.constrObjs}
                             onConstrObjSelect={this.handleChoice}/>
-                        <br/>
+                    </div>
+                    <div style={floatRightStyle}>
+                        <ConstrObjectDlg
+                            customers={this.state.customers}
+                            developers={this.state.developers}
+                            updateConstrObjs={this.loadConstrObjsFromServer}
+                        />
+                    </div>
+                    <div style={clearBothStyle}>
                         <ConstrObjBasicInfo constrObj={this.state.selectedConstrObj}/>
                     </div>
                     <SplitPane defaultSize="50%" split="vertical">

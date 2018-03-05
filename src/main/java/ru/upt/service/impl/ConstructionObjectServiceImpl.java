@@ -30,4 +30,9 @@ public class ConstructionObjectServiceImpl implements ConstructionObjectService 
     public ConstructionObject getById(Long id) {
         return constructionObjectCrudRepository.findOne(id);
     }
+
+    @Override
+    public ConstructionObject save(ConstructionObject constructionObject) {
+        return constructionObjectCrudRepository.save(constructionObject);
+    }
 }

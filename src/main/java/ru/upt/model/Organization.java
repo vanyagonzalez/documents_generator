@@ -12,7 +12,6 @@ import java.util.Set;
 @Data
 @Entity
 @NoArgsConstructor
-@RequiredArgsConstructor
 @EqualsAndHashCode(of={"id"})
 public class Organization {
     @Id
@@ -21,17 +20,14 @@ public class Organization {
     /**
      * Название организации, включая ОПР
      */
-    @NonNull
     private String name;
     /**
      * ОГРН -- Целое число, строго 13 символов
      */
-    @NonNull
     private String ogrn;
     /**
      * ИНН -- Целое число, строго 10 символов
      */
-    @NonNull
     private String inn;
     /**
      * Номер СРО -- Саморегулируемая организация
@@ -68,4 +64,9 @@ public class Organization {
     )
     private Set<Employee> employees;
 
+    public Organization(String name, String ogrn, String inn) {
+        this.name = name;
+        this.ogrn = ogrn;
+        this.inn = inn;
+    }
 }

@@ -8,4 +8,5 @@ import java.util.List;
 public interface ConstructionObjectService {
     List<ConstructionObject> getAll();
     ConstructionObject getById(Long id);
+    ConstructionObject save(ConstructionObject constructionObject);
 }

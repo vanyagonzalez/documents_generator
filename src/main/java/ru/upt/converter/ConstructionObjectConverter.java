@@ -20,8 +20,20 @@ public class ConstructionObjectConverter {
                 , constructionObject.getName()
                 , OrganizationConverter.convertToBasicDto(constructionObject.getCustomer())
                 , OrganizationConverter.convertToBasicDto(constructionObject.getDeveloper())
+                , constructionObject.getCopies()
         );
         dto.setProjectPartitions(constructionObject.getProjectPartitions().stream().map(ProjectPartitionConverter::convertToBasicDto).collect(Collectors.toList()));
         return dto;
+    }
+
+    public static ConstructionObject convertFromDto(ConstructionObjectDto constructionObjectDto) {
+        return new ConstructionObject(
+                constructionObjectDto.getId(),
+                constructionObjectDto.getCode(),
+                constructionObjectDto.getName(),
+                OrganizationConverter.convertFromBasicDto(constructionObjectDto.getCustomer()),
+                OrganizationConverter.convertFromBasicDto(constructionObjectDto.getDeveloper()),
+                constructionObjectDto.getCopies()
+        );
     }
 }

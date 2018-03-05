@@ -5,6 +5,17 @@ import ru.upt.model.Organization;
 
 public class OrganizationConverter {
     public static BasicOrganizationDto convertToBasicDto(Organization organization) {
-        return new BasicOrganizationDto(organization.getId(), organization.getName());
+        return organization != null ? new BasicOrganizationDto(organization.getId(), organization.getName()) : null;
+    }
+
+    public static Organization convertFromBasicDto(BasicOrganizationDto basicOrganizationDto) {
+        if (basicOrganizationDto == null) {
+            return null;
+        }
+        Organization organization = new Organization();
+        organization.setId(basicOrganizationDto.getId());
+        organization.setName(basicOrganizationDto.getName());
+
+        return organization;
     }
 }

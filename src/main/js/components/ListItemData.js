@@ -1,9 +1,9 @@
 const React = require('react');
 
-import ProjectPartitionType from './listItems/ProjectPartition'
-import ProjectDocumentType from './listItems/ProjectDocument'
-import DocumentationSheetType from './listItems/DocumentationSheet'
-import KindOfWorkType from './listItems/KindOfWork'
+import ProjectPartitionType from './itemViews/ProjectPartition'
+import ProjectDocumentType from './itemViews/ProjectDocument'
+import DocumentationSheetType from './itemViews/DocumentationSheet'
+import KindOfWorkType from './itemViews/KindOfWork'
 
 const projectPartitionType = "projectPartition";
 const projectDocumentType = "projectDocument";

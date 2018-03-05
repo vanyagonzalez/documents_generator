@@ -9,7 +9,6 @@ import java.util.Set;
 @Data
 @Entity
 @NoArgsConstructor
-@RequiredArgsConstructor
 @EqualsAndHashCode(of={"id"})
 public class ConstructionObject {
     @Id
@@ -18,24 +17,20 @@ public class ConstructionObject {
     /**
      * Наименование объекта
      */
-    @NonNull
     private String name;
     /**
      * Шифр объекта
      */
-    @NonNull
     private String code;
     /**
      * Организация - заказчик
      */
-    @NonNull
     @ManyToOne
     @JoinColumn(name="customerId", referencedColumnName = "id")
     private Organization customer;
     /**
      * Организация - застройщик
      */
-    @NonNull
     @ManyToOne
     @JoinColumn(name="developerId", referencedColumnName = "id")
     private Organization developer;
@@ -49,4 +44,16 @@ public class ConstructionObject {
      */
     private Long copies;
 
+    public ConstructionObject(String name, String code, Organization customer, Organization developer) {
+        this.name = name;
+        this.code = code;
+        this.customer = customer;
+        this.developer = developer;
+    }
+
+    public ConstructionObject(Long id, String name, String code, Organization customer, Organization developer, Long copies) {
+        this(name, code, customer, developer);
+        this.id = id;
+        this.copies = copies;
+    }
 }
