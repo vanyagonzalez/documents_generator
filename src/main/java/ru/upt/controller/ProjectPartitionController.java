@@ -1,10 +1,7 @@
 package ru.upt.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import ru.upt.converter.ProjectPartitionConverter;
 import ru.upt.dto.ProjectPartitionDto;
 import ru.upt.service.ProjectPartitionService;
@@ -22,5 +19,10 @@ public class ProjectPartitionController {
     @RequestMapping(method = RequestMethod.GET, value = "/projectPartition/{projectPartitionId}")
     public ProjectPartitionDto getProjectPartition(@PathVariable Long projectPartitionId) {
         return ProjectPartitionConverter.convertToDto(projectPartitionService.getById(projectPartitionId));
+    }
+
+    @RequestMapping(method = RequestMethod.POST, value = "/projectPartition")
+    public ProjectPartitionDto createProjectPartition(@RequestBody ProjectPartitionDto projectPartitionDto) {
+        return ProjectPartitionConverter.convertToDto(projectPartitionService.save(ProjectPartitionConverter.convertFromDto(projectPartitionDto)));
     }
 }

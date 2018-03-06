@@ -14,6 +14,10 @@ public class ConstructionObjectConverter {
         return new BasicConstructionObjectDto(constructionObject.getId(), constructionObject.getCode());
     }
 
+    public static ConstructionObject convertFromBasicDto(BasicConstructionObjectDto basicConstructionObjectDto) {
+        return new ConstructionObject(basicConstructionObjectDto.getId(), basicConstructionObjectDto.getCode());
+    }
+
     public static ConstructionObjectDto convertToDto(ConstructionObject constructionObject) {
         ConstructionObjectDto dto = new ConstructionObjectDto(constructionObject.getId()
                 , constructionObject.getCode()

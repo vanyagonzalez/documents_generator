@@ -29,18 +29,6 @@ class ConstrObjectDlg extends React.Component {
         this.onChangeSelect = this.onChangeSelect.bind(this);
     }
 
-    handleBodyChange(e) {
-        this.setState({
-            body: e.target.value
-        });
-    };
-
-    handleTitleChange(e) {
-        this.setState({
-            title: e.target.value
-        });
-    };
-
     handleOpen(){
         this.setState({open: true});
     };
@@ -50,10 +38,8 @@ class ConstrObjectDlg extends React.Component {
     };
 
     handleSubmit(e){
-        let updateConstrObjs = this.props.updateConstrObjs;
-
         e.preventDefault();
-        console.log('form submission data', this.state.newConstrObj);
+        let updateConstrObjs = this.props.updateConstrObjs;
 
         $.ajax({
             url: '/rest/constructionObject',

@@ -20,4 +20,9 @@ public class ProjectPartitionServiceImpl implements ProjectPartitionService {
     public ProjectPartition getById(Long id) {
         return projectPartitionCrudRepository.findOne(id);
     }
+
+    @Override
+    public ProjectPartition save(ProjectPartition projectPartition) {
+        return projectPartitionCrudRepository.save(projectPartition);
+    }
 }

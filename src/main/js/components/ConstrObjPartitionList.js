@@ -1,6 +1,7 @@
 const React = require('react');
 import {List, ListItem} from 'material-ui/List';
 import Toggle from 'material-ui/Toggle';
+import ProjectPartitionDlg from './itemDialogs/ProjectPartitionDlg'
 
 const projectPartitionType = "projectPartition";
 const projectDocumentType = "projectDocument";
@@ -92,18 +93,40 @@ class ConstrObjPartitionList extends React.Component {
                 );
             });
         }
+
+        const floatLeftStyle = {
+            float: "left",
+            width: "50%",
+        };
+        const floatRightStyle = {
+            float: "right",
+            width: "50%",
+        };
+        const clearBothStyle = {
+            clear: "both ",
+        };
+
         return (
             <div>
-                <Toggle
-                    toggled={this.state.open}
-                    onToggle={this.handleToggle}
-                    labelPosition="right"
-                    label="Развернуть дерево"
-                />
-                <br/>
-                <List>
-                    {projectPartitions}
-                </List>
+                <div style={floatLeftStyle}>
+                    <Toggle
+                        toggled={this.state.open}
+                        onToggle={this.handleToggle}
+                        labelPosition="right"
+                        label="Развернуть дерево"
+                    />
+                </div>
+                <div style={floatRightStyle}>
+                    <ProjectPartitionDlg
+                        constrObjId={this.props.constrObj.id}
+                        updateConstrObj={this.props.updateConstrObj}
+                    />
+                    </div>
+                <div style={clearBothStyle}>
+                    <List>
+                        {projectPartitions}
+                    </List>
+                </div>
             </div>
         )
     }

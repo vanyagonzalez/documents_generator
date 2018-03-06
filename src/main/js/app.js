@@ -27,6 +27,7 @@ class App extends React.Component {
         };
 
         this.loadConstrObjsFromServer = this.loadConstrObjsFromServer.bind(this);
+        this.loadConstrObjFromServer = this.loadConstrObjFromServer.bind(this);
         this.handleChoice = this.handleChoice.bind(this);
         this.chooseListItem = this.chooseListItem.bind(this);
     }
@@ -139,7 +140,11 @@ class App extends React.Component {
                     </div>
                     <SplitPane defaultSize="50%" split="vertical">
                         <div>
-                            <ConstrObjPartitionList constrObj={this.state.selectedConstrObj} onClick={this.chooseListItem}/>
+                            <ConstrObjPartitionList
+                                constrObj={this.state.selectedConstrObj}
+                                onClick={this.chooseListItem}
+                                updateConstrObj={this.loadConstrObjFromServer}
+                            />
                         </div>
                         <div>
                             <ListItemData idListItem={this.state.idListItem}

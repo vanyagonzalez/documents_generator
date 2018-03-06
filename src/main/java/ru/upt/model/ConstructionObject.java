@@ -56,4 +56,9 @@ public class ConstructionObject {
         this.id = id;
         this.copies = copies;
     }
+
+    public ConstructionObject(Long id, String name) {
+        this.id = id;
+        this.name = name;
+    }
 }
