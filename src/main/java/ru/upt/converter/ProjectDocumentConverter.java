@@ -28,9 +28,26 @@ public class ProjectDocumentConverter {
                 projectDocument.getDocumentationSheets().stream().map(DocumentationSheetConverter::convertToBasicDto).collect(Collectors.toList()),
                 projectDocument.getCode(),
                 projectDocument.getPhase(),
-                new BasicEmployeeDto(author.getId(), author.getSurname(), author.getName(), author.getMiddleName()),
-                new BasicEmployeeDto(customerRepresentative.getId(), customerRepresentative.getSurname(), customerRepresentative.getName(), customerRepresentative.getMiddleName()),
-                new BasicEmployeeDto(developerRepresentative.getId(), developerRepresentative.getSurname(), developerRepresentative.getName(), developerRepresentative.getMiddleName())
+                author != null ? EmployeeConverter.convertToBasicDto(author) : null,
+                customerRepresentative != null ? EmployeeConverter.convertToBasicDto(customerRepresentative) : null,
+                developerRepresentative != null ? EmployeeConverter.convertToBasicDto(developerRepresentative) : null,
+                ProjectPartitionConverter.convertToBasicDto(projectDocument.getProjectPartition())
+        );
+    }
+
+    public static ProjectDocument convertFromDto(ProjectDocumentDto projectDocumentDto) {
+        BasicEmployeeDto author = projectDocumentDto.getAuthor();
+        BasicEmployeeDto customerRepresentative = projectDocumentDto.getCustomerRepresentative();
+        BasicEmployeeDto developerRepresentative = projectDocumentDto.getDeveloperRepresentative();
+
+        return new ProjectDocument(
+                projectDocumentDto.getName(),
+                projectDocumentDto.getCode(),
+                projectDocumentDto.getPhase(),
+                author.getId() != null ? EmployeeConverter.convertFromBasicDto(author) : null,
+                customerRepresentative.getId() != null ? EmployeeConverter.convertFromBasicDto(customerRepresentative) : null,
+                developerRepresentative.getId() != null ? EmployeeConverter.convertFromBasicDto(developerRepresentative) : null,
+                ProjectPartitionConverter.convertFromBasicDto(projectDocumentDto.getProjectPartition())
         );
     }
 }

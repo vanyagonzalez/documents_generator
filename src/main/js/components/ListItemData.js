@@ -13,20 +13,39 @@ const kindOfWorkType = "kindOfWork";
 class ListItemData extends React.Component {
 
     render() {
-        let content = <h2>Элемент не выбран</h2>
+        let content = <h2>Элемент не выбран</h2>;
+        let item = this.props.selectedItem;
+        let updateConstrObj = this.props.updateConstrObj;
+        let constrObjId = this.props.constrObjId;
+
         if (this.props.idListItem && this.props.typeListItem) {
             if (this.props.typeListItem === projectPartitionType) {
                 content = <ProjectPartitionType
-                    item={this.props.selectedItem}/>
+                    item={item}
+                    updateConstrObj={updateConstrObj}
+                    constrObjId={constrObjId}
+                    authors={this.props.authors}
+                    customerRepresentatives={this.props.customerRepresentatives}
+                    developerRepresentatives={this.props.developerRepresentatives}
+                />
             } else if (this.props.typeListItem === projectDocumentType) {
                 content = <ProjectDocumentType
-                    item={this.props.selectedItem}/>
+                    item={item}
+                    updateConstrObj={updateConstrObj}
+                    constrObjId={constrObjId}
+                />
             } else if (this.props.typeListItem === documentationSheetType) {
                 content = <DocumentationSheetType
-                    item={this.props.selectedItem}/>
+                    item={item}
+                    updateConstrObj={updateConstrObj}
+                    constrObjId={constrObjId}
+                />
             } else if (this.props.typeListItem === kindOfWorkType) {
                 content = <KindOfWorkType
-                    item={this.props.selectedItem}/>
+                    item={item}
+                    updateConstrObj={updateConstrObj}
+                    constrObjId={constrObjId}
+                />
             }
         }
         return (

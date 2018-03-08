@@ -6,7 +6,7 @@ import org.springframework.data.rest.core.annotation.RepositoryEventHandler;
 import org.springframework.stereotype.Component;
 
 @Component
-@RepositoryEventHandler(Employee.class)
+@RepositoryEventHandler(EmployeeTmp.class)
 public class SpringDataRestEventHandler {
 
     private final ManagerRepository managerRepository;
@@ -17,7 +17,7 @@ public class SpringDataRestEventHandler {
     }
 
     @HandleBeforeCreate
-    public void applyUserInformationUsingSecurityContext(Employee employee) {
+    public void applyUserInformationUsingSecurityContext(EmployeeTmp employeeTmp) {
 
         /*String name = SecurityContextHolder.getContext().getAuthentication().getName();
         Manager manager = this.managerRepository.findByName(name);
@@ -27,6 +27,6 @@ public class SpringDataRestEventHandler {
             newManager.setRoles(new String[]{"ROLE_MANAGER"});
             manager = this.managerRepository.save(newManager);
         }
-        employee.setManager(manager);*/
+        employeeTmp.setManager(manager);*/
     }
 }

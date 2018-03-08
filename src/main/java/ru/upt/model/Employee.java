@@ -13,7 +13,6 @@ import java.util.List;
 @Entity
 @EqualsAndHashCode(of={"id"})
 @NoArgsConstructor
-@RequiredArgsConstructor
 public class Employee {
     @Id
     @GeneratedValue
@@ -21,22 +20,18 @@ public class Employee {
     /**
      * Фамилия
      */
-    @NonNull
     private String surname;
     /**
      * Имя
      */
-    @NonNull
     private String name;
     /**
      * Отчество
      */
-    @NonNull
     private String middleName;
     /**
      * Должность
      */
-    @NonNull
     private String position;
     /**
      * Номер приказа о назначении на должность
@@ -50,4 +45,17 @@ public class Employee {
     @ManyToMany(mappedBy = "employees")
     private List<Organization> organizations;
 
+    public Employee(Long id, String surname, String name, String middleName) {
+        this.id = id;
+        this.surname = surname;
+        this.name = name;
+        this.middleName = middleName;
+    }
+
+    public Employee(String surname, String name, String middleName, String position) {
+        this.surname = surname;
+        this.name = name;
+        this.middleName = middleName;
+        this.position = position;
+    }
 }

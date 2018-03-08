@@ -12,7 +12,6 @@ import java.util.Set;
 @Data
 @Entity
 @NoArgsConstructor
-@RequiredArgsConstructor
 @ToString(exclude="constructionObject")
 @EqualsAndHashCode(of={"id"})
 public class ProjectPartition {
@@ -22,16 +21,13 @@ public class ProjectPartition {
     /**
      * Наименование раздела проектной документации
      */
-    @NonNull
     private String name;
 
     /**
      * Шифр раздела проектной документации
      */
-    @NonNull
     private String code;
 
-    @NonNull
     @ManyToOne
     @JoinColumn(name="constructionObjectId", referencedColumnName = "id")
     private ConstructionObject constructionObject;
@@ -41,4 +37,14 @@ public class ProjectPartition {
     @OneToMany(targetEntity=ProjectDocument.class, mappedBy="projectPartition", fetch= FetchType.EAGER)
     private Set<ProjectDocument> projectDocuments = new LinkedHashSet<>();
 
+    public ProjectPartition(Long id, String name) {
+        this.id = id;
+        this.name = name;
+    }
+
+    public ProjectPartition(String name, String code, ConstructionObject constructionObject) {
+        this.name = name;
+        this.code = code;
+        this.constructionObject = constructionObject;
+    }
 }

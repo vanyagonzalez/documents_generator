@@ -13,6 +13,19 @@ import {
 class ProjectDocument extends React.Component {
 
     render() {
+        let authorFio = "";
+        if (this.props.item.author) {
+            authorFio = this.props.item.author.fio;
+        }
+        let customerRepresentativeFio = "";
+        if (this.props.item.customerRepresentative) {
+            customerRepresentativeFio = this.props.item.customerRepresentative.fio;
+        }
+        let developerRepresentativeFio = "";
+        if (this.props.item.developerRepresentative) {
+            developerRepresentativeFio = this.props.item.developerRepresentative.fio;
+        }
+
         return (
             <div>
                 <Table>
@@ -32,15 +45,15 @@ class ProjectDocument extends React.Component {
                         </TableRow>
                         <TableRow>
                             <TableRowColumn>Автор проектной документации</TableRowColumn>
-                            <TableRowColumn>{this.props.item.author.fio}</TableRowColumn>
+                            <TableRowColumn>{authorFio}</TableRowColumn>
                         </TableRow>
                         <TableRow>
                             <TableRowColumn>Ответственный представитель Заказчика</TableRowColumn>
-                            <TableRowColumn>{this.props.item.customerRepresentative.fio}</TableRowColumn>
+                            <TableRowColumn>{customerRepresentativeFio}</TableRowColumn>
                         </TableRow>
                         <TableRow>
                             <TableRowColumn>Ответственный представитель Застройщика</TableRowColumn>
-                            <TableRowColumn>{this.props.item.developerRepresentative.fio}</TableRowColumn>
+                            <TableRowColumn>{developerRepresentativeFio}</TableRowColumn>
                         </TableRow>
                     </TableBody>
                 </Table>

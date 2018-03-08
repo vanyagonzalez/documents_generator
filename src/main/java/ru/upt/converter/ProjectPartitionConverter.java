@@ -16,6 +16,13 @@ public class ProjectPartitionConverter {
         );
     }
 
+    public static ProjectPartition convertFromBasicDto(BasicProjectPartitionDto basicProjectPartitionDto) {
+        return new ProjectPartition(
+                basicProjectPartitionDto.getId(),
+                basicProjectPartitionDto.getName()
+        );
+    }
+
     public static ProjectPartitionDto convertToDto(ProjectPartition projectPartition) {
         return new ProjectPartitionDto(
                 projectPartition.getId(),

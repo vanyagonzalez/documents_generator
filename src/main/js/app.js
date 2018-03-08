@@ -23,7 +23,10 @@ class App extends React.Component {
             idListItem: null,
             selectedItem: null,
             customers: [],
-            developers: []
+            developers: [],
+            authors: [],
+            customerRepresentatives: [],
+            developerRepresentatives: [],
         };
 
         this.loadConstrObjsFromServer = this.loadConstrObjsFromServer.bind(this);
@@ -36,6 +39,7 @@ class App extends React.Component {
         this.loadConstrObjsFromServer();
         this.loadCustomers();
         this.loadDevelopers();
+        this.loadEmployees();
     }
 
     loadConstrObjsFromServer() {
@@ -45,6 +49,17 @@ class App extends React.Component {
         }).then(function (data) {
             self.setState({
                 constrObjs: data
+            });
+        });
+    }
+
+    loadConstrObjFromServer(id) {
+        const self = this;
+        $.ajax({
+            url: "/rest/constructionObject/" + id
+        }).then(function (data) {
+            self.setState({
+                selectedConstrObj: data
             });
         });
     }
@@ -71,13 +86,15 @@ class App extends React.Component {
         });
     }
 
-    loadConstrObjFromServer(id) {
+    loadEmployees() {
         const self = this;
         $.ajax({
-            url: "/rest/constructionObject/" + id
+            url: "/rest/AllEmployees"
         }).then(function (data) {
             self.setState({
-                selectedConstrObj: data
+                authors: data,
+                customerRepresentatives: data,
+                developerRepresentatives: data,
             });
         });
     }
@@ -149,7 +166,13 @@ class App extends React.Component {
                         <div>
                             <ListItemData idListItem={this.state.idListItem}
                                           typeListItem={this.state.typeListItem}
-                                          selectedItem={this.state.selectedItem}/>
+                                          selectedItem={this.state.selectedItem}
+                                          constrObjId={this.state.selectedConstrObj.id}
+                                          updateConstrObj={this.loadConstrObjFromServer}
+                                          authors={this.state.authors}
+                                          customerRepresentatives={this.state.customerRepresentatives}
+                                          developerRepresentatives={this.state.developerRepresentatives}
+                            />
                         </div>
                     </SplitPane>
                 </div>

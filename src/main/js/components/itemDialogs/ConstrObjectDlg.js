@@ -63,11 +63,9 @@ class ConstrObjectDlg extends React.Component {
     }
 
     onChangeSelect(name, value){
-        if (name == "customer" || name == "developer") {
-            const state = this.state;
-            state["newConstrObj"][name]["id"] = value;
-            this.setState(state);
-        }
+        const state = this.state;
+        state.newConstrObj[name].id = value;
+        this.setState(state);
     }
 
 

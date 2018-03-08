@@ -8,12 +8,11 @@ import org.springframework.data.rest.core.annotation.RepositoryEventHandler;
 import org.springframework.hateoas.EntityLinks;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Component;
-import ru.upt.test.Employee;
 
 import static ru.upt.test.WebSocketConfiguration.MESSAGE_PREFIX;
 
 @Component
-@RepositoryEventHandler(Employee.class)
+@RepositoryEventHandler(EmployeeTmp.class)
 public class EventHandler {
 
     private final SimpMessagingTemplate websocket;
@@ -27,31 +26,31 @@ public class EventHandler {
     }
 
     @HandleAfterCreate
-    public void newEmployee(Employee employee) {
+    public void newEmployee(EmployeeTmp employeeTmp) {
         this.websocket.convertAndSend(
-                MESSAGE_PREFIX + "/newEmployee", getPath(employee));
+                MESSAGE_PREFIX + "/newEmployee", getPath(employeeTmp));
     }
 
     @HandleAfterDelete
-    public void deleteEmployee(Employee employee) {
+    public void deleteEmployee(EmployeeTmp employeeTmp) {
         this.websocket.convertAndSend(
-                MESSAGE_PREFIX + "/deleteEmployee", getPath(employee));
+                MESSAGE_PREFIX + "/deleteEmployee", getPath(employeeTmp));
     }
 
     @HandleAfterSave
-    public void updateEmployee(Employee employee) {
+    public void updateEmployee(EmployeeTmp employeeTmp) {
         this.websocket.convertAndSend(
-                MESSAGE_PREFIX + "/updateEmployee", getPath(employee));
+                MESSAGE_PREFIX + "/updateEmployee", getPath(employeeTmp));
     }
 
     /**
-     * Take an {@link Employee} and get the URI using Spring Data REST's {@link EntityLinks}.
+     * Take an {@link EmployeeTmp} and get the URI using Spring Data REST's {@link EntityLinks}.
      *
-     * @param employee
+     * @param employeeTmp
      */
-    private String getPath(Employee employee) {
-        return this.entityLinks.linkForSingleResource(employee.getClass(),
-                employee.getId()).toUri().getPath();
+    private String getPath(EmployeeTmp employeeTmp) {
+        return this.entityLinks.linkForSingleResource(employeeTmp.getClass(),
+                employeeTmp.getId()).toUri().getPath();
     }
 
 }

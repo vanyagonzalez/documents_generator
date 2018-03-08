@@ -7,7 +7,7 @@ import javax.persistence.*;
 
 @Data
 @Entity
-public class Employee {
+public class EmployeeTmp {
 
     private @Id @GeneratedValue Long id;
     private String firstName;
@@ -18,9 +18,9 @@ public class Employee {
 
     private @ManyToOne Manager manager;
 
-    private Employee() {}
+    private EmployeeTmp() {}
 
-    public Employee(String firstName, String lastName, String description, Manager manager) {
+    public EmployeeTmp(String firstName, String lastName, String description, Manager manager) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.description = description;

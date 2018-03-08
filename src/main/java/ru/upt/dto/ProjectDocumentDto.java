@@ -2,11 +2,13 @@ package ru.upt.dto;
 
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import lombok.NoArgsConstructor;
 import lombok.NonNull;
 
 import java.util.List;
 
 @Data
+@NoArgsConstructor
 @EqualsAndHashCode(callSuper = true)
 public class ProjectDocumentDto extends BasicProjectDocumentDto {
     /**
@@ -30,6 +32,8 @@ public class ProjectDocumentDto extends BasicProjectDocumentDto {
      */
     private BasicEmployeeDto developerRepresentative;
 
+    private BasicProjectPartitionDto projectPartition;
+
     public ProjectDocumentDto(Long id,
                               String name,
                               List<BasicDocumentationSheetDto> documentationSheets,
@@ -37,12 +41,14 @@ public class ProjectDocumentDto extends BasicProjectDocumentDto {
                               String phase,
                               BasicEmployeeDto author,
                               BasicEmployeeDto customerRepresentative,
-                              BasicEmployeeDto developerRepresentative) {
+                              BasicEmployeeDto developerRepresentative,
+                              BasicProjectPartitionDto projectPartition) {
         super(id, name, documentationSheets);
         this.code = code;
         this.phase = phase;
         this.author = author;
         this.customerRepresentative = customerRepresentative;
         this.developerRepresentative = developerRepresentative;
+        this.projectPartition = projectPartition;
     }
 }

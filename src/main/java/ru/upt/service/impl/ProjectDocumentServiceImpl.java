@@ -20,4 +20,9 @@ public class ProjectDocumentServiceImpl implements ProjectDocumentService {
     public ProjectDocument getById(Long id) {
         return projectDocumentCrudRepository.findOne(id);
     }
+
+    @Override
+    public ProjectDocument save(ProjectDocument projectDocument) {
+        return projectDocumentCrudRepository.save(projectDocument);
+    }
 }

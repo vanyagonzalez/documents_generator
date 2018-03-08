@@ -12,7 +12,6 @@ import java.util.Set;
 @Data
 @Entity
 @NoArgsConstructor
-@RequiredArgsConstructor
 @ToString(exclude="projectPartition")
 @EqualsAndHashCode(of={"id"})
 public class ProjectDocument {
@@ -23,39 +22,33 @@ public class ProjectDocument {
     /**
      * Наименование проектной документации
      */
-    @NonNull
     private String name;
 
     /**
      * Шифр проектной документации
      */
-    @NonNull
     private String code;
     /**
      * Стадия проектирования
      */
-    @NonNull
     private String phase;
     /**
      * Автор проектной документации
      */
     @ManyToOne
     @JoinColumn(name="authorId", referencedColumnName = "id")
-    @NonNull
     private Employee author;
     /**
      * Ответственный представитель Заказчика
      */
     @ManyToOne
     @JoinColumn(name="customerRepresentativeId", referencedColumnName = "id")
-    @NonNull
     private Employee customerRepresentative;
     /**
      * Ответственный представитель Застройщика
      */
     @ManyToOne
     @JoinColumn(name="developerRepresentativeId", referencedColumnName = "id")
-    @NonNull
     private Employee developerRepresentative;
 
     /**
@@ -67,9 +60,17 @@ public class ProjectDocument {
     /**
      * К какому разделу относится данная проектная документация
      */
-    @NonNull
     @ManyToOne
     @JoinColumn(name="projectPartitionId", referencedColumnName = "id")
     private ProjectPartition projectPartition;
 
+    public ProjectDocument(String name, String code, String phase, Employee author, Employee customerRepresentative, Employee developerRepresentative, ProjectPartition projectPartition) {
+        this.name = name;
+        this.code = code;
+        this.phase = phase;
+        this.author = author;
+        this.customerRepresentative = customerRepresentative;
+        this.developerRepresentative = developerRepresentative;
+        this.projectPartition = projectPartition;
+    }
 }

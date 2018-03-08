@@ -23,7 +23,7 @@ public class DatabaseLoader implements CommandLineRunner {
     private final EmployeeCrudRepository employees;
     private final CertificateCrudRepository certificates;
     private final ConfirmationCrudRepository confirmations;
-//    private final EmployeeRepository employees;
+//    private final EmployeeRepositoryTmp employees;
 //    private final ManagerRepository managers;
 
     @Autowired
@@ -204,17 +204,17 @@ public class DatabaseLoader implements CommandLineRunner {
                 new UsernamePasswordAuthenticationToken("greg", "doesn't matter",
                         AuthorityUtils.createAuthorityList("ROLE_MANAGER")));
 
-        this.employees.save(new Employee("Frodo", "Baggins", "ring bearer", greg));
-        this.employees.save(new Employee("Bilbo", "Baggins", "burglar", greg));
-        this.employees.save(new Employee("Gandalf", "the Grey", "wizard", greg));
+        this.employees.save(new EmployeeTmp("Frodo", "Baggins", "ring bearer", greg));
+        this.employees.save(new EmployeeTmp("Bilbo", "Baggins", "burglar", greg));
+        this.employees.save(new EmployeeTmp("Gandalf", "the Grey", "wizard", greg));
 
         SecurityContextHolder.getContext().setAuthentication(
                 new UsernamePasswordAuthenticationToken("oliver", "doesn't matter",
                         AuthorityUtils.createAuthorityList("ROLE_MANAGER")));
 
-        this.employees.save(new Employee("Samwise", "Gamgee", "gardener", oliver));
-        this.employees.save(new Employee("Merry", "Brandybuck", "pony rider", oliver));
-        this.employees.save(new Employee("Peregrin", "Took", "pipe smoker", oliver));
+        this.employees.save(new EmployeeTmp("Samwise", "Gamgee", "gardener", oliver));
+        this.employees.save(new EmployeeTmp("Merry", "Brandybuck", "pony rider", oliver));
+        this.employees.save(new EmployeeTmp("Peregrin", "Took", "pipe smoker", oliver));
 
         SecurityContextHolder.clearContext();*/
     }

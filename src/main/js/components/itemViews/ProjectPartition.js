@@ -10,11 +10,21 @@ import {
     TableRowColumn,
 } from 'material-ui/Table';
 
+import ProjectDocumentDlg from "./../itemDialogs/ProjectDocumentDlg"
+
 class ProjectPartition extends React.Component {
 
     render() {
         return (
             <div>
+                <ProjectDocumentDlg
+                    itemId={this.props.item.id}
+                    updateConstrObj={this.props.updateConstrObj}
+                    constrObjId={this.props.constrObjId}
+                    authors={this.props.authors}
+                    customerRepresentatives={this.props.customerRepresentatives}
+                    developerRepresentatives={this.props.developerRepresentatives}
+                />
                 <Table>
                     <TableBody
                         displayRowCheckbox={false}>
