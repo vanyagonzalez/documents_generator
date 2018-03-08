@@ -13,21 +13,39 @@ class ConstrObjPartitionList extends React.Component {
         super(props);
         this.state = {
             open: false,
+            openByKey: [],
         };
 
         this.handleToggle = this.handleToggle.bind(this);
+        this.handleNestedListToggle = this.handleNestedListToggle.bind(this);
     }
 
     handleToggle(){
-        this.setState({
-            open: !this.state.open,
-        });
+        let state = this.state;
+        for(let key in state.openByKey) {
+            state.openByKey[key] = !state.open;
+        }
+        state.open = !state.open;
+
+        this.setState(state);
+    };
+
+    handleNestedListToggle(key) {
+        let state = this.state;
+        if (typeof state.openByKey[key] === 'undefined') {
+            state.openByKey[key] = !state.open;
+        } else {
+            state.openByKey[key] = !state.openByKey[key];
+        }
+        this.setState(state);
     };
 
     render() {
         let projectPartitions = [];
         let open = this.state.open;
+        let openByKey = this.state.openByKey;
         let onClickFunction = this.props.onClick;
+        let handleNestedListToggle = this.handleNestedListToggle;
 
         if (this.props.constrObj.projectPartitions) {
             this.props.constrObj.projectPartitions.forEach(function (projectPartition) {
@@ -55,40 +73,58 @@ class ConstrObjPartitionList extends React.Component {
                                     });
                                 }
 
+                                const dsKey = documentationSheetType + documentationSheet.id;
+                                let dsKeyOpen = openByKey[dsKey];
+                                if (typeof dsKeyOpen === 'undefined') {
+                                    dsKeyOpen = open;
+                                }
                                 documentationSheets.push(
                                     <ListItem
-                                        key={documentationSheetType + documentationSheet.id}
+                                        key={dsKey}
                                         primaryText={documentationSheet.name}
                                         //primaryTogglesNestedList={true}
-                                        open={open}
+                                        open={dsKeyOpen}
                                         nestedItems={kindOfWorks}
                                         onClick={() => onClickFunction(documentationSheetType, documentationSheet.id)}
+                                        onNestedListToggle={() => handleNestedListToggle(dsKey)}
                                     />
                                 );
                             });
                         }
 
+                        const pdKey = projectDocumentType + projectDocument.id;
+                        let pdKeyOpen = openByKey[pdKey];
+                        if (typeof pdKeyOpen === 'undefined') {
+                            pdKeyOpen = open;
+                        }
                         projectDocuments.push(
                             <ListItem
-                                key={projectDocumentType + projectDocument.id}
+                                key={pdKey}
                                 primaryText={projectDocument.name}
                                 //primaryTogglesNestedList={true}
-                                open={open}
+                                open={pdKeyOpen}
                                 nestedItems={documentationSheets}
                                 onClick={() => onClickFunction(projectDocumentType, projectDocument.id)}
+                                onNestedListToggle={() => handleNestedListToggle(pdKey)}
                             />
                         );
                     });
                 }
 
+                const ppKey = projectPartitionType + projectPartition.id;
+                let ppKeyOpen = openByKey[ppKey];
+                if (typeof ppKeyOpen === 'undefined') {
+                    ppKeyOpen = open;
+                }
                 projectPartitions.push(
                     <ListItem
-                        key={projectPartitionType + projectPartition.id}
+                        key={ppKey}
                         primaryText={projectPartition.name}
                         //primaryTogglesNestedList={true}
-                        open={open}
+                        open={ppKeyOpen}
                         nestedItems={projectDocuments}
                         onClick={() => onClickFunction(projectPartitionType, projectPartition.id)}
+                        onNestedListToggle={() => handleNestedListToggle(ppKey)}
                     />
                 );
             });
