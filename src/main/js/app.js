@@ -136,6 +136,10 @@ class App extends React.Component {
         const clearBothStyle = {
             clear: "both ",
         };
+        const splitPaneStyle = {
+            height: "80%"
+        };
+
         return (
             <MuiThemeProvider>
                 <div>
@@ -155,7 +159,7 @@ class App extends React.Component {
                     <div style={clearBothStyle}>
                         <ConstrObjBasicInfo constrObj={this.state.selectedConstrObj}/>
                     </div>
-                    <SplitPane defaultSize="50%" split="vertical">
+                    <SplitPane defaultSize="50%" split="vertical" style={splitPaneStyle}>
                         <div>
                             <ConstrObjPartitionList
                                 constrObj={this.state.selectedConstrObj}

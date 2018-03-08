@@ -1,10 +1,7 @@
 package ru.upt.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import ru.upt.converter.DocumentationSheetConverter;
 import ru.upt.dto.DocumentationSheetDto;
 import ru.upt.model.DocumentationSheet;
@@ -24,5 +21,10 @@ public class DocumentationSheetController {
     @RequestMapping(method = RequestMethod.GET, value = "/documentationSheet/{documentationSheetId}")
     public DocumentationSheetDto getDocumentationSheet(@PathVariable Long documentationSheetId) {
         return DocumentationSheetConverter.convertToDto(documentationSheetService.getById(documentationSheetId));
+    }
+
+    @RequestMapping(method = RequestMethod.POST, value = "/documentationSheet")
+    public DocumentationSheetDto createDocumentationSheet(@RequestBody DocumentationSheetDto documentationSheetDto) {
+        return DocumentationSheetConverter.convertToDto(documentationSheetService.save(DocumentationSheetConverter.convertFromDto(documentationSheetDto)));
     }
 }

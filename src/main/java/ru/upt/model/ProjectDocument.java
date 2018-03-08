@@ -64,6 +64,11 @@ public class ProjectDocument {
     @JoinColumn(name="projectPartitionId", referencedColumnName = "id")
     private ProjectPartition projectPartition;
 
+    public ProjectDocument(Long id, String name) {
+        this.id = id;
+        this.name = name;
+    }
+
     public ProjectDocument(String name, String code, String phase, Employee author, Employee customerRepresentative, Employee developerRepresentative, ProjectPartition projectPartition) {
         this.name = name;
         this.code = code;

@@ -10,6 +10,8 @@ import {
     TableRowColumn,
 } from 'material-ui/Table';
 
+import DocumentationSheetDlg from "./../itemDialogs/DocumentationSheetDlg"
+
 class ProjectDocument extends React.Component {
 
     render() {
@@ -28,6 +30,12 @@ class ProjectDocument extends React.Component {
 
         return (
             <div>
+                <DocumentationSheetDlg
+                    itemId={this.props.item.id}
+                    updateConstrObj={this.props.updateConstrObj}
+                    constrObjId={this.props.constrObjId}
+                />
+                <br/>
                 <Table>
                     <TableBody
                         displayRowCheckbox={false}>

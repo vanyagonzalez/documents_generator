@@ -25,6 +25,7 @@ class ProjectPartition extends React.Component {
                     customerRepresentatives={this.props.customerRepresentatives}
                     developerRepresentatives={this.props.developerRepresentatives}
                 />
+                <br/>
                 <Table>
                     <TableBody
                         displayRowCheckbox={false}>

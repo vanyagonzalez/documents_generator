@@ -22,7 +22,7 @@ public class ProjectDocumentController {
     }
 
     @RequestMapping(method = RequestMethod.POST, value = "/projectDocument")
-    public ProjectDocumentDto saveProjectDocument(@RequestBody ProjectDocumentDto projectDocumentDto) {
+    public ProjectDocumentDto createProjectDocument(@RequestBody ProjectDocumentDto projectDocumentDto) {
         return ProjectDocumentConverter.convertToDto(projectDocumentService.save(ProjectDocumentConverter.convertFromDto(projectDocumentDto)));
     }
 }

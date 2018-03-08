@@ -24,4 +24,13 @@ public class DocumentationSheetConverter {
                 documentationSheet.getChange()
         );
     }
+
+    public static DocumentationSheet convertFromDto(DocumentationSheetDto documentationSheetDto) {
+        return new DocumentationSheet(
+                documentationSheetDto.getName(),
+                documentationSheetDto.getNumber(),
+                documentationSheetDto.getChange(),
+                ProjectDocumentConverter.convertFromBasicDto(documentationSheetDto.getProjectDocument())
+        );
+    }
 }

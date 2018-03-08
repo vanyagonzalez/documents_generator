@@ -17,6 +17,10 @@ public class ProjectDocumentConverter {
         );
     }
 
+    public static ProjectDocument convertFromBasicDto(BasicProjectDocumentDto basicProjectDocumentDto) {
+        return new ProjectDocument(basicProjectDocumentDto.getId(), basicProjectDocumentDto.getName());
+    }
+
     public static ProjectDocumentDto convertToDto(ProjectDocument projectDocument){
         Employee author = projectDocument.getAuthor();
         Employee customerRepresentative = projectDocument.getCustomerRepresentative();

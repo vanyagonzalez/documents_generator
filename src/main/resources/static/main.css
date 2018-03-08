@@ -117,3 +117,7 @@ td, th {
 .Resizer.disabled:hover {
     border-color: transparent;
 }
+
+[class~="Pane1"] {
+    overflow: auto;
+}

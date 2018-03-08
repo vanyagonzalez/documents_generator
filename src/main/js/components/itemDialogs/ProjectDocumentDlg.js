@@ -31,6 +31,7 @@ class ProjectDocumentDlg extends React.Component {
         this.handleClose = this.handleClose.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
         this.onChange = this.onChange.bind(this);
+        this.onChangeSelect = this.onChangeSelect.bind(this);
     }
 
     handleOpen(){

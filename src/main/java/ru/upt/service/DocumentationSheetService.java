@@ -4,4 +4,5 @@ import ru.upt.model.DocumentationSheet;
 
 public interface DocumentationSheetService {
     DocumentationSheet getById(Long id);
+    DocumentationSheet save(DocumentationSheet documentationSheet);
 }

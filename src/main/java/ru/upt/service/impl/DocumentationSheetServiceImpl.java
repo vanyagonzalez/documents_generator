@@ -20,4 +20,9 @@ public class DocumentationSheetServiceImpl implements DocumentationSheetService 
     public DocumentationSheet getById(Long id) {
         return documentationSheetCrudRepository.findOne(id);
     }
+
+    @Override
+    public DocumentationSheet save(DocumentationSheet documentationSheet) {
+        return documentationSheetCrudRepository.save(documentationSheet);
+    }
 }

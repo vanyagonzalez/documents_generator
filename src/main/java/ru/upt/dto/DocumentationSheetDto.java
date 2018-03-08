@@ -1,11 +1,15 @@
 package ru.upt.dto;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import lombok.NoArgsConstructor;
 
 import java.util.List;
 
 @Data
+@NoArgsConstructor
+@AllArgsConstructor
 @EqualsAndHashCode(callSuper = true)
 public class DocumentationSheetDto extends BasicDocumentationSheetDto {
 
@@ -17,6 +21,8 @@ public class DocumentationSheetDto extends BasicDocumentationSheetDto {
      * Номер изменения листа проектной документации
      */
     private Long change;
+
+    private BasicProjectDocumentDto projectDocument;
 
     public DocumentationSheetDto(Long id,
                                  String name,
