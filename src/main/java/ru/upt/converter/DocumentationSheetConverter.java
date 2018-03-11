@@ -15,6 +15,10 @@ public class DocumentationSheetConverter {
         );
     }
 
+    public static DocumentationSheet convertFromBasicDto(BasicDocumentationSheetDto basicDocumentationSheetDto) {
+        return new DocumentationSheet(basicDocumentationSheetDto.getId(), basicDocumentationSheetDto.getName());
+    }
+
     public static DocumentationSheetDto convertToDto(DocumentationSheet documentationSheet) {
         return new DocumentationSheetDto(
                 documentationSheet.getId(),

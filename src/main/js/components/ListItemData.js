@@ -39,6 +39,11 @@ class ListItemData extends React.Component {
                     item={item}
                     updateConstrObj={updateConstrObj}
                     constrObjId={constrObjId}
+                    executors={this.props.executors}
+                    executorRepresentatives={this.props.executorRepresentatives}
+                    otherRepresentatives={this.props.otherRepresentatives}
+                    certificates={this.props.certificates}
+                    confirmations={this.props.confirmations}
                 />
             } else if (this.props.typeListItem === kindOfWorkType) {
                 content = <KindOfWorkType

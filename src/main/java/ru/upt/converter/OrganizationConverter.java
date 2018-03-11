@@ -9,7 +9,7 @@ public class OrganizationConverter {
     }
 
     public static Organization convertFromBasicDto(BasicOrganizationDto basicOrganizationDto) {
-        if (basicOrganizationDto == null) {
+        if (basicOrganizationDto == null || basicOrganizationDto.getId() == null) {
             return null;
         }
         Organization organization = new Organization();

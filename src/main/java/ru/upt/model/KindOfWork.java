@@ -13,7 +13,6 @@ import java.util.Set;
 @Data
 @Entity
 @NoArgsConstructor
-@RequiredArgsConstructor
 @EqualsAndHashCode(of={"id"})
 public class KindOfWork {
     @Id
@@ -22,36 +21,30 @@ public class KindOfWork {
     /**
      * Наименование работы
      */
-    @NonNull
     private String name;
     /**
      * Объем выполненной работы
      */
-    @NonNull
     private String amountOfWork;
     /**
      * единица измерения выполненного объема
      */
-    @NonNull
     private String measureUnit;
     /**
-     * Организация - фактически выполнившая работу
+     * Организация фактически выполнившая работу
      */
-    @NonNull
     @ManyToOne
     @JoinColumn(name="executorId", referencedColumnName = "id")
     private Organization executor;
     /**
      * Представитель исполнителя работы -- Ответственный представитель организации, физически выполневшией работу
      */
-    @NonNull
     @ManyToOne
     @JoinColumn(name="executorRepresentativeId", referencedColumnName = "id")
     private Employee executorRepresentative;
     /**
      * Представители иных лиц, участвующих в освидетельствовании
      */
-    @NonNull
     @ManyToMany(cascade = {CascadeType.MERGE,CascadeType.REFRESH})
     @JoinTable(name = "work_employee",
             joinColumns = @JoinColumn(name = "workId", referencedColumnName = "id"),
@@ -62,7 +55,6 @@ public class KindOfWork {
     /**
      * Материалы, примененные для выполнения данных работ
      */
-    @NonNull
     @ManyToMany(cascade = {CascadeType.MERGE,CascadeType.REFRESH})
     @JoinTable(name = "work_certificate",
             joinColumns = @JoinColumn(name = "workId", referencedColumnName = "id"),
@@ -73,7 +65,6 @@ public class KindOfWork {
     /**
      * Документы, подтверждающие качество выполенных работ
      */
-    @NonNull
     @ManyToMany(cascade = {CascadeType.MERGE,CascadeType.REFRESH})
     @JoinTable(name = "work_confirmation",
             joinColumns = @JoinColumn(name = "workId", referencedColumnName = "id"),
@@ -84,29 +75,51 @@ public class KindOfWork {
     /**
      * Дополнительные нормативные документы согласно которых выполнены работы
      */
-    @NonNull
     private String additionalReason;
     /**
      * Дата начала производства работ
      */
-    @NonNull
     private Date beginDate;
     /**
      * Дата окончания производства работ
      */
-    @NonNull
     private Date endDate;
     /**
      * Дата проведения комиссии по приемке работ
      */
-    @NonNull
     private Date presentationDate;
     /**
      * К какому листу относится данный вид работы
      */
-    @NonNull
     @ManyToOne
     @JoinColumn(name="documentationSheetId", referencedColumnName = "id")
     private DocumentationSheet documentationSheet;
 
+    public KindOfWork(String name,
+                      String amountOfWork,
+                      String measureUnit,
+                      Organization executor,
+                      Employee executorRepresentative,
+                      Set<Employee> otherRepresentatives,
+                      Set<Certificate> certificates,
+                      Set<Confirmation> confirmations,
+                      String additionalReason,
+                      Date beginDate,
+                      Date endDate,
+                      Date presentationDate,
+                      DocumentationSheet documentationSheet) {
+        this.name = name;
+        this.amountOfWork = amountOfWork;
+        this.measureUnit = measureUnit;
+        this.executor = executor;
+        this.executorRepresentative = executorRepresentative;
+        this.otherRepresentatives = otherRepresentatives;
+        this.certificates = certificates;
+        this.confirmations = confirmations;
+        this.additionalReason = additionalReason;
+        this.beginDate = beginDate;
+        this.endDate = endDate;
+        this.presentationDate = presentationDate;
+        this.documentationSheet = documentationSheet;
+    }
 }

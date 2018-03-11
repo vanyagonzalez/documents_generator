@@ -1,6 +1,10 @@
 const React = require('react');
 import TextField from 'material-ui/TextField';
 
+const marginRight = {
+    marginRight: '50px',
+};
+
 class ConstrObjBasicInfo extends React.Component {
     render() {
         let objName = this.props.constrObj.name ? this.props.constrObj.name : "";
@@ -12,11 +16,13 @@ class ConstrObjBasicInfo extends React.Component {
                     floatingLabelText="Название"
                     value={objName}
                     disabled={true}
+                    style={marginRight}
                 />
                 <TextField
                     floatingLabelText="Заказчик"
                     value={customerName}
                     disabled={true}
+                    style={marginRight}
                 />
                 <TextField
                     floatingLabelText="Застройщик"

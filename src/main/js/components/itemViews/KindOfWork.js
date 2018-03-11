@@ -1,5 +1,3 @@
-import $ from "jquery";
-
 const React = require('react');
 
 import {
@@ -16,9 +14,6 @@ import FlatButton from 'material-ui/FlatButton';
 class KindOfWork extends React.Component {
 
     generateDocument(id, type) {
-        /*$.ajax({
-            url: "/rest/kindOfWork/" + id + "/document/" + type
-        })*/
         window.location="/rest/kindOfWork/" + id + "/document/" + type;
     }
 
@@ -27,7 +22,7 @@ class KindOfWork extends React.Component {
         if (this.props.item.otherRepresentatives) {
             this.props.item.otherRepresentatives.forEach(function (otherRepresentative) {
                 otherRepresentatives.push(
-                    <li>{otherRepresentative.name}</li>
+                    <li key={otherRepresentative.id}>{otherRepresentative.name}</li>
                 );
             });
         }
@@ -36,7 +31,7 @@ class KindOfWork extends React.Component {
         if (this.props.item.certificates) {
             this.props.item.certificates.forEach(function (certificate) {
                 certificates.push(
-                    <li>{certificate.material}</li>
+                    <li key={certificate.id}>{certificate.material}</li>
                 );
             });
         }
@@ -45,9 +40,34 @@ class KindOfWork extends React.Component {
         if (this.props.item.confirmations) {
             this.props.item.confirmations.forEach(function (confirmation) {
                 confirmations.push(
-                    <li>{confirmation.name}</li>
+                    <li key={confirmation.id}>{confirmation.name}</li>
                 );
             });
+        }
+
+        let executorName = "";
+        if (this.props.item.executor) {
+            executorName = this.props.item.executor.name;
+        }
+        let executorRepresentativeFio = "";
+        if (this.props.item.executorRepresentative) {
+            executorRepresentativeFio = this.props.item.executorRepresentative.fio;
+        }
+
+        let beginDate;
+        if (this.props.item.beginDate) {
+            beginDate = new Date(this.props.item.beginDate);
+            beginDate = beginDate.toLocaleDateString();
+        }
+        let endDate;
+        if (this.props.item.endDate) {
+            endDate = new Date(this.props.item.endDate);
+            endDate = endDate.toLocaleDateString();
+        }
+        let presentationDate;
+        if (this.props.item.presentationDate) {
+            presentationDate = new Date(this.props.item.presentationDate);
+            presentationDate = presentationDate.toLocaleDateString();
         }
 
         return (
@@ -71,11 +91,11 @@ class KindOfWork extends React.Component {
                         </TableRow>
                         <TableRow>
                             <TableRowColumn>Организация - фактически выполнившая работу</TableRowColumn>
-                            <TableRowColumn>{this.props.item.executor.name}</TableRowColumn>
+                            <TableRowColumn>{executorName}</TableRowColumn>
                         </TableRow>
                         <TableRow>
                             <TableRowColumn>Представитель исполнителя работы</TableRowColumn>
-                            <TableRowColumn>{this.props.item.executorRepresentative.fio}</TableRowColumn>
+                            <TableRowColumn>{executorRepresentativeFio}</TableRowColumn>
                         </TableRow>
                         <TableRow>
                             <TableRowColumn>Представители иных лиц, участвующих в освидетельствовании</TableRowColumn>
@@ -95,15 +115,15 @@ class KindOfWork extends React.Component {
                         </TableRow>
                         <TableRow>
                             <TableRowColumn>Дата начала производства работ</TableRowColumn>
-                            <TableRowColumn>{this.props.item.beginDate}</TableRowColumn>
+                            <TableRowColumn>{beginDate}</TableRowColumn>
                         </TableRow>
                         <TableRow>
                             <TableRowColumn>Дата окончания производства работ</TableRowColumn>
-                            <TableRowColumn>{this.props.item.endDate}</TableRowColumn>
+                            <TableRowColumn>{endDate}</TableRowColumn>
                         </TableRow>
                         <TableRow>
                             <TableRowColumn>Дата проведения комиссии по приемке работ</TableRowColumn>
-                            <TableRowColumn>{this.props.item.presentationDate}</TableRowColumn>
+                            <TableRowColumn>{presentationDate}</TableRowColumn>
                         </TableRow>
                     </TableBody>
                 </Table>

@@ -10,11 +10,24 @@ import {
     TableRowColumn,
 } from 'material-ui/Table';
 
+import KindOfWorkDlg from "./../itemDialogs/KindOfWorkDlg"
+
 class DocumentationSheet extends React.Component {
 
     render() {
         return (
             <div>
+                <KindOfWorkDlg
+                    itemId={this.props.item.id}
+                    updateConstrObj={this.props.updateConstrObj}
+                    constrObjId={this.props.constrObjId}
+                    executors={this.props.executors}
+                    executorRepresentatives={this.props.executorRepresentatives}
+                    otherRepresentatives={this.props.otherRepresentatives}
+                    certificates={this.props.certificates}
+                    confirmations={this.props.confirmations}
+                />
+                <br/>
                 <Table>
                     <TableBody
                         displayRowCheckbox={false}>

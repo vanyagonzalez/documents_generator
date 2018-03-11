@@ -14,6 +14,9 @@ public class EmployeeConverter {
     }
 
     public static Employee convertFromBasicDto(BasicEmployeeDto basicEmployeeDto) {
+        if (basicEmployeeDto == null || basicEmployeeDto.getId() == null) {
+            return null;
+        }
         return new Employee(
                 basicEmployeeDto.getId(),
                 basicEmployeeDto.getSurname(),

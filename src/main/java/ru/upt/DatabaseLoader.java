@@ -149,6 +149,18 @@ public class DatabaseLoader implements CommandLineRunner {
                                 String.format("ИНН %s%s%s%s", i, j, k, q)));
                         Set<Employee> executors = new HashSet<>();
 
+                        Set<Employee> otherRepresentatives = new HashSet<>();
+                        for (int e = 1; e < 3; e++) {
+                            Employee otherEmployee = employees.save(new Employee(
+                                    String.format("Представители иных лиц %s%s%s%s%s", i, j, k, q, e),
+                                    String.format("Имя %s%s%s%s%s", i, j, k, q, e),
+                                    String.format("Отчество %s%s%s%s%s", i, j, k, q, e),
+                                    String.format("Должность %s%s%s%s%s", i, j, k, q, e)
+                            ));
+                            executors.add(otherEmployee);
+                            otherRepresentatives.add(otherEmployee);
+                        }
+
                         for (int w = 1; w < 4; w++) {
                             Employee executor = employees.save(new Employee(
                                     String.format("Фамилия %s%s%s%s%s", i, j, k, q, w),
@@ -157,18 +169,6 @@ public class DatabaseLoader implements CommandLineRunner {
                                     String.format("Должность %s%s%s%s%s", i, j, k, q, w)
                             ));
                             executors.add(executor);
-
-                            Set<Employee> otherRepresentatives = new HashSet<>();
-                            for (int e = 1; e < 3; e++) {
-                                Employee otherEmployee = employees.save(new Employee(
-                                        String.format("Представители иных лиц %s%s%s%s%s%s", i, j, k, q, w, e),
-                                        String.format("Имя %s%s%s%s%s%s", i, j, k, q, w, e),
-                                        String.format("Отчество %s%s%s%s%s%s", i, j, k, q, w, e),
-                                        String.format("Должность %s%s%s%s%s%s", i, j, k, q, w, e)
-                                ));
-                                executors.add(otherEmployee);
-                                otherRepresentatives.add(otherEmployee);
-                            }
 
                             kindOfWorks.save(new KindOfWork(
                                     String.format("Вид работы %s%s%s%s%s", i, j, k, q, w),

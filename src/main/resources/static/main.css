@@ -121,3 +121,24 @@ td, th {
 [class~="Pane1"] {
     overflow: auto;
 }
+.tableForSelecting {
+    /*width: 50% !important;*/
+}
+.tableForSelecting > thead {
+    height: 24px !important;
+}
+.tableForSelecting > thead > tr{
+    height: 24px !important;
+}
+.tableForSelecting > thead > tr > th{
+    height: 24px !important;
+}
+.tableForSelecting > tbody > tr{
+    height: 24px !important;
+}
+.tableForSelecting > tbody > tr > td{
+    height: 24px !important;
+}
+td, th {
+    border: 0px;
+}

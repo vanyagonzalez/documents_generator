@@ -4,10 +4,7 @@ import org.docx4j.openpackaging.exceptions.Docx4JException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.util.FileCopyUtils;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import ru.upt.converter.KindOfWorkConverter;
 import ru.upt.dto.DocumentGenerationResult;
 import ru.upt.dto.KindOfWorkDto;
@@ -32,6 +29,11 @@ public class KindOfWorkController {
     @RequestMapping(method = RequestMethod.GET, value = "/kindOfWork/{kindOfWorkId}")
     public KindOfWorkDto getKindOfWork(@PathVariable Long kindOfWorkId) {
         return KindOfWorkConverter.convertToDto(kindOfWorkService.getById(kindOfWorkId));
+    }
+
+    @RequestMapping(method = RequestMethod.POST, value = "/kindOfWork")
+    public KindOfWorkDto createKindOfWork(@RequestBody KindOfWorkDto kindOfWorkDto) {
+        return KindOfWorkConverter.convertToDto(kindOfWorkService.save(KindOfWorkConverter.convertFromDto(kindOfWorkDto)));
     }
 
     @RequestMapping(

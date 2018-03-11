@@ -1,13 +1,12 @@
 package ru.upt.converter;
 
 import ru.upt.dto.*;
-import ru.upt.model.Certificate;
-import ru.upt.model.Confirmation;
-import ru.upt.model.Employee;
-import ru.upt.model.KindOfWork;
+import ru.upt.model.*;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 public class KindOfWorkConverter {
     public static BasicKindOfWorkDto convertToBasicDto(KindOfWork kindOfWork) {
@@ -35,16 +34,24 @@ public class KindOfWorkConverter {
             }
         }
 
+        BasicOrganizationDto executor = kindOfWork.getExecutor() != null ?
+                new BasicOrganizationDto(kindOfWork.getExecutor().getId(), kindOfWork.getExecutor().getName()) : null;
+
+        Employee executorRepresentative = kindOfWork.getExecutorRepresentative();
+        BasicEmployeeDto executorRepresentativeDto = executorRepresentative != null ?
+                new BasicEmployeeDto(executorRepresentative.getId(),
+                    executorRepresentative.getSurname(),
+                    executorRepresentative.getName(),
+                    executorRepresentative.getMiddleName()
+                ) : null;
+
         return new KindOfWorkDto(
                 kindOfWork.getId(),
                 kindOfWork.getName(),
                 kindOfWork.getAmountOfWork(),
                 kindOfWork.getMeasureUnit(),
-                new BasicOrganizationDto(kindOfWork.getExecutor().getId(), kindOfWork.getExecutor().getName()),
-                new BasicEmployeeDto(kindOfWork.getExecutorRepresentative().getId(),
-                        kindOfWork.getExecutorRepresentative().getSurname(),
-                        kindOfWork.getExecutorRepresentative().getName(),
-                        kindOfWork.getExecutorRepresentative().getMiddleName()),
+                executor,
+                executorRepresentativeDto,
                 otherRepresentatives,
                 certificates,
                 confirmations,
@@ -53,5 +60,32 @@ public class KindOfWorkConverter {
                 kindOfWork.getEndDate(),
                 kindOfWork.getPresentationDate()
         );
+    }
+
+    public static KindOfWork convertFromDto(KindOfWorkDto kindOfWorkDto) {
+        Set<Employee> otherRepresentatives = kindOfWorkDto.getOtherRepresentatives() != null && !kindOfWorkDto.getOtherRepresentatives().isEmpty() ?
+                kindOfWorkDto.getOtherRepresentatives().stream().map(EmployeeConverter::convertFromBasicDto).collect(Collectors.toSet()) : null;
+
+        Set<Certificate> certificates = kindOfWorkDto.getCertificates() != null && !kindOfWorkDto.getCertificates().isEmpty() ?
+                kindOfWorkDto.getCertificates().stream().map(CertificateConverter::convertFromBasicDto).collect(Collectors.toSet()) : null;
+
+        Set<Confirmation> confirmations = kindOfWorkDto.getConfirmations() != null && !kindOfWorkDto.getConfirmations().isEmpty() ?
+                kindOfWorkDto.getConfirmations().stream().map(ConfirmationConverter::convertFromBasicDto).collect(Collectors.toSet()) : null;
+
+        return new KindOfWork(
+                kindOfWorkDto.getName(),
+                kindOfWorkDto.getAmountOfWork(),
+                kindOfWorkDto.getMeasureUnit(),
+                OrganizationConverter.convertFromBasicDto(kindOfWorkDto.getExecutor()),
+                EmployeeConverter.convertFromBasicDto(kindOfWorkDto.getExecutorRepresentative()),
+                otherRepresentatives,
+                certificates,
+                confirmations,
+                kindOfWorkDto.getAdditionalReason(),
+                kindOfWorkDto.getBeginDate(),
+                kindOfWorkDto.getEndDate(),
+                kindOfWorkDto.getPresentationDate(),
+                DocumentationSheetConverter.convertFromBasicDto(kindOfWorkDto.getDocumentationSheet())
+                );
     }
 }

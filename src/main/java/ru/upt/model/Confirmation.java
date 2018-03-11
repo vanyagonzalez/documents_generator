@@ -11,7 +11,7 @@ import java.util.Date;
 @Entity
 @EqualsAndHashCode(of={"id"})
 @NoArgsConstructor
-@RequiredArgsConstructor
+@AllArgsConstructor
 public class Confirmation {
     @Id
     @GeneratedValue
@@ -19,21 +19,29 @@ public class Confirmation {
     /**
      * Наименование документа
      */
-    @NonNull
     private String name;
     /**
      * номер документа
      */
-    @NonNull
     private String number;
     /**
      * Дата выдачи документа
      */
-    @NonNull
     private Date issueDate;
     /**
      * скан-копия документа
      */
-    @NonNull
     private String copy;
+
+    public Confirmation(Long id, String name) {
+        this.id = id;
+        this.name = name;
+    }
+
+    public Confirmation(String name, String number, Date issueDate, String copy) {
+        this.name = name;
+        this.number = number;
+        this.issueDate = issueDate;
+        this.copy = copy;
+    }
 }

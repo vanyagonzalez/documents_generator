@@ -9,5 +9,6 @@ import java.io.IOException;
 
 public interface KindOfWorkService {
     KindOfWork getById(Long id);
+    KindOfWork save(KindOfWork kindOfWork);
     DocumentGenerationResult generateAosr1Document(Long id) throws IOException, Docx4JException;
 }

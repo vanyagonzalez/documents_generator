@@ -12,7 +12,6 @@ import java.util.Set;
 @Data
 @Entity
 @NoArgsConstructor
-@RequiredArgsConstructor
 @EqualsAndHashCode(of={"id"})
 public class DocumentationSheet {
     @Id
@@ -21,17 +20,14 @@ public class DocumentationSheet {
     /**
      * Наименование листа проектной документации
      */
-    @NonNull
     private String name;
     /**
      * Номер листа проектной документации
      */
-    @NonNull
     private Long number;
     /**
      * Номер изменения листа проектной документации
      */
-    @NonNull
     private Long change;
 
     @OneToMany(targetEntity=KindOfWork.class, mappedBy="documentationSheet", fetch= FetchType.EAGER)
@@ -40,8 +36,19 @@ public class DocumentationSheet {
     /**
      * К какой проектной документации относится данный лист
      */
-    @NonNull
     @ManyToOne
     @JoinColumn(name="projectDocumentId", referencedColumnName = "id")
     private ProjectDocument projectDocument;
+
+    public DocumentationSheet(String name, Long number, Long change, ProjectDocument projectDocument) {
+        this.name = name;
+        this.number = number;
+        this.change = change;
+        this.projectDocument = projectDocument;
+    }
+
+    public DocumentationSheet(Long id, String name) {
+        this.id = id;
+        this.name = name;
+    }
 }

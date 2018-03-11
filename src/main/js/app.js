@@ -27,19 +27,26 @@ class App extends React.Component {
             authors: [],
             customerRepresentatives: [],
             developerRepresentatives: [],
+            executors: [],
+            executorRepresentatives: [],
+            otherRepresentatives: [],
+            confirmations: [],
         };
 
         this.loadConstrObjsFromServer = this.loadConstrObjsFromServer.bind(this);
         this.loadConstrObjFromServer = this.loadConstrObjFromServer.bind(this);
         this.handleChoice = this.handleChoice.bind(this);
         this.chooseListItem = this.chooseListItem.bind(this);
+        this.loadCertificates = this.loadCertificates.bind(this);
+        this.loadConfirmations = this.loadConfirmations.bind(this);
     }
 
     componentDidMount() {
         this.loadConstrObjsFromServer();
-        this.loadCustomers();
-        this.loadDevelopers();
+        this.loadOrganizations();
         this.loadEmployees();
+        this.loadCertificates();
+        this.loadConfirmations();
     }
 
     loadConstrObjsFromServer() {
@@ -64,24 +71,15 @@ class App extends React.Component {
         });
     }
 
-    loadCustomers() {
+    loadOrganizations() {
         const self = this;
         $.ajax({
             url: "/rest/AllOrganizations"
         }).then(function (data) {
             self.setState({
-                customers: data
-            });
-        });
-    }
-
-    loadDevelopers() {
-        const self = this;
-        $.ajax({
-            url: "/rest/AllOrganizations"
-        }).then(function (data) {
-            self.setState({
-                developers: data
+                customers: data,
+                developers: data,
+                executors: data
             });
         });
     }
@@ -95,6 +93,30 @@ class App extends React.Component {
                 authors: data,
                 customerRepresentatives: data,
                 developerRepresentatives: data,
+                executorRepresentatives: data,
+                otherRepresentatives: data,
+            });
+        });
+    }
+
+    loadCertificates() {
+        const self = this;
+        $.ajax({
+            url: "/rest/AllCertificates"
+        }).then(function (data) {
+            self.setState({
+                certificates: data,
+            });
+        });
+    }
+
+    loadConfirmations() {
+        const self = this;
+        $.ajax({
+            url: "/rest/AllConfirmations"
+        }).then(function (data) {
+            self.setState({
+                confirmations: data,
             });
         });
     }
@@ -176,6 +198,11 @@ class App extends React.Component {
                                           authors={this.state.authors}
                                           customerRepresentatives={this.state.customerRepresentatives}
                                           developerRepresentatives={this.state.developerRepresentatives}
+                                          executors={this.state.executors}
+                                          executorRepresentatives={this.state.executorRepresentatives}
+                                          otherRepresentatives={this.state.otherRepresentatives}
+                                          certificates={this.state.certificates}
+                                          confirmations={this.state.confirmations}
                             />
                         </div>
                     </SplitPane>
