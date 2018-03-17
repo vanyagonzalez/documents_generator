@@ -10,7 +10,7 @@ import {
     TableRowColumn,
 } from 'material-ui/Table';
 
-import DocumentationSheetDlg from "./../itemDialogs/DocumentationSheetDlg"
+import DocumentationSheetDlg from "../itemDialogs/DocumentationSheetDlg"
 
 class ProjectDocument extends React.Component {
 

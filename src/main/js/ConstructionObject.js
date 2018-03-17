@@ -2,11 +2,11 @@ const React = require('react');
 
 import SplitPane from 'react-split-pane/lib/SplitPane';
 import $ from 'jquery';
-import SelectConstructionObject from './components/SelectConstructionObject'
-import ConstrObjectDlg from './components/itemDialogs/ConstrObjectDlg'
-import ConstrObjBasicInfo from './components/ConstrObjBasicInfo'
-import ConstrObjPartitionList from './components/ConstrObjPartitionList'
-import ListItemData from './components/ListItemData'
+import SelectConstructionObject from './components/constructionObject/SelectConstructionObject'
+import ConstrObjectDlg from './components/constructionObject/itemDialogs/ConstrObjectDlg'
+import ConstrObjBasicInfo from './components/constructionObject/ConstrObjBasicInfo'
+import ConstrObjPartitionList from './components/constructionObject/ConstrObjPartitionList'
+import ListItemData from './components/constructionObject/ListItemData'
 
 class ConstructionObject extends React.Component {
     constructor(props) {

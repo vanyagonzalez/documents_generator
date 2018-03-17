@@ -10,7 +10,7 @@ import {
     TableRowColumn,
 } from 'material-ui/Table';
 
-import ProjectDocumentDlg from "./../itemDialogs/ProjectDocumentDlg"
+import ProjectDocumentDlg from "../itemDialogs/ProjectDocumentDlg"
 
 class ProjectPartition extends React.Component {
 

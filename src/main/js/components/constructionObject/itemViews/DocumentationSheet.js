@@ -10,7 +10,7 @@ import {
     TableRowColumn,
 } from 'material-ui/Table';
 
-import KindOfWorkDlg from "./../itemDialogs/KindOfWorkDlg"
+import KindOfWorkDlg from "../itemDialogs/KindOfWorkDlg"
 
 class DocumentationSheet extends React.Component {
 
