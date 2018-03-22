@@ -17,7 +17,10 @@ class DictionarySelector extends React.Component {
                     allOrganizations={this.props.allOrganizations}
                 />
         } else if (this.props.dictionary === "employees") {
-            dictionary = <Employees/>
+            dictionary =
+                <Employees
+                    allEmployees={this.props.allEmployees}
+                />
         } else if (this.props.dictionary === "certificates") {
             dictionary = <Certificates/>
         } else if (this.props.dictionary === "confirmations") {

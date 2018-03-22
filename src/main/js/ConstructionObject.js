@@ -18,11 +18,6 @@ class ConstructionObject extends React.Component {
             typeListItem: null,
             idListItem: null,
             selectedItem: null,
-            authors: [],
-            customerRepresentatives: [],
-            developerRepresentatives: [],
-            executorRepresentatives: [],
-            otherRepresentatives: [],
             confirmations: [],
         };
 
@@ -36,7 +31,6 @@ class ConstructionObject extends React.Component {
 
     componentDidMount() {
         this.loadConstrObjsFromServer();
-        this.loadEmployees();
         this.loadCertificates();
         this.loadConfirmations();
     }
@@ -59,21 +53,6 @@ class ConstructionObject extends React.Component {
         }).then(function (data) {
             self.setState({
                 selectedConstrObj: data
-            });
-        });
-    }
-
-    loadEmployees() {
-        const self = this;
-        $.ajax({
-            url: "/rest/AllEmployees"
-        }).then(function (data) {
-            self.setState({
-                authors: data,
-                customerRepresentatives: data,
-                developerRepresentatives: data,
-                executorRepresentatives: data,
-                otherRepresentatives: data,
             });
         });
     }
@@ -172,12 +151,12 @@ class ConstructionObject extends React.Component {
                                       selectedItem={this.state.selectedItem}
                                       constrObjId={this.state.selectedConstrObj.id}
                                       updateConstrObj={this.loadConstrObjFromServer}
-                                      authors={this.state.authors}
-                                      customerRepresentatives={this.state.customerRepresentatives}
-                                      developerRepresentatives={this.state.developerRepresentatives}
+                                      authors={this.props.authors}
+                                      customerRepresentatives={this.props.customerRepresentatives}
+                                      developerRepresentatives={this.props.developerRepresentatives}
                                       executors={this.props.executors}
-                                      executorRepresentatives={this.state.executorRepresentatives}
-                                      otherRepresentatives={this.state.otherRepresentatives}
+                                      executorRepresentatives={this.props.executorRepresentatives}
+                                      otherRepresentatives={this.props.otherRepresentatives}
                                       certificates={this.state.certificates}
                                       confirmations={this.state.confirmations}
                         />

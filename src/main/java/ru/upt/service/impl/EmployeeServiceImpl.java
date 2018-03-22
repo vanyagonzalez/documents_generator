@@ -24,4 +24,9 @@ public class EmployeeServiceImpl implements EmployeeService {
         employeeCrudRepository.findAll().forEach(target::add);
         return target;
     }
+
+    @Override
+    public Employee getById(Long id) {
+        return employeeCrudRepository.findOne(id);
+    }
 }

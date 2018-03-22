@@ -48,6 +48,7 @@ class Dictionaries extends React.Component {
                     <DictionarySelector
                         dictionary={this.state.dictionary}
                         allOrganizations={this.props.allOrganizations}
+                        allEmployees={this.props.allEmployees}
                     />
                 </div>
             </div>
