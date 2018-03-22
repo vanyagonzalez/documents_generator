@@ -11,23 +11,6 @@ import {
 } from 'material-ui/Table';
 import $ from 'jquery';
 
-const height = '80vh';
-const width = '45%';
-
-const floatLeftStyle = {
-    float: "left",
-    overflowY: "auto",
-};
-floatLeftStyle['width'] = width;
-floatLeftStyle['height'] = height;
-
-const floatRightStyle = {
-    float: "right",
-    overflowY: "auto",
-};
-floatRightStyle['width'] = width;
-floatRightStyle['height'] = height;
-
 class Certificates extends React.Component {
     constructor(props) {
         super(props);
@@ -71,7 +54,7 @@ class Certificates extends React.Component {
         });
         return (
             <div>
-                <div style={floatLeftStyle}>
+                <div style={this.props.styles.floatLeftStyle}>
                     <Table
                         fixedHeader={true}
                         onRowSelection={(rows) => this.onRowSelection(rows)}
@@ -88,7 +71,7 @@ class Certificates extends React.Component {
                         </TableBody>
                     </Table>
                 </div>
-                <div style={floatRightStyle}>
+                <div style={this.props.styles.floatRightStyle}>
                     <Table>
                         <TableBody
                             displayRowCheckbox={false}>
