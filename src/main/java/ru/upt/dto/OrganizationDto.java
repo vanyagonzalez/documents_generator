@@ -1,26 +1,17 @@
-package ru.upt.model;
+package ru.upt.dto;
 
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.NoArgsConstructor;
 
-import javax.persistence.*;
 import java.util.Date;
-import java.util.Set;
+import java.util.List;
 
-/**
- * описание организаций, имеющих отношение к строительству
- */
 @Data
-@Entity
 @NoArgsConstructor
-@EqualsAndHashCode(of={"id"})
-public class Organization {
-    @Id
-    @GeneratedValue
-    private Long id;
-    /**
-     * Название организации, включая ОПР
-     */
-    private String name;
+@EqualsAndHashCode(callSuper = true)
+public class OrganizationDto extends BasicOrganizationDto{
     /**
      * ОГРН -- Целое число, строго 13 символов
      */
@@ -55,31 +46,22 @@ public class Organization {
     private String faxNumber;
 
     /**
-     * Список сотрудников
+     * Список сотрудников, задействованых на объекте
      */
-    @ManyToMany(cascade = CascadeType.ALL)
-    @JoinTable(name = "organization_employee",
-            joinColumns = @JoinColumn(name = "employeeId", referencedColumnName = "id"),
-            inverseJoinColumns = @JoinColumn(name = "organizationId", referencedColumnName = "id")
-    )
-    private Set<Employee> employees;
+    private List<BasicEmployeeDto> employees;
 
-    public Organization(String name, String ogrn, String inn) {
-        this.name = name;
-        this.ogrn = ogrn;
-        this.inn = inn;
-    }
-
-    public Organization(String name,
-                        String ogrn,
-                        String inn,
-                        String sroNumber,
-                        String organizationIssuingSro,
-                        Date sroIssuedDate,
-                        String address,
-                        String phoneNumber,
-                        String faxNumber) {
-        this.name = name;
+    public OrganizationDto(Long id,
+                           String name,
+                           String ogrn,
+                           String inn,
+                           String sroNumber,
+                           String organizationIssuingSro,
+                           Date sroIssuedDate,
+                           String address,
+                           String phoneNumber,
+                           String faxNumber,
+                           List<BasicEmployeeDto> employees) {
+        super(id, name);
         this.ogrn = ogrn;
         this.inn = inn;
         this.sroNumber = sroNumber;
@@ -88,5 +70,6 @@ public class Organization {
         this.address = address;
         this.phoneNumber = phoneNumber;
         this.faxNumber = faxNumber;
+        this.employees = employees;
     }
 }

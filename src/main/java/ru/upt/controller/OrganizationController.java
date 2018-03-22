@@ -7,6 +7,7 @@ import ru.upt.converter.OrganizationConverter;
 import ru.upt.dto.BasicConstructionObjectDto;
 import ru.upt.dto.BasicOrganizationDto;
 import ru.upt.dto.ConstructionObjectDto;
+import ru.upt.dto.OrganizationDto;
 import ru.upt.service.ConstructionObjectService;
 import ru.upt.service.OrganizationService;
 
@@ -29,12 +30,12 @@ public class OrganizationController {
                 .map(OrganizationConverter::convertToBasicDto).collect(Collectors.toList());
     }
 
-    /*@RequestMapping(method = RequestMethod.GET, value = "/organization/{organizationId}")
-    public OrgaD getOrganization(@PathVariable Long organizationId) {
-        return ConstructionObjectConverter.convertToDto(constructionObjectService.getById(constructionObjectId));
+    @RequestMapping(method = RequestMethod.GET, value = "/organization/{organizationId}")
+    public OrganizationDto getOrganization(@PathVariable Long organizationId) {
+        return OrganizationConverter.convertToDto(organizationService.getById(organizationId));
     }
 
-    @RequestMapping(method = RequestMethod.POST, value = "/constructionObject")
+    /**@RequestMapping(method = RequestMethod.POST, value = "/constructionObject")
     public ConstructionObjectDto createConstructionObject(@RequestBody ConstructionObjectDto constructionObjectDto) {
         return ConstructionObjectConverter.convertToDto(
                 constructionObjectService.save(ConstructionObjectConverter.convertFromDto(constructionObjectDto))

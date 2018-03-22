@@ -6,6 +6,7 @@ import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import ConstructionObject from './ConstructionObject'
 import Dictionaries from './Dictionaries'
 import {Tabs, Tab} from 'material-ui/Tabs';
+import $ from 'jquery';
 
 const styles = {
     headline: {
@@ -21,9 +22,32 @@ class App extends React.Component {
         super(props);
         this.state = {
             value: 'constrObj',
+            allOrganizations: [],
+            customers: [],
+            developers: [],
+            executors: [],
         };
 
+        this.loadOrganizations = this.loadOrganizations.bind(this);
         this.handleChange = this.handleChange.bind(this);
+    }
+
+    componentDidMount() {
+        this.loadOrganizations();
+    }
+
+    loadOrganizations() {
+        const self = this;
+        $.ajax({
+            url: "/rest/AllOrganizations"
+        }).then(function (data) {
+            self.setState({
+                allOrganizations: data,
+                customers: data,
+                developers: data,
+                executors: data
+            });
+        });
     }
 
     handleChange(value) {
@@ -40,10 +64,16 @@ class App extends React.Component {
                     onChange={this.handleChange}
                 >
                     <Tab label="Объект" value="constrObj">
-                        <ConstructionObject/>
+                        <ConstructionObject
+                            customers={this.state.customers}
+                            developers={this.state.developers}
+                            executors={this.state.executors}
+                        />
                     </Tab>
                     <Tab label="Словари" value="dicts">
-                        <Dictionaries/>
+                        <Dictionaries
+                            allOrganizations={this.state.allOrganizations}
+                        />
                     </Tab>
                 </Tabs>
             </MuiThemeProvider>

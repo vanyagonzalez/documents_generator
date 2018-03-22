@@ -1,12 +1,12 @@
 const React = require('react');
 
 import SplitPane from 'react-split-pane/lib/SplitPane';
-import $ from 'jquery';
 import SelectConstructionObject from './components/constructionObject/SelectConstructionObject'
 import ConstrObjectDlg from './components/constructionObject/itemDialogs/ConstrObjectDlg'
 import ConstrObjBasicInfo from './components/constructionObject/ConstrObjBasicInfo'
 import ConstrObjPartitionList from './components/constructionObject/ConstrObjPartitionList'
 import ListItemData from './components/constructionObject/ListItemData'
+import $ from 'jquery';
 
 class ConstructionObject extends React.Component {
     constructor(props) {
@@ -18,12 +18,9 @@ class ConstructionObject extends React.Component {
             typeListItem: null,
             idListItem: null,
             selectedItem: null,
-            customers: [],
-            developers: [],
             authors: [],
             customerRepresentatives: [],
             developerRepresentatives: [],
-            executors: [],
             executorRepresentatives: [],
             otherRepresentatives: [],
             confirmations: [],
@@ -39,7 +36,6 @@ class ConstructionObject extends React.Component {
 
     componentDidMount() {
         this.loadConstrObjsFromServer();
-        this.loadOrganizations();
         this.loadEmployees();
         this.loadCertificates();
         this.loadConfirmations();
@@ -63,19 +59,6 @@ class ConstructionObject extends React.Component {
         }).then(function (data) {
             self.setState({
                 selectedConstrObj: data
-            });
-        });
-    }
-
-    loadOrganizations() {
-        const self = this;
-        $.ajax({
-            url: "/rest/AllOrganizations"
-        }).then(function (data) {
-            self.setState({
-                customers: data,
-                developers: data,
-                executors: data
             });
         });
     }
@@ -167,8 +150,8 @@ class ConstructionObject extends React.Component {
                 </div>
                 <div style={floatRightStyle}>
                     <ConstrObjectDlg
-                        customers={this.state.customers}
-                        developers={this.state.developers}
+                        customers={this.props.customers}
+                        developers={this.props.developers}
                         updateConstrObjs={this.loadConstrObjsFromServer}
                     />
                 </div>
@@ -192,7 +175,7 @@ class ConstructionObject extends React.Component {
                                       authors={this.state.authors}
                                       customerRepresentatives={this.state.customerRepresentatives}
                                       developerRepresentatives={this.state.developerRepresentatives}
-                                      executors={this.state.executors}
+                                      executors={this.props.executors}
                                       executorRepresentatives={this.state.executorRepresentatives}
                                       otherRepresentatives={this.state.otherRepresentatives}
                                       certificates={this.state.certificates}

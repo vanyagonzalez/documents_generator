@@ -75,7 +75,18 @@ public class DatabaseLoader implements CommandLineRunner {
         }
 
         for (int i = 1; i < 3; i++) {
-            Organization authorOrg = organizations.save(new Organization("Организация для сотрудников " + i, "ОГРН " + i, "ИНН " + i));
+            Organization authorOrg = organizations.save(
+                    new Organization("Организация для сотрудников " + i,
+                            "ОГРН " + i,
+                            "ИНН " + i,
+                            "Номер СРО " + i,
+                            "СР выдавшая СРО " + i,
+                            new Date(),
+                            "Юридический адрес организации " + i,
+                            "Номер телефона организации " + i,
+                            "Номер факса организации " + i
+                            )
+            );
             Organization customer = organizations.save(new Organization("Заказчик " + i, "ОГРН заказчика " + i, "ИНН заказчика " + i));
             Organization developer = organizations.save(new Organization("Застройщик " + i, "ОГРН застройщика " + i, "ИНН застройщика " + i));
 
