@@ -23,4 +23,9 @@ public class ConfirmationServiceImpl implements ConfirmationService {
         confirmationCrudRepository.findAll().forEach(target::add);
         return target;
     }
+
+    @Override
+    public Confirmation getById(Long id) {
+        return confirmationCrudRepository.findOne(id);
+    }
 }

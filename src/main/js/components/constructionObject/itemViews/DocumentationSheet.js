@@ -24,8 +24,8 @@ class DocumentationSheet extends React.Component {
                     executors={this.props.executors}
                     executorRepresentatives={this.props.executorRepresentatives}
                     otherRepresentatives={this.props.otherRepresentatives}
-                    certificates={this.props.certificates}
-                    confirmations={this.props.confirmations}
+                    allCertificates={this.props.allCertificates}
+                    allConfirmations={this.props.allConfirmations}
                 />
                 <br/>
                 <Table>

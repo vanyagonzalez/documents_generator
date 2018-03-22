@@ -32,16 +32,22 @@ class App extends React.Component {
             developerRepresentatives: [],
             executorRepresentatives: [],
             otherRepresentatives: [],
+            allCertificates: [],
+            allConfirmations: [],
         };
 
         this.loadOrganizations = this.loadOrganizations.bind(this);
         this.loadEmployees = this.loadEmployees.bind(this);
+        this.loadCertificates = this.loadCertificates.bind(this);
+        this.loadConfirmations = this.loadConfirmations.bind(this);
         this.handleChange = this.handleChange.bind(this);
     }
 
     componentDidMount() {
         this.loadOrganizations();
         this.loadEmployees();
+        this.loadCertificates();
+        this.loadConfirmations();
     }
 
     loadOrganizations() {
@@ -74,6 +80,28 @@ class App extends React.Component {
         });
     }
 
+    loadCertificates() {
+        const self = this;
+        $.ajax({
+            url: "/rest/AllCertificates"
+        }).then(function (data) {
+            self.setState({
+                allCertificates: data,
+            });
+        });
+    }
+
+    loadConfirmations() {
+        const self = this;
+        $.ajax({
+            url: "/rest/AllConfirmations"
+        }).then(function (data) {
+            self.setState({
+                allConfirmations: data,
+            });
+        });
+    }
+
     handleChange(value) {
         this.setState({
             value: value,
@@ -97,12 +125,16 @@ class App extends React.Component {
                             developerRepresentatives={this.state.developerRepresentatives}
                             executorRepresentatives={this.state.executorRepresentatives}
                             otherRepresentatives={this.state.otherRepresentatives}
+                            allCertificates={this.state.allCertificates}
+                            allConfirmations={this.state.allConfirmations}
                         />
                     </Tab>
                     <Tab label="Словари" value="dicts">
                         <Dictionaries
                             allOrganizations={this.state.allOrganizations}
                             allEmployees={this.state.allEmployees}
+                            allCertificates={this.state.allCertificates}
+                            allConfirmations={this.state.allConfirmations}
                         />
                     </Tab>
                 </Tabs>

@@ -21,7 +21,7 @@ public class Confirmation {
      */
     private String name;
     /**
-     * номер документа
+     * Номер документа
      */
     private String number;
     /**
@@ -29,7 +29,7 @@ public class Confirmation {
      */
     private Date issueDate;
     /**
-     * скан-копия документа
+     * Скан-копия документа
      */
     private String copy;
 

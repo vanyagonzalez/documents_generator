@@ -18,21 +18,16 @@ class ConstructionObject extends React.Component {
             typeListItem: null,
             idListItem: null,
             selectedItem: null,
-            confirmations: [],
         };
 
         this.loadConstrObjsFromServer = this.loadConstrObjsFromServer.bind(this);
         this.loadConstrObjFromServer = this.loadConstrObjFromServer.bind(this);
         this.handleChoice = this.handleChoice.bind(this);
         this.chooseListItem = this.chooseListItem.bind(this);
-        this.loadCertificates = this.loadCertificates.bind(this);
-        this.loadConfirmations = this.loadConfirmations.bind(this);
     }
 
     componentDidMount() {
         this.loadConstrObjsFromServer();
-        this.loadCertificates();
-        this.loadConfirmations();
     }
 
     loadConstrObjsFromServer() {
@@ -53,28 +48,6 @@ class ConstructionObject extends React.Component {
         }).then(function (data) {
             self.setState({
                 selectedConstrObj: data
-            });
-        });
-    }
-
-    loadCertificates() {
-        const self = this;
-        $.ajax({
-            url: "/rest/AllCertificates"
-        }).then(function (data) {
-            self.setState({
-                certificates: data,
-            });
-        });
-    }
-
-    loadConfirmations() {
-        const self = this;
-        $.ajax({
-            url: "/rest/AllConfirmations"
-        }).then(function (data) {
-            self.setState({
-                confirmations: data,
             });
         });
     }
@@ -157,8 +130,8 @@ class ConstructionObject extends React.Component {
                                       executors={this.props.executors}
                                       executorRepresentatives={this.props.executorRepresentatives}
                                       otherRepresentatives={this.props.otherRepresentatives}
-                                      certificates={this.state.certificates}
-                                      confirmations={this.state.confirmations}
+                                      allCertificates={this.props.allCertificates}
+                                      allConfirmations={this.props.allConfirmations}
                         />
                     </div>
                 </SplitPane>

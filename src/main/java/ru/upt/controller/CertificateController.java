@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import ru.upt.converter.CertificateConverter;
 import ru.upt.dto.BasicCertificateDto;
+import ru.upt.dto.CertificateDto;
 import ru.upt.service.CertificateService;
 
 import java.util.List;
@@ -23,5 +24,10 @@ public class CertificateController {
     public List<BasicCertificateDto> getCertificates() {
         return certificateService.getAll().stream()
                 .map(CertificateConverter::convertToBasicDto).collect(Collectors.toList());
+    }
+
+    @RequestMapping(method = RequestMethod.GET, value = "/certificate/{certificateId}")
+    public CertificateDto getOrganization(@PathVariable Long certificateId) {
+        return CertificateConverter.convertToDto(certificateService.getById(certificateId));
     }
 }

@@ -49,6 +49,8 @@ class Dictionaries extends React.Component {
                         dictionary={this.state.dictionary}
                         allOrganizations={this.props.allOrganizations}
                         allEmployees={this.props.allEmployees}
+                        allCertificates={this.props.allCertificates}
+                        allConfirmations={this.props.allConfirmations}
                     />
                 </div>
             </div>

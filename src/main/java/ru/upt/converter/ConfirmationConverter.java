@@ -2,6 +2,7 @@ package ru.upt.converter;
 
 import ru.upt.dto.BasicCertificateDto;
 import ru.upt.dto.BasicConfirmationDto;
+import ru.upt.dto.ConfirmationDto;
 import ru.upt.model.Confirmation;
 
 public class ConfirmationConverter {
@@ -14,5 +15,15 @@ public class ConfirmationConverter {
             return null;
         }
         return new Confirmation(basicConfirmationDto.getId(), basicConfirmationDto.getName());
+    }
+
+    public static ConfirmationDto convertToDto(Confirmation confirmation) {
+        return new ConfirmationDto(
+                confirmation.getId(),
+                confirmation.getName(),
+                confirmation.getNumber(),
+                confirmation.getIssueDate(),
+                confirmation.getCopy()
+        );
     }
 }

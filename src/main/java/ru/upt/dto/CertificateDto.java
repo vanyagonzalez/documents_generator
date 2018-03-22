@@ -1,28 +1,15 @@
-package ru.upt.model;
+package ru.upt.dto;
 
-import lombok.*;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.NoArgsConstructor;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
 import java.util.Date;
 
-/**
- * Сертификат -- Документ, подтверждающий качество применяемых материалов
- */
 @Data
-@Entity
-@EqualsAndHashCode(of={"id"})
 @NoArgsConstructor
-@AllArgsConstructor
-public class Certificate {
-    @Id
-    @GeneratedValue
-    private Long id;
-    /**
-     * Материал -- Наименование сертифицируемого материала
-     */
-    private String material;
+@EqualsAndHashCode(callSuper = true)
+public class CertificateDto extends BasicCertificateDto {
     /**
      * Нормативный документ, согласно которого изготовлен материал
      */
@@ -56,21 +43,8 @@ public class Certificate {
      */
     private String documentCopy;
 
-    public Certificate(Long id, String material) {
-        this.id = id;
-        this.material = material;
-    }
-
-    public Certificate(String material,
-                       String standardDocument,
-                       String documentKind,
-                       String documentNumber,
-                       Date documentDate,
-                       Date documentEndDate,
-                       Double materialVolume,
-                       String measureUnit,
-                       String documentCopy) {
-        this.material = material;
+    public CertificateDto(Long id, String material, String standardDocument, String documentKind, String documentNumber, Date documentDate, Date documentEndDate, Double materialVolume, String measureUnit, String documentCopy) {
+        super(id, material);
         this.standardDocument = standardDocument;
         this.documentKind = documentKind;
         this.documentNumber = documentNumber;

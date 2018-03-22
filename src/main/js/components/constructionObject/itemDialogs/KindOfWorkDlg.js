@@ -172,7 +172,7 @@ class KindOfWorkDlg extends React.Component {
         });
 
         let certificates = [];
-        this.props.certificates.forEach(function(certificate) {
+        this.props.allCertificates.forEach(function(certificate) {
             certificates.push(
             <TableRow key={"certificates_" + certificate.id} selected={certificate.selected}>
                 <TableRowColumn>{certificate.material}</TableRowColumn>
@@ -190,7 +190,7 @@ class KindOfWorkDlg extends React.Component {
         });
 
         let confirmations = [];
-        this.props.confirmations.forEach(function(confirmation) {
+        this.props.allConfirmations.forEach(function(confirmation) {
             confirmations.push(
             <TableRow key={"confirmation_" + confirmation.id} selected={confirmation.selected}>
                 <TableRowColumn>{confirmation.name}</TableRowColumn>

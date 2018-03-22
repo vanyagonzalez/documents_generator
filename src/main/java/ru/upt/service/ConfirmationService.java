@@ -6,4 +6,5 @@ import java.util.List;
 
 public interface ConfirmationService {
     List<Confirmation> getAll();
+    Confirmation getById(Long id);
 }

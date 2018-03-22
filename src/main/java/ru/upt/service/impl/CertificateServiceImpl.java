@@ -24,4 +24,10 @@ public class CertificateServiceImpl implements CertificateService {
         certificateCrudRepository.findAll().forEach(target::add);
         return target;
     }
+
+    @Override
+    public Certificate getById(Long id) {
+        return certificateCrudRepository.findOne(id);
+    }
+
 }

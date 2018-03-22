@@ -1,6 +1,7 @@
 package ru.upt.converter;
 
 import ru.upt.dto.BasicCertificateDto;
+import ru.upt.dto.CertificateDto;
 import ru.upt.model.Certificate;
 
 public class CertificateConverter {
@@ -13,5 +14,20 @@ public class CertificateConverter {
             return null;
         }
         return new Certificate(basicCertificateDto.getId(), basicCertificateDto.getMaterial());
+    }
+
+    public static CertificateDto convertToDto(Certificate certificate) {
+        return new CertificateDto(
+                certificate.getId(),
+                certificate.getMaterial(),
+                certificate.getStandardDocument(),
+                certificate.getDocumentKind(),
+                certificate.getDocumentNumber(),
+                certificate.getDocumentDate(),
+                certificate.getDocumentEndDate(),
+                certificate.getMaterialVolume(),
+                certificate.getMeasureUnit(),
+                certificate.getDocumentCopy()
+        );
     }
 }
