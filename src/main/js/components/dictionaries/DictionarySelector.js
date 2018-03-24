@@ -1,4 +1,5 @@
 const React = require('react');
+import ButtonsBlock from './ButtonsBlock'
 import Organizations from './views/Organizations'
 import Employees from './views/Employees'
 import Certificates from './views/Certificates'
@@ -15,11 +16,14 @@ class DictionarySelector extends React.Component {
         const buttonsBlockStyle = {
             height: "10%",
         };
+        const dataBlockStyle = {
+            height: "90%",
+        };
 
         const floatLeftStyle = {
             float: "left",
             overflowY: "auto",
-            height: "90%",
+            height: "100%",
         };
         floatLeftStyle['width'] = width;
 
@@ -35,35 +39,46 @@ class DictionarySelector extends React.Component {
         const styles = {
             floatLeftStyle: floatLeftStyle,
             floatRightStyle: floatRightStyle,
-            heightStyle: heightStyle,
-            buttonsBlockStyle: buttonsBlockStyle,
+            dataBlockStyle: dataBlockStyle,
         };
 
         let dictionary = null;
         if (this.props.dictionary === "organizations") {
             dictionary =
-                <Organizations
-                    allOrganizations={this.props.allOrganizations}
-                    styles={styles}
-                />
+                <div style={heightStyle}>
+                    <ButtonsBlock style={buttonsBlockStyle}/>
+                    <Organizations
+                        allOrganizations={this.props.allOrganizations}
+                        styles={styles}
+                    />
+                </div>
         } else if (this.props.dictionary === "employees") {
             dictionary =
-                <Employees
-                    allEmployees={this.props.allEmployees}
-                    styles={styles}
-                />
+                <div style={heightStyle}>
+                    <ButtonsBlock style={buttonsBlockStyle}/>
+                    <Employees
+                        allEmployees={this.props.allEmployees}
+                        styles={styles}
+                    />
+                </div>
         } else if (this.props.dictionary === "certificates") {
             dictionary =
-                <Certificates
-                    allCertificates={this.props.allCertificates}
-                    styles={styles}
-                />
+                <div style={heightStyle}>
+                    <ButtonsBlock style={buttonsBlockStyle}/>
+                    <Certificates
+                        allCertificates={this.props.allCertificates}
+                        styles={styles}
+                    />
+                </div>
         } else if (this.props.dictionary === "confirmations") {
             dictionary =
-                <Confirmations
-                    allConfirmations={this.props.allConfirmations}
-                    styles={styles}
-                />
+                <div style={heightStyle}>
+                    <ButtonsBlock style={buttonsBlockStyle}/>
+                    <Confirmations
+                        allConfirmations={this.props.allConfirmations}
+                        styles={styles}
+                    />
+                </div>
         }
 
         return <div>{dictionary}</div>

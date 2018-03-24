@@ -54,8 +54,7 @@ class Certificates extends React.Component {
             );
         });
         return (
-            <div style={this.props.styles.heightStyle}>
-                <ButtonsBlock styles={this.props.styles}/>
+            <div style={this.props.styles.dataBlockStyle}>
                 <div style={this.props.styles.floatLeftStyle}>
                     <Table
                         fixedHeader={true}

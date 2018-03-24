@@ -9,7 +9,6 @@ import {
     TableRow,
     TableRowColumn,
 } from 'material-ui/Table';
-import ButtonsBlock from './../ButtonsBlock';
 import $ from 'jquery';
 
 class Confirmations extends React.Component {
@@ -54,8 +53,7 @@ class Confirmations extends React.Component {
             );
         });
         return (
-            <div style={this.props.styles.heightStyle}>
-                <ButtonsBlock styles={this.props.styles}/>
+            <div style={this.props.styles.dataBlockStyle}>
                 <div style={this.props.styles.floatLeftStyle}>
                     <Table
                         fixedHeader={true}
