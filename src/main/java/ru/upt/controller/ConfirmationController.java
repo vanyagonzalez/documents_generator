@@ -1,10 +1,7 @@
 package ru.upt.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import ru.upt.converter.ConfirmationConverter;
 import ru.upt.dto.BasicConfirmationDto;
 import ru.upt.dto.ConfirmationDto;
@@ -30,7 +27,12 @@ public class ConfirmationController {
     }
 
     @RequestMapping(method = RequestMethod.GET, value = "/confirmation/{confirmationId}")
-    public ConfirmationDto getOrganization(@PathVariable Long confirmationId) {
+    public ConfirmationDto getConfirmation(@PathVariable Long confirmationId) {
         return ConfirmationConverter.convertToDto(confirmationService.getById(confirmationId));
+    }
+
+    @RequestMapping(method = RequestMethod.POST, value = "/confirmation")
+    public ConfirmationDto postConfirmation(@RequestBody ConfirmationDto confirmationDto) {
+        return ConfirmationConverter.convertToDto(confirmationService.save(ConfirmationConverter.convertFromDto(confirmationDto)));
     }
 }

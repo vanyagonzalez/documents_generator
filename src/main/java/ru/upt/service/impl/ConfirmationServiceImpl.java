@@ -28,4 +28,9 @@ public class ConfirmationServiceImpl implements ConfirmationService {
     public Confirmation getById(Long id) {
         return confirmationCrudRepository.findOne(id);
     }
+
+    @Override
+    public Confirmation save(Confirmation confirmation) {
+        return confirmationCrudRepository.save(confirmation);
+    }
 }

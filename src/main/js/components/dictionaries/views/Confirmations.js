@@ -52,6 +52,12 @@ class Confirmations extends React.Component {
                 </TableRow>
             );
         });
+
+        let issueDate;
+        if (this.state.confirmation.issueDate) {
+            issueDate = new Date(this.state.confirmation.issueDate);
+            issueDate = issueDate.toLocaleDateString();
+        }
         return (
             <div style={this.props.styles.dataBlockStyle}>
                 <div style={this.props.styles.floatLeftStyle}>
@@ -84,7 +90,7 @@ class Confirmations extends React.Component {
                             </TableRow>
                             <TableRow>
                                 <TableRowColumn>Дата выдачи документа</TableRowColumn>
-                                <TableRowColumn>{this.state.confirmation.issueDate}</TableRowColumn>
+                                <TableRowColumn>{issueDate}</TableRowColumn>
                             </TableRow>
                             <TableRow>
                                 <TableRowColumn>Скан-копия документа</TableRowColumn>

@@ -7,6 +7,7 @@ import EmployeeDlg from './dialogs/EmployeeDlg'
 import Certificates from './views/Certificates'
 import CertificateDlg from './dialogs/CertificateDlg'
 import Confirmations from './views/Confirmations'
+import ConfirmationDlg from './dialogs/ConfirmationDlg'
 
 const width = '45%';
 
@@ -50,6 +51,7 @@ class DictionarySelector extends React.Component {
                 organization: false,
                 employee: false,
                 certificate: false,
+                confirmation: false,
             },
         };
 
@@ -129,10 +131,16 @@ class DictionarySelector extends React.Component {
                 <div style={heightStyle}>
                     <ButtonsBlock
                         style={buttonsBlockStyle}
+                        onCreate={() => this.onCreate("confirmation")}
                     />
                     <Confirmations
                         allConfirmations={this.props.allConfirmations}
                         styles={styles}
+                    />
+                    <ConfirmationDlg
+                        open={this.state.dlgOpeningState.confirmation}
+                        onClose={() => this.onClose("confirmation")}
+                        loadConfirmations={this.props.loadConfirmations}
                     />
                 </div>
         }

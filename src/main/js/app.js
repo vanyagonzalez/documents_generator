@@ -138,6 +138,7 @@ class App extends React.Component {
                             loadOrganizations={this.loadOrganizations}
                             loadEmployees={this.loadEmployees}
                             loadCertificates={this.loadCertificates}
+                            loadConfirmations={this.loadConfirmations}
                         />
                     </Tab>
                 </Tabs>

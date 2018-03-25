@@ -26,4 +26,13 @@ public class ConfirmationConverter {
                 confirmation.getCopy()
         );
     }
+
+    public static Confirmation convertFromDto(ConfirmationDto confirmationDto) {
+        return new Confirmation(
+                confirmationDto.getName(),
+                confirmationDto.getNumber(),
+                confirmationDto.getIssueDate(),
+                confirmationDto.getCopy()
+        );
+    }
 }
