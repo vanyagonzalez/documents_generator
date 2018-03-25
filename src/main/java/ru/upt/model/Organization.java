@@ -89,4 +89,18 @@ public class Organization {
         this.phoneNumber = phoneNumber;
         this.faxNumber = faxNumber;
     }
+
+    public Organization(Long id,
+                        String name,
+                        String ogrn,
+                        String inn,
+                        String sroNumber,
+                        String organizationIssuingSro,
+                        Date sroIssuedDate,
+                        String address,
+                        String phoneNumber,
+                        String faxNumber) {
+        this(name, ogrn, inn, sroNumber, organizationIssuingSro, sroIssuedDate, address, phoneNumber, faxNumber);
+        this.id = id;
+    }
 }

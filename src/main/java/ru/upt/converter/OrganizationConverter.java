@@ -56,6 +56,7 @@ public class OrganizationConverter {
         }
 
         return new Organization(
+                organizationDto.getId(),
                 organizationDto.getName(),
                 organizationDto.getOgrn(),
                 organizationDto.getInn(),

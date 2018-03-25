@@ -41,4 +41,11 @@ public class OrganizationController {
                 organizationService.save(OrganizationConverter.convertFromDto(constructionObjectDto))
         );
     }
+
+    @RequestMapping(method = RequestMethod.PUT, value = "/organization")
+    public OrganizationDto putOrganization(@RequestBody OrganizationDto constructionObjectDto) {
+        return OrganizationConverter.convertToDto(
+                organizationService.save(OrganizationConverter.convertFromDto(constructionObjectDto))
+        );
+    }
 }

@@ -17,7 +17,7 @@ class ButtonsBlock extends React.Component {
         return (
             <div style={this.props.style}>
                 <RaisedButton label="Создать" style={btnStyle} onClick={this.props.onCreate}/>
-                <RaisedButton label="Редактировать" style={btnStyle} onClick={this.onClick}/>
+                <RaisedButton label="Редактировать" style={btnStyle} onClick={this.props.onUpdate}/>
                 <RaisedButton label="Удалить" style={btnStyle} onClick={this.onClick}/>
             </div>
         );

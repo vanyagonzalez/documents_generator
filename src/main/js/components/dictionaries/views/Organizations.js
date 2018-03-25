@@ -14,11 +14,6 @@ import $ from 'jquery';
 class Organizations extends React.Component {
     constructor(props) {
         super(props);
-
-        this.state = {
-            organization: {}
-        };
-
         this.onRowSelection = this.onRowSelection.bind(this);
     }
 
@@ -31,14 +26,13 @@ class Organizations extends React.Component {
             }
         });
 
+        let onSelect=this.props.onSelect;
         if (selectedId) {
             let self = this;
             $.ajax({
                 url: "/rest/organization/" + selectedId
             }).then(function (data) {
-                self.setState({
-                    organization: data,
-                });
+                onSelect("organization", data);
             });
         }
     };
@@ -54,12 +48,18 @@ class Organizations extends React.Component {
         });
 
         let employees = [];
-        if (this.state.organization.employees) {
-            this.state.organization.employees.forEach(function (employee) {
+        if (this.props.organization.employees) {
+            this.props.organization.employees.forEach(function (employee) {
                 employees.push(
                     <li key={employee.id}>{employee.fio}</li>
                 );
             });
+        }
+
+        let sroIssuedDate;
+        if (this.props.organization.sroIssuedDate) {
+            sroIssuedDate = new Date(this.props.organization.sroIssuedDate);
+            sroIssuedDate = sroIssuedDate.toLocaleDateString();
         }
 
         return (
@@ -86,39 +86,39 @@ class Organizations extends React.Component {
                         <TableBody
                             displayRowCheckbox={false}>
                             <TableRow>
-                                <TableHeaderColumn colSpan="2" style={{textAlign: 'center'}}>{this.state.organization.name}</TableHeaderColumn>
+                                <TableHeaderColumn colSpan="2" style={{textAlign: 'center'}}>{this.props.organization.name}</TableHeaderColumn>
                             </TableRow>
                             <TableRow>
                                 <TableRowColumn>ОГРН</TableRowColumn>
-                                <TableRowColumn>{this.state.organization.ogrn}</TableRowColumn>
+                                <TableRowColumn>{this.props.organization.ogrn}</TableRowColumn>
                             </TableRow>
                             <TableRow>
                                 <TableRowColumn>ИНН</TableRowColumn>
-                                <TableRowColumn>{this.state.organization.inn}</TableRowColumn>
+                                <TableRowColumn>{this.props.organization.inn}</TableRowColumn>
                             </TableRow>
                             <TableRow>
                                 <TableRowColumn>Номер СРО</TableRowColumn>
-                                <TableRowColumn>{this.state.organization.sroNumber}</TableRowColumn>
+                                <TableRowColumn>{this.props.organization.sroNumber}</TableRowColumn>
                             </TableRow>
                             <TableRow>
                                 <TableRowColumn>СР выдавшая СРО</TableRowColumn>
-                                <TableRowColumn>{this.state.organization.organizationIssuingSro}</TableRowColumn>
+                                <TableRowColumn>{this.props.organization.organizationIssuingSro}</TableRowColumn>
                             </TableRow>
                             <TableRow>
                                 <TableRowColumn>Дата выдачи СРО</TableRowColumn>
-                                <TableRowColumn>{this.state.organization.sroIssuedDate}</TableRowColumn>
+                                <TableRowColumn>{sroIssuedDate}</TableRowColumn>
                             </TableRow>
                             <TableRow>
                                 <TableRowColumn>Юридический адрес организации</TableRowColumn>
-                                <TableRowColumn>{this.state.organization.address}</TableRowColumn>
+                                <TableRowColumn>{this.props.organization.address}</TableRowColumn>
                             </TableRow>
                             <TableRow>
                                 <TableRowColumn>Номер телефона организации</TableRowColumn>
-                                <TableRowColumn>{this.state.organization.phoneNumber}</TableRowColumn>
+                                <TableRowColumn>{this.props.organization.phoneNumber}</TableRowColumn>
                             </TableRow>
                             <TableRow>
                                 <TableRowColumn>Номер факса организации</TableRowColumn>
-                                <TableRowColumn>{this.state.organization.faxNumber}</TableRowColumn>
+                                <TableRowColumn>{this.props.organization.faxNumber}</TableRowColumn>
                             </TableRow>
                             <TableRow>
                                 <TableRowColumn>Список сотрудников</TableRowColumn>
