@@ -30,4 +30,8 @@ public class CertificateServiceImpl implements CertificateService {
         return certificateCrudRepository.findOne(id);
     }
 
+    @Override
+    public Certificate save(Certificate certificate) {
+        return certificateCrudRepository.save(certificate);
+    }
 }

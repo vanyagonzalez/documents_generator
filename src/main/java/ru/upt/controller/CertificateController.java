@@ -27,7 +27,12 @@ public class CertificateController {
     }
 
     @RequestMapping(method = RequestMethod.GET, value = "/certificate/{certificateId}")
-    public CertificateDto getOrganization(@PathVariable Long certificateId) {
+    public CertificateDto getCertificate(@PathVariable Long certificateId) {
         return CertificateConverter.convertToDto(certificateService.getById(certificateId));
+    }
+
+    @RequestMapping(method = RequestMethod.POST, value = "/certificate")
+    public CertificateDto postCertificate(@RequestBody CertificateDto certificateDto) {
+        return CertificateConverter.convertToDto(certificateService.save(CertificateConverter.convertFromDto(certificateDto)));
     }
 }

@@ -5,6 +5,7 @@ import OrganizationDlg from './dialogs/OrganizationDlg'
 import Employees from './views/Employees'
 import EmployeeDlg from './dialogs/EmployeeDlg'
 import Certificates from './views/Certificates'
+import CertificateDlg from './dialogs/CertificateDlg'
 import Confirmations from './views/Confirmations'
 
 const width = '45%';
@@ -48,6 +49,7 @@ class DictionarySelector extends React.Component {
             dlgOpeningState: {
                 organization: false,
                 employee: false,
+                certificate: false,
             },
         };
 
@@ -108,16 +110,26 @@ class DictionarySelector extends React.Component {
         } else if (this.props.dictionary === "certificates") {
             dictionary =
                 <div style={heightStyle}>
-                    <ButtonsBlock style={buttonsBlockStyle}/>
+                    <ButtonsBlock
+                        style={buttonsBlockStyle}
+                        onCreate={() => this.onCreate("certificate")}
+                    />
                     <Certificates
                         allCertificates={this.props.allCertificates}
                         styles={styles}
+                    />
+                    <CertificateDlg
+                        open={this.state.dlgOpeningState.certificate}
+                        onClose={() => this.onClose("certificate")}
+                        loadCertificates={this.props.loadCertificates}
                     />
                 </div>
         } else if (this.props.dictionary === "confirmations") {
             dictionary =
                 <div style={heightStyle}>
-                    <ButtonsBlock style={buttonsBlockStyle}/>
+                    <ButtonsBlock
+                        style={buttonsBlockStyle}
+                    />
                     <Confirmations
                         allConfirmations={this.props.allConfirmations}
                         styles={styles}

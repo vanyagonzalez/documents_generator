@@ -53,6 +53,19 @@ class Certificates extends React.Component {
                 </TableRow>
             );
         });
+
+        let documentDate;
+        if (this.state.certificate.documentDate) {
+            documentDate = new Date(this.state.certificate.documentDate);
+            documentDate = documentDate.toLocaleDateString();
+        }
+
+        let documentEndDate;
+        if (this.state.certificate.documentEndDate) {
+            documentEndDate = new Date(this.state.certificate.documentEndDate);
+            documentEndDate = documentEndDate.toLocaleDateString();
+        }
+
         return (
             <div style={this.props.styles.dataBlockStyle}>
                 <div style={this.props.styles.floatLeftStyle}>
@@ -93,11 +106,11 @@ class Certificates extends React.Component {
                             </TableRow>
                             <TableRow>
                                 <TableRowColumn>Дата выдачи документа, подтверждающего качество материала</TableRowColumn>
-                                <TableRowColumn>{this.state.certificate.documentDate}</TableRowColumn>
+                                <TableRowColumn>{documentDate}</TableRowColumn>
                             </TableRow>
                             <TableRow>
                                 <TableRowColumn>Дата окончания срока действия документа</TableRowColumn>
-                                <TableRowColumn>{this.state.certificate.documentEndDate}</TableRowColumn>
+                                <TableRowColumn>{documentEndDate}</TableRowColumn>
                             </TableRow>
                             <TableRow>
                                 <TableRowColumn>Объем материала, "засертифицированного" данным документом</TableRowColumn>

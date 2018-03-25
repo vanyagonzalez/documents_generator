@@ -30,4 +30,19 @@ public class CertificateConverter {
                 certificate.getDocumentCopy()
         );
     }
+
+    public static Certificate convertFromDto(CertificateDto certificateDto) {
+        return new Certificate(
+                certificateDto.getId(),
+                certificateDto.getMaterial(),
+                certificateDto.getStandardDocument(),
+                certificateDto.getDocumentKind(),
+                certificateDto.getDocumentNumber(),
+                certificateDto.getDocumentDate(),
+                certificateDto.getDocumentEndDate(),
+                certificateDto.getMaterialVolume(),
+                certificateDto.getMeasureUnit(),
+                certificateDto.getDocumentCopy()
+        );
+    }
 }
