@@ -35,10 +35,10 @@ public class OrganizationController {
         return OrganizationConverter.convertToDto(organizationService.getById(organizationId));
     }
 
-    /**@RequestMapping(method = RequestMethod.POST, value = "/constructionObject")
-    public ConstructionObjectDto createConstructionObject(@RequestBody ConstructionObjectDto constructionObjectDto) {
-        return ConstructionObjectConverter.convertToDto(
-                constructionObjectService.save(ConstructionObjectConverter.convertFromDto(constructionObjectDto))
+    @RequestMapping(method = RequestMethod.POST, value = "/organization")
+    public OrganizationDto postOrganization(@RequestBody OrganizationDto constructionObjectDto) {
+        return OrganizationConverter.convertToDto(
+                organizationService.save(OrganizationConverter.convertFromDto(constructionObjectDto))
         );
-    }*/
+    }
 }

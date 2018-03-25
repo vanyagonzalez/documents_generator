@@ -135,6 +135,7 @@ class App extends React.Component {
                             allEmployees={this.state.allEmployees}
                             allCertificates={this.state.allCertificates}
                             allConfirmations={this.state.allConfirmations}
+                            loadOrganizations={this.loadOrganizations}
                         />
                     </Tab>
                 </Tabs>

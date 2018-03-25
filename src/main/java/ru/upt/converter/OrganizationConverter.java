@@ -49,4 +49,21 @@ public class OrganizationConverter {
                 employees
                 );
     }
+
+    public static Organization convertFromDto(OrganizationDto organizationDto) {
+        if (organizationDto == null) {
+            return null;
+        }
+
+        return new Organization(
+                organizationDto.getName(),
+                organizationDto.getOgrn(),
+                organizationDto.getInn(),
+                organizationDto.getSroNumber(),
+                organizationDto.getOrganizationIssuingSro(),
+                organizationDto.getSroIssuedDate(),
+                organizationDto.getAddress(),
+                organizationDto.getPhoneNumber(),
+                organizationDto.getFaxNumber());
+    }
 }
