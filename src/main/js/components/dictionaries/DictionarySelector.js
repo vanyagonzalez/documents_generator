@@ -3,6 +3,7 @@ import ButtonsBlock from './ButtonsBlock'
 import Organizations from './views/Organizations'
 import OrganizationDlg from './dialogs/OrganizationDlg'
 import Employees from './views/Employees'
+import EmployeeDlg from './dialogs/EmployeeDlg'
 import Certificates from './views/Certificates'
 import Confirmations from './views/Confirmations'
 
@@ -46,6 +47,7 @@ class DictionarySelector extends React.Component {
         this.state = {
             dlgOpeningState: {
                 organization: false,
+                employee: false,
             },
         };
 
@@ -88,10 +90,19 @@ class DictionarySelector extends React.Component {
         } else if (this.props.dictionary === "employees") {
             dictionary =
                 <div style={heightStyle}>
-                    <ButtonsBlock style={buttonsBlockStyle}/>
+                    <ButtonsBlock
+                        style={buttonsBlockStyle}
+                        onCreate={() => this.onCreate("employee")}
+                    />
                     <Employees
                         allEmployees={this.props.allEmployees}
                         styles={styles}
+                    />
+                    <EmployeeDlg
+                        open={this.state.dlgOpeningState.employee}
+                        onClose={() => this.onClose("employee")}
+                        organizations={this.props.allOrganizations}
+                        loadEmployees={this.props.loadEmployees}
                     />
                 </div>
         } else if (this.props.dictionary === "certificates") {

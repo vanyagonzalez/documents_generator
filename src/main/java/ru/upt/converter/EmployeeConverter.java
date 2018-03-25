@@ -8,6 +8,8 @@ import ru.upt.model.Organization;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 public class EmployeeConverter {
     public static BasicEmployeeDto convertToBasicDto(Employee employee) {
@@ -50,6 +52,25 @@ public class EmployeeConverter {
                 employee.getPosition(),
                 employee.getOrderNumber(),
                 employee.getOrderDate(),
+                organizations
+        );
+    }
+
+    public static Employee convertFromDto(EmployeeDto employeeDto) {
+        if (employeeDto == null) {
+            return null;
+        }
+
+        Set<Organization> organizations = employeeDto.getOrganizations() != null && !employeeDto.getOrganizations().isEmpty() ?
+                employeeDto.getOrganizations().stream().map(OrganizationConverter::convertFromBasicDto).collect(Collectors.toSet()) : null;
+
+        return new Employee(
+                employeeDto.getSurname(),
+                employeeDto.getName(),
+                employeeDto.getMiddleName(),
+                employeeDto.getPosition(),
+                employeeDto.getOrderNumber(),
+                employeeDto.getOrderDate(),
                 organizations
         );
     }

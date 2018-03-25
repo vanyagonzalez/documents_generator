@@ -52,6 +52,7 @@ class Dictionaries extends React.Component {
                         allConfirmations={this.props.allConfirmations}
                         divHeight={divHeight}
                         loadOrganizations={this.props.loadOrganizations}
+                        loadEmployees={this.props.loadEmployees}
                     />
                 </div>
             </div>

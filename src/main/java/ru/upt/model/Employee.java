@@ -4,7 +4,7 @@ import lombok.*;
 
 import javax.persistence.*;
 import java.util.Date;
-import java.util.List;
+import java.util.Set;
 
 /**
  * Сотрудник -- сотруднк, участвующих в строительстве
@@ -43,7 +43,7 @@ public class Employee {
     private Date orderDate;
 
     @ManyToMany(mappedBy = "employees")
-    private List<Organization> organizations;
+    private Set<Organization> organizations;
 
     public Employee(Long id, String surname, String name, String middleName) {
         this.id = id;
@@ -57,5 +57,15 @@ public class Employee {
         this.name = name;
         this.middleName = middleName;
         this.position = position;
+    }
+
+    public Employee(String surname, String name, String middleName, String position, String orderNumber, Date orderDate, Set<Organization> organizations) {
+        this.surname = surname;
+        this.name = name;
+        this.middleName = middleName;
+        this.position = position;
+        this.orderNumber = orderNumber;
+        this.orderDate = orderDate;
+        this.organizations = organizations;
     }
 }

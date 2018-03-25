@@ -1,10 +1,7 @@
 package ru.upt.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import ru.upt.converter.EmployeeConverter;
 import ru.upt.dto.BasicEmployeeDto;
 import ru.upt.dto.EmployeeDto;
@@ -30,7 +27,12 @@ public class EmployeeController {
     }
 
     @RequestMapping(method = RequestMethod.GET, value = "/employee/{employeeId}")
-    public EmployeeDto getOrganization(@PathVariable Long employeeId) {
+    public EmployeeDto getEmployee(@PathVariable Long employeeId) {
         return EmployeeConverter.convertToDto(employeeService.getById(employeeId));
+    }
+
+    @RequestMapping(method = RequestMethod.POST, value = "/employee")
+    public EmployeeDto postEmployee(@RequestBody EmployeeDto employeeDto) {
+        return EmployeeConverter.convertToDto(employeeService.save(EmployeeConverter.convertFromDto(employeeDto)));
     }
 }
