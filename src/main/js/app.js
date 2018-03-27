@@ -22,6 +22,7 @@ class App extends React.Component {
         super(props);
         this.state = {
             value: 'constrObj',
+            allPersons: [],
             allOrganizations: [],
             customers: [],
             developers: [],
@@ -37,6 +38,7 @@ class App extends React.Component {
         };
 
         this.loadOrganizations = this.loadOrganizations.bind(this);
+        this.loadPersons = this.loadPersons.bind(this);
         this.loadEmployees = this.loadEmployees.bind(this);
         this.loadCertificates = this.loadCertificates.bind(this);
         this.loadConfirmations = this.loadConfirmations.bind(this);
@@ -45,6 +47,7 @@ class App extends React.Component {
 
     componentDidMount() {
         this.loadOrganizations();
+        this.loadPersons();
         this.loadEmployees();
         this.loadCertificates();
         this.loadConfirmations();
@@ -60,6 +63,17 @@ class App extends React.Component {
                 customers: data,
                 developers: data,
                 executors: data
+            });
+        });
+    }
+
+    loadPersons() {
+        const self = this;
+        $.ajax({
+            url: "/rest/AllPersons"
+        }).then(function (data) {
+            self.setState({
+                allPersons: data,
             });
         });
     }
@@ -132,10 +146,12 @@ class App extends React.Component {
                     <Tab label="Словари" value="dicts">
                         <Dictionaries
                             allOrganizations={this.state.allOrganizations}
+                            allPersons={this.state.allPersons}
                             allEmployees={this.state.allEmployees}
                             allCertificates={this.state.allCertificates}
                             allConfirmations={this.state.allConfirmations}
                             loadOrganizations={this.loadOrganizations}
+                            loadPersons={this.loadPersons}
                             loadEmployees={this.loadEmployees}
                             loadCertificates={this.loadCertificates}
                             loadConfirmations={this.loadConfirmations}

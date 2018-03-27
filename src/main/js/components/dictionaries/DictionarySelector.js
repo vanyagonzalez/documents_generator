@@ -4,6 +4,8 @@ import Dialog from 'material-ui/Dialog';
 import FlatButton from 'material-ui/FlatButton';
 
 import ButtonsBlock from './ButtonsBlock'
+import Persons from './views/Persons'
+import PersonDlg from './dialogs/PersonDlg'
 import Organizations from './views/Organizations'
 import OrganizationDlg from './dialogs/OrganizationDlg'
 import Employees from './views/Employees'
@@ -54,15 +56,18 @@ class DictionarySelector extends React.Component {
             openError: false,
             dlgOpeningState: {
                 organization: false,
+                person: false,
                 employee: false,
                 certificate: false,
                 confirmation: false,
             },
             selectedData: {
                 organization: {},
+                person: {},
             },
             updatingData: {
                 organization: {},
+                person: {},
             }
         };
 
@@ -140,6 +145,28 @@ class DictionarySelector extends React.Component {
                         onDataUpdate={this.onDataUpdate}
                         loadOrganizations={this.props.loadOrganizations}
                         updatingOrganization={this.state.updatingData.organization}
+                    />
+                </div>
+        } else if (this.props.dictionary === "persons") {
+            dictionary =
+                <div style={heightStyle}>
+                    <ButtonsBlock
+                        style={buttonsBlockStyle}
+                        onCreate={() => this.onCreate("person")}
+                        onUpdate={() => this.onUpdate("person")}
+                    />
+                    <Persons
+                        person={this.state.selectedData.person}
+                        allPersons={this.props.allPersons}
+                        onSelect={this.onSelect}
+                        styles={styles}
+                    />
+                    <PersonDlg
+                        open={this.state.dlgOpeningState.person}
+                        onClose={() => this.onClose("person")}
+                        onDataUpdate={this.onDataUpdate}
+                        loadPersons={this.props.loadPersons}
+                        updatingPerson={this.state.updatingData.person}
                     />
                 </div>
         } else if (this.props.dictionary === "employees") {

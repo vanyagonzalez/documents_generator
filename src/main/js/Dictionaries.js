@@ -38,6 +38,7 @@ class Dictionaries extends React.Component {
                 <Paper style={paperStyle}>
                     <Menu>
                         <MenuItem onClick={(e) => this.onMenuItemClick("organizations")}>Организации</MenuItem>
+                        <MenuItem onClick={(e) => this.onMenuItemClick("persons")}>Персоны</MenuItem>
                         <MenuItem onClick={(e) => this.onMenuItemClick("employees")}>Сотрудники</MenuItem>
                         <MenuItem onClick={(e) => this.onMenuItemClick("certificates")}>Сертификаты</MenuItem>
                         <MenuItem onClick={(e) => this.onMenuItemClick("confirmations")}>Подтверждения</MenuItem>
@@ -47,11 +48,13 @@ class Dictionaries extends React.Component {
                     <DictionarySelector
                         dictionary={this.state.dictionary}
                         allOrganizations={this.props.allOrganizations}
+                        allPersons={this.props.allPersons}
                         allEmployees={this.props.allEmployees}
                         allCertificates={this.props.allCertificates}
                         allConfirmations={this.props.allConfirmations}
                         divHeight={divHeight}
                         loadOrganizations={this.props.loadOrganizations}
+                        loadPersons={this.props.loadPersons}
                         loadEmployees={this.props.loadEmployees}
                         loadCertificates={this.props.loadCertificates}
                         loadConfirmations={this.props.loadConfirmations}
