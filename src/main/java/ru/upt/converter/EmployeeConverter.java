@@ -1,23 +1,16 @@
 package ru.upt.converter;
 
 import ru.upt.dto.BasicEmployeeDto;
-import ru.upt.dto.BasicOrganizationDto;
 import ru.upt.dto.EmployeeDto;
 import ru.upt.model.Employee;
-import ru.upt.model.Organization;
-
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Set;
-import java.util.stream.Collectors;
 
 public class EmployeeConverter {
     public static BasicEmployeeDto convertToBasicDto(Employee employee) {
         return new BasicEmployeeDto(
                 employee.getId(),
-                employee.getSurname(),
-                employee.getName(),
-                employee.getMiddleName()
+                PersonConverter.convertToBasicDto(employee.getPerson()),
+                OrganizationConverter.convertToBasicDto(employee.getOrganization()),
+                employee.getPosition()
         );
     }
 
@@ -27,9 +20,9 @@ public class EmployeeConverter {
         }
         return new Employee(
                 basicEmployeeDto.getId(),
-                basicEmployeeDto.getSurname(),
-                basicEmployeeDto.getName(),
-                basicEmployeeDto.getMiddleName()
+                PersonConverter.convertFromBasicDto(basicEmployeeDto.getPerson()),
+                OrganizationConverter.convertFromBasicDto(basicEmployeeDto.getOrganization()),
+                basicEmployeeDto.getPosition()
         );
     }
 
@@ -37,22 +30,14 @@ public class EmployeeConverter {
         if (employee == null) {
             return null;
         }
-        List<BasicOrganizationDto> organizations = new ArrayList<>();
-        if (employee.getOrganizations() != null && !employee.getOrganizations().isEmpty()) {
-            for (Organization organization : employee.getOrganizations()) {
-                organizations.add(OrganizationConverter.convertToBasicDto(organization));
-            }
-        }
 
         return new EmployeeDto(
                 employee.getId(),
-                employee.getSurname(),
-                employee.getName(),
-                employee.getMiddleName(),
+                PersonConverter.convertToBasicDto(employee.getPerson()),
+                OrganizationConverter.convertToBasicDto(employee.getOrganization()),
                 employee.getPosition(),
                 employee.getOrderNumber(),
-                employee.getOrderDate(),
-                organizations
+                employee.getOrderDate()
         );
     }
 
@@ -61,17 +46,13 @@ public class EmployeeConverter {
             return null;
         }
 
-        Set<Organization> organizations = employeeDto.getOrganizations() != null && !employeeDto.getOrganizations().isEmpty() ?
-                employeeDto.getOrganizations().stream().map(OrganizationConverter::convertFromBasicDto).collect(Collectors.toSet()) : null;
-
         return new Employee(
-                employeeDto.getSurname(),
-                employeeDto.getName(),
-                employeeDto.getMiddleName(),
+                employeeDto.getId(),
+                PersonConverter.convertFromBasicDto(employeeDto.getPerson()),
+                OrganizationConverter.convertFromBasicDto(employeeDto.getOrganization()),
                 employeeDto.getPosition(),
                 employeeDto.getOrderNumber(),
-                employeeDto.getOrderDate(),
-                organizations
+                employeeDto.getOrderDate()
         );
     }
 }

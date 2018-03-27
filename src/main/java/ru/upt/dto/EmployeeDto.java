@@ -12,10 +12,6 @@ import java.util.List;
 @EqualsAndHashCode(callSuper = true)
 public class EmployeeDto extends BasicEmployeeDto {
     /**
-     * Должность
-     */
-    private String position;
-    /**
      * Номер приказа о назначении на должность
      */
     private String orderNumber;
@@ -29,11 +25,15 @@ public class EmployeeDto extends BasicEmployeeDto {
      */
     private List<BasicOrganizationDto> organizations;
 
-    public EmployeeDto(Long id, String surname, String name, String middleName, String position, String orderNumber, Date orderDate, List<BasicOrganizationDto> organizations) {
-        super(id, surname, name, middleName);
-        this.position = position;
+
+    public EmployeeDto(Long id,
+                       BasicPersonDto personDto,
+                       BasicOrganizationDto organizationDto,
+                       String position,
+                       String orderNumber,
+                       Date orderDate) {
+        super(id, personDto, organizationDto, position);
         this.orderNumber = orderNumber;
         this.orderDate = orderDate;
-        this.organizations = organizations;
     }
 }

@@ -32,7 +32,7 @@ public class OrganizationConverter {
         List<BasicEmployeeDto> employees = new ArrayList<>();
         if (organization.getEmployees() != null && !organization.getEmployees().isEmpty()) {
             for (Employee employee : organization.getEmployees()) {
-                employees.add(new BasicEmployeeDto(employee.getId(), employee.getSurname(), employee.getName(), employee.getMiddleName()));
+                employees.add(EmployeeConverter.convertToBasicDto(employee));
             }
         }
         return new OrganizationDto(

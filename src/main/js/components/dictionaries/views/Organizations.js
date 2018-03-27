@@ -51,7 +51,7 @@ class Organizations extends React.Component {
         if (this.props.organization.employees) {
             this.props.organization.employees.forEach(function (employee) {
                 employees.push(
-                    <li key={employee.id}>{employee.fio}</li>
+                    <li key={employee.id}>{employee.person.fio + "; " + employee.position}</li>
                 );
             });
         }

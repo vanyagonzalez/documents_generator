@@ -17,18 +17,21 @@ public class Employee {
     @Id
     @GeneratedValue
     private Long id;
+
     /**
-     * Фамилия
+     * Информация о сотруднике
      */
-    private String surname;
+    @ManyToOne
+    @JoinColumn(name="personId", referencedColumnName = "id")
+    private Person person;
+
     /**
-     * Имя
+     * Информация об организации
      */
-    private String name;
-    /**
-     * Отчество
-     */
-    private String middleName;
+    @ManyToOne
+    @JoinColumn(name="organizationId", referencedColumnName = "id")
+    private Organization organization;
+
     /**
      * Должность
      */
@@ -42,30 +45,23 @@ public class Employee {
      */
     private Date orderDate;
 
-    @ManyToMany(mappedBy = "employees")
-    private Set<Organization> organizations;
-
-    public Employee(Long id, String surname, String name, String middleName) {
+    public Employee(Long id, Person person, Organization organization, String position) {
         this.id = id;
-        this.surname = surname;
-        this.name = name;
-        this.middleName = middleName;
-    }
-
-    public Employee(String surname, String name, String middleName, String position) {
-        this.surname = surname;
-        this.name = name;
-        this.middleName = middleName;
+        this.person = person;
+        this.organization = organization;
         this.position = position;
     }
 
-    public Employee(String surname, String name, String middleName, String position, String orderNumber, Date orderDate, Set<Organization> organizations) {
-        this.surname = surname;
-        this.name = name;
-        this.middleName = middleName;
+    public Employee(Person person, Organization organization, String position, String orderNumber, Date orderDate) {
+        this.person = person;
+        this.organization = organization;
         this.position = position;
         this.orderNumber = orderNumber;
         this.orderDate = orderDate;
-        this.organizations = organizations;
+    }
+
+    public Employee(Long id, Person person, Organization organization, String position, String orderNumber, Date orderDate) {
+        this(person, organization, position, orderNumber, orderDate);
+        this.id = id;
     }
 }

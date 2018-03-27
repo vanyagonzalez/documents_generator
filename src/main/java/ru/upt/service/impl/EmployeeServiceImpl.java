@@ -16,13 +16,10 @@ import java.util.Set;
 @Service
 public class EmployeeServiceImpl implements EmployeeService {
     private final EmployeeCrudRepository employeeCrudRepository;
-    private final OrganizationCrudRepository organizationCrudRepository;
 
     @Autowired
-    public EmployeeServiceImpl(EmployeeCrudRepository employeeCrudRepository,
-                               OrganizationCrudRepository organizationCrudRepository) {
+    public EmployeeServiceImpl(EmployeeCrudRepository employeeCrudRepository) {
         this.employeeCrudRepository = employeeCrudRepository;
-        this.organizationCrudRepository = organizationCrudRepository;
     }
 
     @Override
@@ -39,18 +36,6 @@ public class EmployeeServiceImpl implements EmployeeService {
 
     @Override
     public Employee save(Employee employee) {
-        Employee saved = employeeCrudRepository.save(employee);
-        Set<Organization> organizations = saved.getOrganizations();
-        if (organizations != null && !organizations.isEmpty()) {
-            Set<Organization> orgsWithEmpls = new HashSet<>();
-            organizations.forEach(org -> {
-                Organization fetched = organizationCrudRepository.findOne(org.getId());
-                fetched.getEmployees().add(saved);
-                orgsWithEmpls.add(fetched);
-            });
-
-            organizationCrudRepository.save(orgsWithEmpls);
-        }
-        return saved;
+        return employeeCrudRepository.save(employee);
     }
 }

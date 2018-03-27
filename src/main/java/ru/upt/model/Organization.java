@@ -4,6 +4,7 @@ import lombok.*;
 
 import javax.persistence.*;
 import java.util.Date;
+import java.util.LinkedHashSet;
 import java.util.Set;
 
 /**
@@ -57,12 +58,8 @@ public class Organization {
     /**
      * Список сотрудников
      */
-    @ManyToMany(cascade = CascadeType.ALL)
-    @JoinTable(name = "organization_employee",
-            joinColumns = @JoinColumn(name = "employeeId", referencedColumnName = "id"),
-            inverseJoinColumns = @JoinColumn(name = "organizationId", referencedColumnName = "id")
-    )
-    private Set<Employee> employees;
+    @OneToMany(targetEntity=Employee.class, mappedBy="organization", fetch= FetchType.EAGER)
+    private Set<Employee> employees = new LinkedHashSet<>();
 
     public Organization(String name, String ogrn, String inn) {
         this.name = name;

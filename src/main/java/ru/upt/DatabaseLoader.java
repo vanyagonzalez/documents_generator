@@ -20,6 +20,7 @@ public class DatabaseLoader implements CommandLineRunner {
     private final ProjectDocumentCrudRepository projectDocuments;
     private final DocumentationSheetCrudRepository documentationSheets;
     private final KindOfWorkCrudRepository kindOfWorks;
+    private final PersonCrudRepository person;
     private final EmployeeCrudRepository employees;
     private final CertificateCrudRepository certificates;
     private final ConfirmationCrudRepository confirmations;
@@ -33,6 +34,7 @@ public class DatabaseLoader implements CommandLineRunner {
                           ProjectDocumentCrudRepository projectDocuments,
                           DocumentationSheetCrudRepository documentationSheets,
                           KindOfWorkCrudRepository kindOfWorks,
+                          PersonCrudRepository person,
                           EmployeeCrudRepository employees,
                           CertificateCrudRepository certificates,
                           ConfirmationCrudRepository confirmations) {
@@ -42,6 +44,7 @@ public class DatabaseLoader implements CommandLineRunner {
         this.projectDocuments = projectDocuments;
         this.documentationSheets = documentationSheets;
         this.kindOfWorks = kindOfWorks;
+        this.person = person;
         this.employees = employees;
         this.certificates = certificates;
         this.confirmations = confirmations;
@@ -94,34 +97,40 @@ public class DatabaseLoader implements CommandLineRunner {
                     new ConstructionObject("Объект строительства "  + i, "код " + i, customer, developer)
             );
 
-            Employee author = employees.save(new Employee(
+            Person authorPerson = person.save(new Person(
                     "Фамилия автора " + i,
                     "Имя автора " + i,
-                    "Отчество автора " + i,
-                    "Должность автора " + i
+                    "Отчество автора " + i));
+            Employee author = employees.save(new Employee(
+                    authorPerson,
+                    authorOrg,
+                    "Должность автора " + i,
+                    "Приказ автора" + i,
+                    new Date()
                     ));
 
-            Set<Employee> authors = new HashSet<>();
-            authors.add(author);
-            authorOrg.setEmployees(authors);
-            organizations.save(authorOrg);
-
-            Employee customerRepresentative = employees.save(new Employee(
+            Person customerRepresentativePerson = person.save(new Person(
                     "Фамилия предст-я Заказчика " + i,
                     "Имя предст-я Заказчика " + i,
-                    "Отчество предст-я Заказчика " + i,
-                    "Должность предст-я Заказчика " + i
+                    "Отчество предст-я Заказчика " + i));
+            Employee customerRepresentative = employees.save(new Employee(
+                    customerRepresentativePerson,
+                    customer,
+                    "Должность предст-я Заказчика " + i,
+                    "Приказ предст-я Заказчика " + i,
+                    new Date()
             ));
-            Set<Employee> customerRepresentatives = new HashSet<>();
-            customerRepresentatives.add(customerRepresentative);
-            customer.setEmployees(customerRepresentatives);
-            organizations.save(customer);
 
-            Employee developerRepresentative = employees.save(new Employee(
+            Person developerRepresentativePerson = person.save(new Person(
                     "Фамилия предст-я Застройщика " + i,
                     "Имя предст-я Застройщика " + i,
-                    "Отчество предст-я Застройщика " + i,
-                    "Должность предст-я Застройщика " + i
+                    "Отчество предст-я Застройщика " + i));
+            Employee developerRepresentative = employees.save(new Employee(
+                    developerRepresentativePerson,
+                    developer,
+                    "Должность предст-я Застройщика " + i,
+                    "Приказ предст-я Застройщика " + i,
+                    new Date()
             ));
             Set<Employee> developerRepresentatives = new HashSet<>();
             developerRepresentatives.add(developerRepresentative);
@@ -162,22 +171,32 @@ public class DatabaseLoader implements CommandLineRunner {
 
                         Set<Employee> otherRepresentatives = new HashSet<>();
                         for (int e = 1; e < 3; e++) {
-                            Employee otherEmployee = employees.save(new Employee(
+                            Person otherEmployeePerson = person.save(new Person(
                                     String.format("Представители иных лиц %s%s%s%s%s", i, j, k, q, e),
                                     String.format("Имя %s%s%s%s%s", i, j, k, q, e),
-                                    String.format("Отчество %s%s%s%s%s", i, j, k, q, e),
-                                    String.format("Должность %s%s%s%s%s", i, j, k, q, e)
+                                    String.format("Отчество %s%s%s%s%s", i, j, k, q, e)));
+                            Employee otherEmployee = employees.save(new Employee(
+                                    otherEmployeePerson,
+                                    executorOrg,
+                                    String.format("Должность %s%s%s%s%s", i, j, k, q, e),
+                                    String.format("Приказ %s%s%s%s%s", i, j, k, q, e),
+                                    new Date()
                             ));
                             executors.add(otherEmployee);
                             otherRepresentatives.add(otherEmployee);
                         }
 
                         for (int w = 1; w < 4; w++) {
-                            Employee executor = employees.save(new Employee(
+                            Person executorPerson = person.save(new Person(
                                     String.format("Фамилия %s%s%s%s%s", i, j, k, q, w),
                                     String.format("Имя %s%s%s%s%s", i, j, k, q, w),
-                                    String.format("Отчество %s%s%s%s%s", i, j, k, q, w),
-                                    String.format("Должность %s%s%s%s%s", i, j, k, q, w)
+                                    String.format("Отчество %s%s%s%s%s", i, j, k, q, w)));
+                            Employee executor = employees.save(new Employee(
+                                    executorPerson,
+                                    executorOrg,
+                                    String.format("Должность %s%s%s%s%s", i, j, k, q, w),
+                                    String.format("Приказ %s%s%s%s%s", i, j, k, q, w),
+                                    new Date()
                             ));
                             executors.add(executor);
 

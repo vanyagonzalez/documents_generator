@@ -17,7 +17,14 @@ public class KindOfWorkConverter {
         List<BasicEmployeeDto> otherRepresentatives = new ArrayList<>();
         if (kindOfWork.getOtherRepresentatives() != null && !kindOfWork.getOtherRepresentatives().isEmpty()) {
             for (Employee employee : kindOfWork.getOtherRepresentatives()) {
-                otherRepresentatives.add(new BasicEmployeeDto(employee.getId(), employee.getSurname(), employee.getName(), employee.getMiddleName()));
+                otherRepresentatives.add(
+                        new BasicEmployeeDto(
+                                employee.getId(),
+                                PersonConverter.convertToBasicDto(employee.getPerson()),
+                                OrganizationConverter.convertToBasicDto(employee.getOrganization()),
+                                employee.getPosition()
+                        )
+                );
             }
         }
 
@@ -39,10 +46,11 @@ public class KindOfWorkConverter {
 
         Employee executorRepresentative = kindOfWork.getExecutorRepresentative();
         BasicEmployeeDto executorRepresentativeDto = executorRepresentative != null ?
-                new BasicEmployeeDto(executorRepresentative.getId(),
-                    executorRepresentative.getSurname(),
-                    executorRepresentative.getName(),
-                    executorRepresentative.getMiddleName()
+                new BasicEmployeeDto(
+                        executorRepresentative.getId(),
+                        PersonConverter.convertToBasicDto(executorRepresentative.getPerson()),
+                        OrganizationConverter.convertToBasicDto(executorRepresentative.getOrganization()),
+                        executorRepresentative.getPosition()
                 ) : null;
 
         return new KindOfWorkDto(

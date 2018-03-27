@@ -13,19 +13,15 @@ public class BasicEmployeeDto {
      */
     private Long id;
     /**
-     * Фамилия
+     * Человек
      */
-    private String surname;
+    private BasicPersonDto person;
     /**
-     * Имя
+     * Организация
      */
-    private String name;
+    private BasicOrganizationDto organization;
     /**
-     * Отчество
+     * Должность
      */
-    private String middleName;
-
-    public String getFio() {
-        return String.format("%s %s %s", getSurname(), getName(), getMiddleName());
-    }
+    private String position;
 }
