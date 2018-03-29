@@ -35,4 +35,9 @@ public class PersonController {
     public PersonDto postPerson(@RequestBody PersonDto employeeDto) {
         return PersonConverter.convertToDto(personService.save(PersonConverter.convertFromDto(employeeDto)));
     }
+
+    @RequestMapping(method = RequestMethod.PUT, value = "/person")
+    public PersonDto putPerson(@RequestBody PersonDto employeeDto) {
+        return PersonConverter.convertToDto(personService.save(PersonConverter.convertFromDto(employeeDto)));
+    }
 }

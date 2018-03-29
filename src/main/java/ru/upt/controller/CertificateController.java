@@ -35,4 +35,9 @@ public class CertificateController {
     public CertificateDto postCertificate(@RequestBody CertificateDto certificateDto) {
         return CertificateConverter.convertToDto(certificateService.save(CertificateConverter.convertFromDto(certificateDto)));
     }
+
+    @RequestMapping(method = RequestMethod.PUT, value = "/certificate")
+    public CertificateDto putCertificate(@RequestBody CertificateDto certificateDto) {
+        return CertificateConverter.convertToDto(certificateService.save(CertificateConverter.convertFromDto(certificateDto)));
+    }
 }

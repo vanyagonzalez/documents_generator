@@ -65,11 +65,15 @@ class DictionarySelector extends React.Component {
                 organization: {},
                 person: {},
                 employee: {},
+                certificate: {},
+                confirmation: {},
             },
             updatingData: {
                 organization: {},
                 person: {},
                 employee: {},
+                certificate: {},
+                confirmation: {},
             }
         };
 
@@ -201,15 +205,20 @@ class DictionarySelector extends React.Component {
                     <ButtonsBlock
                         style={buttonsBlockStyle}
                         onCreate={() => this.onCreate("certificate")}
+                        onUpdate={() => this.onUpdate("certificate")}
                     />
                     <Certificates
+                        certificate={this.state.selectedData.certificate}
                         allCertificates={this.props.allCertificates}
+                        onSelect={this.onSelect}
                         styles={styles}
                     />
                     <CertificateDlg
                         open={this.state.dlgOpeningState.certificate}
                         onClose={() => this.onClose("certificate")}
+                        onDataUpdate={this.onDataUpdate}
                         loadCertificates={this.props.loadCertificates}
+                        updatingCertificate={this.state.updatingData.certificate}
                     />
                 </div>
         } else if (this.props.dictionary === "confirmations") {
@@ -218,15 +227,20 @@ class DictionarySelector extends React.Component {
                     <ButtonsBlock
                         style={buttonsBlockStyle}
                         onCreate={() => this.onCreate("confirmation")}
+                        onUpdate={() => this.onUpdate("confirmation")}
                     />
                     <Confirmations
+                        confirmation={this.state.selectedData.confirmation}
                         allConfirmations={this.props.allConfirmations}
+                        onSelect={this.onSelect}
                         styles={styles}
                     />
                     <ConfirmationDlg
                         open={this.state.dlgOpeningState.confirmation}
                         onClose={() => this.onClose("confirmation")}
+                        onDataUpdate={this.onDataUpdate}
                         loadConfirmations={this.props.loadConfirmations}
+                        updatingConfirmation={this.state.updatingData.confirmation}
                     />
                 </div>
         }

@@ -14,11 +14,6 @@ import $ from 'jquery';
 class Confirmations extends React.Component {
     constructor(props) {
         super(props);
-
-        this.state = {
-            confirmation: {}
-        };
-
         this.onRowSelection = this.onRowSelection.bind(this);
     }
 
@@ -31,14 +26,13 @@ class Confirmations extends React.Component {
             }
         });
 
+        let onSelect=this.props.onSelect;
         if (selectedId) {
             let self = this;
             $.ajax({
                 url: "/rest/confirmation/" + selectedId
             }).then(function (data) {
-                self.setState({
-                    confirmation: data,
-                });
+                onSelect("confirmation", data);
             });
         }
     };
@@ -54,8 +48,8 @@ class Confirmations extends React.Component {
         });
 
         let issueDate;
-        if (this.state.confirmation.issueDate) {
-            issueDate = new Date(this.state.confirmation.issueDate);
+        if (this.props.confirmation.issueDate) {
+            issueDate = new Date(this.props.confirmation.issueDate);
             issueDate = issueDate.toLocaleDateString();
         }
         return (
@@ -82,11 +76,11 @@ class Confirmations extends React.Component {
                         <TableBody
                             displayRowCheckbox={false}>
                             <TableRow>
-                                <TableHeaderColumn colSpan="2" style={{textAlign: 'center'}}>{this.state.confirmation.name}</TableHeaderColumn>
+                                <TableHeaderColumn colSpan="2" style={{textAlign: 'center'}}>{this.props.confirmation.name}</TableHeaderColumn>
                             </TableRow>
                             <TableRow>
                                 <TableRowColumn>Номер документа</TableRowColumn>
-                                <TableRowColumn>{this.state.confirmation.number}</TableRowColumn>
+                                <TableRowColumn>{this.props.confirmation.number}</TableRowColumn>
                             </TableRow>
                             <TableRow>
                                 <TableRowColumn>Дата выдачи документа</TableRowColumn>
@@ -94,7 +88,7 @@ class Confirmations extends React.Component {
                             </TableRow>
                             <TableRow>
                                 <TableRowColumn>Скан-копия документа</TableRowColumn>
-                                <TableRowColumn>{this.state.confirmation.copy}</TableRowColumn>
+                                <TableRowColumn>{this.props.confirmation.copy}</TableRowColumn>
                             </TableRow>
                         </TableBody>
                     </Table>

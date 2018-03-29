@@ -10,7 +10,6 @@ class PersonDlg extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            isCreate: null,
             restMethod: null,
             dlgTitle: null,
             btnLabel: "Не задан",
@@ -25,8 +24,8 @@ class PersonDlg extends React.Component {
         const updatingPerson = nextProps.updatingPerson;
 
         let state = this.state;
+        state.newPerson={};
         if (updatingPerson !== null) {
-            state.isCreate = false;
             state.restMethod = "PUT";
             state.dlgTitle = "Изменение персоны: " + updatingPerson.fio;
             state.btnLabel = "Редактировать";
@@ -36,13 +35,9 @@ class PersonDlg extends React.Component {
             state.newPerson.name=updatingPerson.name;
             state.newPerson.middleName=updatingPerson.middleName;
         } else {
-            state.isCreate = true;
             state.restMethod = "POST";
             state.dlgTitle = "Новая персона";
             state.btnLabel = "Создать";
-            Object.keys(state.newPerson).forEach(function(key, index) {
-                state.newPerson[key] = null;
-            });
         }
     }
 
@@ -50,7 +45,6 @@ class PersonDlg extends React.Component {
         e.preventDefault();
         let loadPersons = this.props.loadPersons;
         let onDataUpdate = this.props.onDataUpdate;
-        let isCreate = this.state.isCreate;
         //нужен клон, чтоб не менялись поля у выбранного объекта
         let newPerson = $.extend({}, this.state.newPerson);
 
@@ -63,9 +57,7 @@ class PersonDlg extends React.Component {
             async: false,
             success: function(msg) {
                 loadPersons();
-                if (!isCreate) {
-                    onDataUpdate("person", newPerson);
-                }
+                onDataUpdate("person", msg);
             }
         });
 

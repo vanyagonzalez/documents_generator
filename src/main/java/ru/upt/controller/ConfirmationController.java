@@ -35,4 +35,9 @@ public class ConfirmationController {
     public ConfirmationDto postConfirmation(@RequestBody ConfirmationDto confirmationDto) {
         return ConfirmationConverter.convertToDto(confirmationService.save(ConfirmationConverter.convertFromDto(confirmationDto)));
     }
+
+    @RequestMapping(method = RequestMethod.PUT, value = "/confirmation")
+    public ConfirmationDto putConfirmation(@RequestBody ConfirmationDto confirmationDto) {
+        return ConfirmationConverter.convertToDto(confirmationService.save(ConfirmationConverter.convertFromDto(confirmationDto)));
+    }
 }

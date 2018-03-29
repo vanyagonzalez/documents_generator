@@ -15,11 +15,6 @@ import $ from 'jquery';
 class Certificates extends React.Component {
     constructor(props) {
         super(props);
-
-        this.state = {
-            certificate: {}
-        };
-
         this.onRowSelection = this.onRowSelection.bind(this);
     }
 
@@ -32,14 +27,13 @@ class Certificates extends React.Component {
             }
         });
 
+        let onSelect=this.props.onSelect;
         if (selectedId) {
             let self = this;
             $.ajax({
                 url: "/rest/certificate/" + selectedId
             }).then(function (data) {
-                self.setState({
-                    certificate: data,
-                });
+                onSelect("certificate", data);
             });
         }
     };
@@ -55,14 +49,14 @@ class Certificates extends React.Component {
         });
 
         let documentDate;
-        if (this.state.certificate.documentDate) {
-            documentDate = new Date(this.state.certificate.documentDate);
+        if (this.props.certificate.documentDate) {
+            documentDate = new Date(this.props.certificate.documentDate);
             documentDate = documentDate.toLocaleDateString();
         }
 
         let documentEndDate;
-        if (this.state.certificate.documentEndDate) {
-            documentEndDate = new Date(this.state.certificate.documentEndDate);
+        if (this.props.certificate.documentEndDate) {
+            documentEndDate = new Date(this.props.certificate.documentEndDate);
             documentEndDate = documentEndDate.toLocaleDateString();
         }
 
@@ -90,19 +84,19 @@ class Certificates extends React.Component {
                         <TableBody
                             displayRowCheckbox={false}>
                             <TableRow>
-                                <TableHeaderColumn colSpan="2" style={{textAlign: 'center'}}>{this.state.certificate.material}</TableHeaderColumn>
+                                <TableHeaderColumn colSpan="2" style={{textAlign: 'center'}}>{this.props.certificate.material}</TableHeaderColumn>
                             </TableRow>
                             <TableRow>
                                 <TableRowColumn>Нормативный документ, согласно которого изготовлен материал</TableRowColumn>
-                                <TableRowColumn>{this.state.certificate.standardDocument}</TableRowColumn>
+                                <TableRowColumn>{this.props.certificate.standardDocument}</TableRowColumn>
                             </TableRow>
                             <TableRow>
                                 <TableRowColumn>Вид документа</TableRowColumn>
-                                <TableRowColumn>{this.state.certificate.documentKind}</TableRowColumn>
+                                <TableRowColumn>{this.props.certificate.documentKind}</TableRowColumn>
                             </TableRow>
                             <TableRow>
                                 <TableRowColumn>Нормер документа, подтверждающего качество материала</TableRowColumn>
-                                <TableRowColumn>{this.state.certificate.documentNumber}</TableRowColumn>
+                                <TableRowColumn>{this.props.certificate.documentNumber}</TableRowColumn>
                             </TableRow>
                             <TableRow>
                                 <TableRowColumn>Дата выдачи документа, подтверждающего качество материала</TableRowColumn>
@@ -114,15 +108,15 @@ class Certificates extends React.Component {
                             </TableRow>
                             <TableRow>
                                 <TableRowColumn>Объем материала, "засертифицированного" данным документом</TableRowColumn>
-                                <TableRowColumn>{this.state.certificate.materialVolume}</TableRowColumn>
+                                <TableRowColumn>{this.props.certificate.materialVolume}</TableRowColumn>
                             </TableRow>
                             <TableRow>
                                 <TableRowColumn>Единица измерения объема материала, "засертифицированного" данным документом</TableRowColumn>
-                                <TableRowColumn>{this.state.certificate.measureUnit}</TableRowColumn>
+                                <TableRowColumn>{this.props.certificate.measureUnit}</TableRowColumn>
                             </TableRow>
                             <TableRow>
                                 <TableRowColumn>Скан-копия документа</TableRowColumn>
-                                <TableRowColumn>{this.state.certificate.documentCopy}</TableRowColumn>
+                                <TableRowColumn>{this.props.certificate.documentCopy}</TableRowColumn>
                             </TableRow>
                         </TableBody>
                     </Table>
