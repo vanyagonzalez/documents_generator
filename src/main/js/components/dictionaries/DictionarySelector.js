@@ -64,10 +64,12 @@ class DictionarySelector extends React.Component {
             selectedData: {
                 organization: {},
                 person: {},
+                employee: {},
             },
             updatingData: {
                 organization: {},
                 person: {},
+                employee: {},
             }
         };
 
@@ -175,16 +177,22 @@ class DictionarySelector extends React.Component {
                     <ButtonsBlock
                         style={buttonsBlockStyle}
                         onCreate={() => this.onCreate("employee")}
+                        onUpdate={() => this.onUpdate("employee")}
                     />
                     <Employees
+                        employee={this.state.selectedData.employee}
                         allEmployees={this.props.allEmployees}
+                        onSelect={this.onSelect}
                         styles={styles}
                     />
                     <EmployeeDlg
                         open={this.state.dlgOpeningState.employee}
                         onClose={() => this.onClose("employee")}
-                        organizations={this.props.allOrganizations}
+                        onDataUpdate={this.onDataUpdate}
                         loadEmployees={this.props.loadEmployees}
+                        updatingEmployee={this.state.updatingData.employee}
+                        persons={this.props.allPersons}
+                        organizations={this.props.allOrganizations}
                     />
                 </div>
         } else if (this.props.dictionary === "certificates") {

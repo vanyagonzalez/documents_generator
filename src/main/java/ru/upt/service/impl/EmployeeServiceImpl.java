@@ -6,6 +6,7 @@ import ru.upt.model.Employee;
 import ru.upt.model.Organization;
 import ru.upt.repository.EmployeeCrudRepository;
 import ru.upt.repository.OrganizationCrudRepository;
+import ru.upt.repository.PersonCrudRepository;
 import ru.upt.service.EmployeeService;
 
 import java.util.ArrayList;
@@ -16,10 +17,14 @@ import java.util.Set;
 @Service
 public class EmployeeServiceImpl implements EmployeeService {
     private final EmployeeCrudRepository employeeCrudRepository;
+    private final PersonCrudRepository personCrudRepository;
+    private final OrganizationCrudRepository organizationCrudRepository;
 
     @Autowired
-    public EmployeeServiceImpl(EmployeeCrudRepository employeeCrudRepository) {
+    public EmployeeServiceImpl(EmployeeCrudRepository employeeCrudRepository, PersonCrudRepository personCrudRepository, OrganizationCrudRepository organizationCrudRepository) {
         this.employeeCrudRepository = employeeCrudRepository;
+        this.personCrudRepository = personCrudRepository;
+        this.organizationCrudRepository = organizationCrudRepository;
     }
 
     @Override
@@ -36,6 +41,14 @@ public class EmployeeServiceImpl implements EmployeeService {
 
     @Override
     public Employee save(Employee employee) {
-        return employeeCrudRepository.save(employee);
+        //todo не возвращает значения полей у объектов после сохранения
+        Employee saved = employeeCrudRepository.save(employee);
+        if (saved.getPerson() != null) {
+            saved.setPerson(personCrudRepository.findOne(saved.getPerson().getId()));
+        }
+        if (saved.getOrganization() != null) {
+            saved.setOrganization(organizationCrudRepository.findOne(saved.getOrganization().getId()));
+        }
+        return saved;
     }
 }

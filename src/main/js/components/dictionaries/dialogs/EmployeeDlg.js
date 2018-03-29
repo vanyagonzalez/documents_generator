@@ -4,22 +4,9 @@ import Dialog from 'material-ui/Dialog';
 import FlatButton from 'material-ui/FlatButton';
 import TextField from 'material-ui/TextField';
 import DatePicker from 'material-ui/DatePicker';
-import {
-    Table,
-    TableBody,
-    TableFooter,
-    TableHeader,
-    TableHeaderColumn,
-    TableRow,
-    TableRowColumn,
-} from 'material-ui/Table';
+import SelectField from 'material-ui/SelectField';
+import MenuItem from 'material-ui/MenuItem';
 import $ from 'jquery';
-
-
-const dialogStyle = {
-    width: '60%',
-    maxWidth: 'none',
-};
 
 const floatLeftStyle = {
     float: "left",
@@ -42,32 +29,63 @@ class  EmployeeDlg extends React.Component {
         super(props);
         this.state = {
             newEmployee: {
-                organizations: [],
+                person: {},
+                organization: {},
             },
+            btnLabel: "btnLabel",
         };
         this.handleSubmit = this.handleSubmit.bind(this);
         this.onChange = this.onChange.bind(this);
         this.onChangeDate = this.onChangeDate.bind(this);
-        this.onRowSelection = this.onRowSelection.bind(this);
+        this.onChangeSelect = this.onChangeSelect.bind(this);
+    }
+
+    componentWillReceiveProps(nextProps) {
+        const updatingEmployee = nextProps.updatingEmployee;
+
+        let state = this.state;
+        state.newEmployee = {
+            person: {},
+            organization: {},
+        };
+        if (updatingEmployee !== null && updatingEmployee.id) {
+            state.restMethod = "PUT";
+            let fio;
+            if (updatingEmployee.person) {
+                fio = updatingEmployee.person.fio;
+            }
+            state.dlgTitle = "Изменение рабочего: " + fio;
+            state.btnLabel = "Редактировать";
+
+            state.newEmployee.id=updatingEmployee.id;
+            state.newEmployee.person=updatingEmployee.person;
+            state.newEmployee.organization=updatingEmployee.organization;
+            state.newEmployee.position=updatingEmployee.position;
+            state.newEmployee.orderNumber=updatingEmployee.orderNumber;
+            state.newEmployee.orderDate=updatingEmployee.orderDate;
+        } else {
+            state.restMethod = "POST";
+            state.dlgTitle = "Новая персона";
+            state.btnLabel = "Создать";
+        }
     }
 
     handleSubmit(e){
         e.preventDefault();
         let loadEmployees = this.props.loadEmployees;
-        let organizations = this.props.organizations;
+        let newEmployee = this.state.newEmployee;
+        let onDataUpdate = this.props.onDataUpdate;
 
         $.ajax({
             url: '/rest/employee',
             type: 'POST',
-            data: JSON.stringify(this.state.newEmployee),
+            data: JSON.stringify(newEmployee),
             contentType: 'application/json; charset=utf-8',
             dataType: 'json',
             async: false,
             success: function(msg) {
                 loadEmployees();
-                organizations.forEach((obj) => {
-                    obj.selected = false;
-                });
+                onDataUpdate("employee", msg);
             }
         });
 
@@ -86,109 +104,70 @@ class  EmployeeDlg extends React.Component {
         this.setState(state);
     }
 
-    onRowSelection(rows, type) {
-        let state = this.state;
-
-        const selected = [];
-        this.props[type].forEach((obj, i) => {
-            if (rows.indexOf(i) > -1) {
-                selected.push(obj);
-            }
-            obj.selected = rows.indexOf(i) > -1;
-        });
-
-        state.newEmployee[type] = selected;
+    onChangeSelect(name, value){
+        const state = this.state;
+        state.newEmployee[name].id = value;
         this.setState(state);
-    };
+    }
 
     render() {
         const actions = [
             <FlatButton label="Отмена" onClick={this.props.onClose} primary={true} key="cancel"/>,
-            <FlatButton type="submit" label="Создать" primary={true} key="submit"/>,
+            <FlatButton type="submit" label={this.state.btnLabel} primary={true} key="submit"/>,
         ];
+
+        let persons = [];
+        this.props.persons.forEach(function(person) {
+            persons.push(<MenuItem key={"person_" + person.id} value={person.id} primaryText={person.fio} />);
+        });
 
         let organizations = [];
         this.props.organizations.forEach(function(organization) {
-            organizations.push(
-                <TableRow key={"organization_" + organization.id} selected={organization.selected}>
-                    <TableRowColumn>{organization.name}</TableRowColumn>
-                </TableRow>
-            );
+            organizations.push(<MenuItem key={"organization_" + organization.id} value={organization.id} primaryText={organization.name} />);
         });
 
-        let selectedOrganizations = [];
-        this.state.newEmployee.organizations.forEach(function(organization) {
-            selectedOrganizations.push(
-                <TableRow key={"selectedOrganization_" + organization.id}>
-                    <TableRowColumn>{organization.name}</TableRowColumn>
-                </TableRow>
-            );
-        });
+        let orderDate;
+        if (this.state.newEmployee.orderDate) {
+            orderDate = new Date(this.state.newEmployee.orderDate);
+        }
 
         return (
             <div>
                 <Dialog
-                    title="Новый сотрудник"
+                    title={this.state.dlgTitle}
                     modal={true}
                     open={this.props.open}
                     onRequestClose={this.props.onClose}
-                    contentStyle={dialogStyle}
                 >
                     <form onSubmit={this.handleSubmit}>
-                        <TextField name="surname" floatingLabelText="Фамилия" onChange={this.onChange} style={marginRight}/>
-                        <TextField name="name" floatingLabelText="Имя" onChange={this.onChange} style={marginRight}/>
-                        <TextField name="middleName" floatingLabelText="Отчество" onChange={this.onChange}/>
+                        <SelectField value={this.state.newEmployee.person.id} floatingLabelText="Персона"
+                                     onChange={(event, index, value) => this.onChangeSelect("person", value)}>
+                            {persons}
+                        </SelectField>
                         <br/>
-                        <TextField name="position" floatingLabelText="Должность" onChange={this.onChange}/>
+                        <SelectField value={this.state.newEmployee.organization.id} floatingLabelText="Организация"
+                                     onChange={(event, index, value) => this.onChangeSelect("organization", value)}>
+                            {organizations}
+                        </SelectField>
                         <br/>
-                        <TextField name="orderNumber" floatingLabelText="Номер приказа о назначении на должность" onChange={this.onChange} style={marginRight}/>
+                        <TextField
+                            name="position"
+                            floatingLabelText="Должность"
+                            defaultValue={this.state.newEmployee.position}
+                            onChange={this.onChange}/>
+                        <br/>
+                        <TextField
+                            name="orderNumber"
+                            floatingLabelText="Номер приказа о назначении на должность"
+                            onChange={this.onChange}
+                            defaultValue={this.state.newEmployee.orderNumber}
+                            style={marginRight}/>
                         <DatePicker
                             floatingLabelText="Дата приказа о назначении на должность"
-                            locale="ru"
+                            defaultDate={orderDate}
                             onChange={(e, date) => this.onChangeDate(date, "orderDate")}
                         />
                         <br/>
-                        <div style={floatLeftStyle}>
-                            <Table
-                                height={tableHeight}
-                                selectable={true}
-                                fixedHeader={true}
-                                multiSelectable={true}
-                                className={"tableForSelecting"}
-                                onRowSelection={(rows) => this.onRowSelection(rows, "organizations")}>
-                                <TableHeader displaySelectAll={false} adjustForCheckbox={false} enableSelectAll={false}>
-                                    <TableRow>
-                                        <TableHeaderColumn colSpan="2" style={{textAlign: 'center'}}>
-                                            Возможные организации
-                                        </TableHeaderColumn>
-                                    </TableRow>
-                                </TableHeader>
-                                <TableBody
-                                    displayRowCheckbox={true}
-                                    className={"tableBodyForSelecting"}
-                                    deselectOnClickaway={false}>
-                                    {organizations}
-                                </TableBody>
-                            </Table>
-                        </div>
-                        <div style={floatRightStyle}>
-                            <Table
-                                height={tableHeight}
-                                fixedHeader={true}
-                                className={"tableForSelecting"}>
-                                <TableHeader displaySelectAll={false} adjustForCheckbox={false} enableSelectAll={false}>
-                                    <TableRow>
-                                        <TableHeaderColumn colSpan="2" style={{textAlign: 'center'}}>
-                                            Выбранные организации
-                                        </TableHeaderColumn>
-                                    </TableRow>
-                                </TableHeader>
-                                <TableBody displayRowCheckbox={false} className={"tableBodyForSelecting"}>
-                                    {selectedOrganizations}
-                                </TableBody>
-                            </Table>
-                        </div>
-
                         {actions}
                     </form>
                 </Dialog>
