@@ -9,7 +9,6 @@ import {
     TableRow,
     TableRowColumn,
 } from 'material-ui/Table';
-import $ from 'jquery';
 
 class Organizations extends React.Component {
     constructor(props) {
@@ -26,15 +25,7 @@ class Organizations extends React.Component {
             }
         });
 
-        let onSelect=this.props.onSelect;
-        if (selectedId) {
-            let self = this;
-            $.ajax({
-                url: "/rest/organization/" + selectedId
-            }).then(function (data) {
-                onSelect("organization", data);
-            });
-        }
+        this.props.onSelect("organization", selectedId);
     };
 
     render() {

@@ -25,7 +25,9 @@ class PersonDlg extends React.Component {
 
         let state = this.state;
         state.newPerson={};
+        state.isUpdate=false;
         if (updatingPerson !== null) {
+            state.isUpdate=true;
             state.restMethod = "PUT";
             state.dlgTitle = "Изменение персоны: " + updatingPerson.fio;
             state.btnLabel = "Редактировать";
@@ -44,20 +46,23 @@ class PersonDlg extends React.Component {
     handleSubmit(e){
         e.preventDefault();
         let loadPersons = this.props.loadPersons;
+        let loadEmployees = this.props.loadEmployees;
         let onDataUpdate = this.props.onDataUpdate;
-        //нужен клон, чтоб не менялись поля у выбранного объекта
-        let newPerson = $.extend({}, this.state.newPerson);
+        let isUpdate = this.state.isUpdate;
 
         $.ajax({
             url: '/rest/person',
             type: this.state.restMethod,
-            data: JSON.stringify(newPerson),
+            data: JSON.stringify(this.state.newPerson),
             contentType: 'application/json; charset=utf-8',
             dataType: 'json',
             async: false,
             success: function(msg) {
                 loadPersons();
-                onDataUpdate("person", msg);
+                if (isUpdate) {
+                    loadEmployees();
+                }
+                onDataUpdate("person", msg.id);
             }
         });
 

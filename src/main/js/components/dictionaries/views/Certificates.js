@@ -27,15 +27,7 @@ class Certificates extends React.Component {
             }
         });
 
-        let onSelect=this.props.onSelect;
-        if (selectedId) {
-            let self = this;
-            $.ajax({
-                url: "/rest/certificate/" + selectedId
-            }).then(function (data) {
-                onSelect("certificate", data);
-            });
-        }
+        this.props.onSelect("certificate", selectedId);
     };
 
     render() {

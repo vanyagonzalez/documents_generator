@@ -56,7 +56,7 @@ class ConfirmationDlg extends React.Component {
             async: false,
             success: function(msg) {
                 loadConfirmations();
-                onDataUpdate("confirmation", msg);
+                onDataUpdate("confirmation", msg.id);
             }
         });
 

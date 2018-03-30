@@ -10,7 +10,6 @@ import {
     TableRowColumn,
 } from 'material-ui/Table';
 import {List, ListItem} from 'material-ui/List';
-import $ from 'jquery';
 
 class Employees extends React.Component {
     constructor(props) {
@@ -35,13 +34,7 @@ class Employees extends React.Component {
     };
 
     selectEmployee(selectedId) {
-        let self = this.state;
-        let onSelect = this.props.onSelect;
-        $.ajax({
-            url: "/rest/employee/" + selectedId
-        }).then(function (data) {
-            onSelect("employee", data);
-        });
+        this.props.onSelect("employee", selectedId);
     };
 
     render() {

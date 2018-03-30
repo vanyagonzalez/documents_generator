@@ -61,7 +61,7 @@ class CertificateDlg extends React.Component {
             async: false,
             success: function(msg) {
                 loadCertificates();
-                onDataUpdate("certificate", msg);
+                onDataUpdate("certificate", msg.id);
             }
         });
 

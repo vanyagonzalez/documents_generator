@@ -10,7 +10,6 @@ class OrganizationDlg extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            isCreate: null,
             restMethod: null,
             dlgTitle: null,
             btnLabel: "Не задан",
@@ -25,8 +24,10 @@ class OrganizationDlg extends React.Component {
         const updatingOrganization = nextProps.updatingOrganization;
 
         let state = this.state;
+        state.newOrganization={};
+        state.isUpdate=false;
         if (updatingOrganization !== null) {
-            state.isCreate = false;
+            state.isUpdate=true;
             state.restMethod = "PUT";
             state.dlgTitle = "Изменение организации: " + updatingOrganization.name;
             state.btnLabel = "Редактировать";
@@ -45,37 +46,33 @@ class OrganizationDlg extends React.Component {
             state.newOrganization.phoneNumber=updatingOrganization.phoneNumber;
             state.newOrganization.faxNumber=updatingOrganization.faxNumber;
         } else {
-            state.isCreate = true;
             state.restMethod = "POST";
             state.dlgTitle = "Новая организация";
             state.btnLabel = "Создать";
             state.sroIssuedDate = null;
-            Object.keys(state.newOrganization).forEach(function(key,index) {
-                state.newOrganization[key] = null;
-            });
         }
     }
 
     handleSubmit(e){
         e.preventDefault();
         let loadOrganizations = this.props.loadOrganizations;
+        let loadEmployees = this.props.loadEmployees;
         let onDataUpdate = this.props.onDataUpdate;
-        let isCreate = this.state.isCreate;
-        //нужен клон, чтоб не менялись поля у выбранного объекта
-        let newOrganization = $.extend({}, this.state.newOrganization);
+        let isUpdate = this.state.isUpdate;
 
         $.ajax({
             url: '/rest/organization',
             type: this.state.restMethod,
-            data: JSON.stringify(newOrganization),
+            data: JSON.stringify(this.state.newOrganization),
             contentType: 'application/json; charset=utf-8',
             dataType: 'json',
             async: false,
             success: function(msg) {
                 loadOrganizations();
-                if (!isCreate) {
-                    onDataUpdate("organization", newOrganization);
+                if (isUpdate) {
+                    loadEmployees();
                 }
+                onDataUpdate("organization", msg.id);
             }
         });
 

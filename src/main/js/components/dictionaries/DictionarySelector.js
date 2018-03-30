@@ -14,6 +14,7 @@ import Certificates from './views/Certificates'
 import CertificateDlg from './dialogs/CertificateDlg'
 import Confirmations from './views/Confirmations'
 import ConfirmationDlg from './dialogs/ConfirmationDlg'
+import $ from 'jquery';
 
 const width = '45%';
 
@@ -110,14 +111,20 @@ class DictionarySelector extends React.Component {
         this.setState(self);
     }
 
-    onSelect(type, data) {
-        let self = this.state;
-        self.selectedData[type] = data;
-        this.setState(self);
+    onSelect(type, selectedId) {
+        if (selectedId) {
+            let self = this;
+            $.ajax({
+                url: "/rest/" + type + "/" + selectedId
+            }).then(function (data) {
+                self.state.selectedData[type] = data;
+                self.setState(self.state);
+            });
+        }
     }
 
-    onDataUpdate(type, data) {
-        this.onSelect(type, data);
+    onDataUpdate(type, selectedId) {
+        this.onSelect(type, selectedId);
     }
 
     handleOpenError() {
@@ -150,6 +157,7 @@ class DictionarySelector extends React.Component {
                         onClose={() => this.onClose("organization")}
                         onDataUpdate={this.onDataUpdate}
                         loadOrganizations={this.props.loadOrganizations}
+                        loadEmployees={this.props.loadEmployees}
                         updatingOrganization={this.state.updatingData.organization}
                     />
                 </div>
@@ -172,6 +180,7 @@ class DictionarySelector extends React.Component {
                         onClose={() => this.onClose("person")}
                         onDataUpdate={this.onDataUpdate}
                         loadPersons={this.props.loadPersons}
+                        loadEmployees={this.props.loadEmployees}
                         updatingPerson={this.state.updatingData.person}
                     />
                 </div>

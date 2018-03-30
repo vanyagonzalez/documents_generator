@@ -85,7 +85,7 @@ class  EmployeeDlg extends React.Component {
             async: false,
             success: function(msg) {
                 loadEmployees();
-                onDataUpdate("employee", msg);
+                onDataUpdate("employee", msg.id);
             }
         });
 

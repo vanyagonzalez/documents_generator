@@ -26,15 +26,7 @@ class Confirmations extends React.Component {
             }
         });
 
-        let onSelect=this.props.onSelect;
-        if (selectedId) {
-            let self = this;
-            $.ajax({
-                url: "/rest/confirmation/" + selectedId
-            }).then(function (data) {
-                onSelect("confirmation", data);
-            });
-        }
+        this.props.onSelect("confirmation", selectedId);
     };
 
     render() {
