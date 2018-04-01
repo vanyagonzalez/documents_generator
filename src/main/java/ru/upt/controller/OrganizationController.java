@@ -48,4 +48,10 @@ public class OrganizationController {
                 organizationService.save(OrganizationConverter.convertFromDto(constructionObjectDto))
         );
     }
+
+    @RequestMapping(method = RequestMethod.DELETE, value = "/organization")
+    public Boolean deleteOrganization(@RequestBody OrganizationDto constructionObjectDto) {
+        organizationService.delete(OrganizationConverter.convertFromDto(constructionObjectDto));
+        return Boolean.TRUE;
+    }
 }

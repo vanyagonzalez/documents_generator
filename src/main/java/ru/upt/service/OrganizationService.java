@@ -8,4 +8,5 @@ public interface OrganizationService {
     List<Organization> getAll();
     Organization getById(Long id);
     Organization save(Organization organization);
+    void delete(Organization organization);
 }

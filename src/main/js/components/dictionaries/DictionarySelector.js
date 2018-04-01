@@ -55,6 +55,7 @@ class DictionarySelector extends React.Component {
 
         this.state = {
             openError: false,
+            operation: "not found",
             dlgOpeningState: {
                 organization: false,
                 person: false,
@@ -69,7 +70,7 @@ class DictionarySelector extends React.Component {
                 certificate: {},
                 confirmation: {},
             },
-            updatingData: {
+            dlgData: {
                 organization: {},
                 person: {},
                 employee: {},
@@ -79,6 +80,9 @@ class DictionarySelector extends React.Component {
         };
 
         this.onCreate = this.onCreate.bind(this);
+        this.onUpdate = this.onUpdate.bind(this);
+        this.onDelete = this.onDelete.bind(this);
+        this.prepareDlgData = this.prepareDlgData.bind(this);
         this.onClose = this.onClose.bind(this);
         this.onSelect = this.onSelect.bind(this);
         this.onDataUpdate = this.onDataUpdate.bind(this);
@@ -89,37 +93,54 @@ class DictionarySelector extends React.Component {
     onCreate(type) {
         let self = this.state;
         self.dlgOpeningState[type] = true;
-        self.updatingData[type] = null;
+        self.dlgData[type] = null;
+        self.operation = "create";
         this.setState(self);
     }
 
-    onUpdate(type) {
+    prepareDlgData(type) {
         let self = this.state;
         if (!self.selectedData[type].id) {
-            self.openError=true;
+            self.openError = true;
         } else {
             self.dlgOpeningState[type] = true;
-            self.updatingData[type] = self.selectedData[type];
+            self.dlgData[type] = self.selectedData[type];
         }
+    }
+
+    onUpdate(type) {
+        this.prepareDlgData(type);
+        let self = this.state;
+        self.operation = "update";
+        this.setState(self);
+    }
+
+    onDelete(type) {
+        this.prepareDlgData(type);
+        let self = this.state;
+        self.operation = "delete";
         this.setState(self);
     }
 
     onClose(type) {
         let self = this.state;
         self.dlgOpeningState[type] = false;
-        self.updatingData[type] = null;
+        self.dlgData[type] = {};
         this.setState(self);
     }
 
     onSelect(type, selectedId) {
+        let self = this;
         if (selectedId) {
-            let self = this;
             $.ajax({
                 url: "/rest/" + type + "/" + selectedId
             }).then(function (data) {
                 self.state.selectedData[type] = data;
                 self.setState(self.state);
             });
+        } else {
+            self.state.selectedData[type] = {};
+            self.setState(self.state);
         }
     }
 
@@ -145,6 +166,7 @@ class DictionarySelector extends React.Component {
                         style={buttonsBlockStyle}
                         onCreate={() => this.onCreate("organization")}
                         onUpdate={() => this.onUpdate("organization")}
+                        onDelete={() => this.onDelete("organization")}
                     />
                     <Organizations
                         organization={this.state.selectedData.organization}
@@ -154,11 +176,12 @@ class DictionarySelector extends React.Component {
                     />
                     <OrganizationDlg
                         open={this.state.dlgOpeningState.organization}
+                        operation={this.state.operation}
                         onClose={() => this.onClose("organization")}
                         onDataUpdate={this.onDataUpdate}
                         loadOrganizations={this.props.loadOrganizations}
                         loadEmployees={this.props.loadEmployees}
-                        updatingOrganization={this.state.updatingData.organization}
+                        dlgData={this.state.dlgData.organization}
                     />
                 </div>
         } else if (this.props.dictionary === "persons") {
@@ -168,6 +191,7 @@ class DictionarySelector extends React.Component {
                         style={buttonsBlockStyle}
                         onCreate={() => this.onCreate("person")}
                         onUpdate={() => this.onUpdate("person")}
+                        onDelete={() => this.onDelete("person")}
                     />
                     <Persons
                         person={this.state.selectedData.person}
@@ -181,7 +205,7 @@ class DictionarySelector extends React.Component {
                         onDataUpdate={this.onDataUpdate}
                         loadPersons={this.props.loadPersons}
                         loadEmployees={this.props.loadEmployees}
-                        updatingPerson={this.state.updatingData.person}
+                        updatingPerson={this.state.dlgData.person}
                     />
                 </div>
         } else if (this.props.dictionary === "employees") {
@@ -191,6 +215,7 @@ class DictionarySelector extends React.Component {
                         style={buttonsBlockStyle}
                         onCreate={() => this.onCreate("employee")}
                         onUpdate={() => this.onUpdate("employee")}
+                        onDelete={() => this.onDelete("employee")}
                     />
                     <Employees
                         employee={this.state.selectedData.employee}
@@ -203,7 +228,7 @@ class DictionarySelector extends React.Component {
                         onClose={() => this.onClose("employee")}
                         onDataUpdate={this.onDataUpdate}
                         loadEmployees={this.props.loadEmployees}
-                        updatingEmployee={this.state.updatingData.employee}
+                        updatingEmployee={this.state.dlgData.employee}
                         persons={this.props.allPersons}
                         organizations={this.props.allOrganizations}
                     />
@@ -215,6 +240,7 @@ class DictionarySelector extends React.Component {
                         style={buttonsBlockStyle}
                         onCreate={() => this.onCreate("certificate")}
                         onUpdate={() => this.onUpdate("certificate")}
+                        onDelete={() => this.onDelete("certificate")}
                     />
                     <Certificates
                         certificate={this.state.selectedData.certificate}
@@ -227,7 +253,7 @@ class DictionarySelector extends React.Component {
                         onClose={() => this.onClose("certificate")}
                         onDataUpdate={this.onDataUpdate}
                         loadCertificates={this.props.loadCertificates}
-                        updatingCertificate={this.state.updatingData.certificate}
+                        updatingCertificate={this.state.dlgData.certificate}
                     />
                 </div>
         } else if (this.props.dictionary === "confirmations") {
@@ -237,6 +263,7 @@ class DictionarySelector extends React.Component {
                         style={buttonsBlockStyle}
                         onCreate={() => this.onCreate("confirmation")}
                         onUpdate={() => this.onUpdate("confirmation")}
+                        onDelete={() => this.onDelete("confirmation")}
                     />
                     <Confirmations
                         confirmation={this.state.selectedData.confirmation}
@@ -249,7 +276,7 @@ class DictionarySelector extends React.Component {
                         onClose={() => this.onClose("confirmation")}
                         onDataUpdate={this.onDataUpdate}
                         loadConfirmations={this.props.loadConfirmations}
-                        updatingConfirmation={this.state.updatingData.confirmation}
+                        updatingConfirmation={this.state.dlgData.confirmation}
                     />
                 </div>
         }

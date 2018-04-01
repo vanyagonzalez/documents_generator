@@ -3,6 +3,7 @@ package ru.upt.service.impl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import ru.upt.model.Organization;
+import ru.upt.repository.EmployeeCrudRepository;
 import ru.upt.repository.OrganizationCrudRepository;
 import ru.upt.service.OrganizationService;
 
@@ -33,5 +34,10 @@ public class OrganizationServiceImpl implements OrganizationService {
     @Override
     public Organization save(Organization organization) {
         return organizationCrudRepository.save(organization);
+    }
+
+    @Override
+    public void delete(Organization organization) {
+        organizationCrudRepository.delete(organization);
     }
 }

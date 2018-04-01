@@ -58,7 +58,7 @@ public class Organization {
     /**
      * Список сотрудников
      */
-    @OneToMany(targetEntity=Employee.class, mappedBy="organization", fetch= FetchType.EAGER)
+    @OneToMany(targetEntity=Employee.class, mappedBy="organization", fetch= FetchType.EAGER, cascade = CascadeType.ALL, orphanRemoval = true)
     private Set<Employee> employees = new LinkedHashSet<>();
 
     public Organization(String name, String ogrn, String inn) {

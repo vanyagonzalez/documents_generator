@@ -1,8 +1,11 @@
 package ru.upt.model;
 
 import lombok.*;
+import org.hibernate.annotations.*;
 
 import javax.persistence.*;
+import javax.persistence.Entity;
+import javax.persistence.ForeignKey;
 import java.util.LinkedHashSet;
 import java.util.Set;
 
