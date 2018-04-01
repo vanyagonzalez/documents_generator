@@ -8,4 +8,5 @@ public interface PersonService {
     List<Person> getAll();
     Person getById(Long id);
     Person save(Person employee);
+    void delete(Person employee);
 }

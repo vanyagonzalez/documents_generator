@@ -6,7 +6,7 @@ import TextField from 'material-ui/TextField';
 import DatePicker from 'material-ui/DatePicker';
 import $ from 'jquery';
 
-const create = "creacte";
+const create = "create";
 const update = "update";
 const del = "delete";
 

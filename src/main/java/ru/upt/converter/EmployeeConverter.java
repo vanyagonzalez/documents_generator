@@ -8,7 +8,7 @@ public class EmployeeConverter {
     public static BasicEmployeeDto convertToBasicDto(Employee employee) {
         return new BasicEmployeeDto(
                 employee.getId(),
-                PersonConverter.convertToBasicDto(employee.getPerson()),
+                employee.getPerson() != null ? PersonConverter.convertToBasicDto(employee.getPerson()) : null,
                 OrganizationConverter.convertToBasicDto(employee.getOrganization()),
                 employee.getPosition()
         );
@@ -20,7 +20,7 @@ public class EmployeeConverter {
         }
         return new Employee(
                 basicEmployeeDto.getId(),
-                PersonConverter.convertFromBasicDto(basicEmployeeDto.getPerson()),
+                basicEmployeeDto.getPerson() != null ? PersonConverter.convertFromBasicDto(basicEmployeeDto.getPerson()) : null,
                 OrganizationConverter.convertFromBasicDto(basicEmployeeDto.getOrganization()),
                 basicEmployeeDto.getPosition()
         );
@@ -33,7 +33,7 @@ public class EmployeeConverter {
 
         return new EmployeeDto(
                 employee.getId(),
-                PersonConverter.convertToBasicDto(employee.getPerson()),
+                employee.getPerson() != null ? PersonConverter.convertToBasicDto(employee.getPerson()) : null,
                 OrganizationConverter.convertToBasicDto(employee.getOrganization()),
                 employee.getPosition(),
                 employee.getOrderNumber(),
@@ -48,7 +48,7 @@ public class EmployeeConverter {
 
         return new Employee(
                 employeeDto.getId(),
-                PersonConverter.convertFromBasicDto(employeeDto.getPerson()),
+                employeeDto.getPerson() != null ? PersonConverter.convertFromBasicDto(employeeDto.getPerson()) : null,
                 OrganizationConverter.convertFromBasicDto(employeeDto.getOrganization()),
                 employeeDto.getPosition(),
                 employeeDto.getOrderNumber(),

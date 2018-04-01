@@ -40,4 +40,10 @@ public class PersonController {
     public PersonDto putPerson(@RequestBody PersonDto employeeDto) {
         return PersonConverter.convertToDto(personService.save(PersonConverter.convertFromDto(employeeDto)));
     }
+
+    @RequestMapping(method = RequestMethod.DELETE, value = "/person")
+    public Boolean deletePerson(@RequestBody PersonDto employeeDto) {
+        personService.delete(PersonConverter.convertFromDto(employeeDto));
+        return Boolean.TRUE;
+    }
 }

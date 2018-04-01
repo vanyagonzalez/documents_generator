@@ -44,7 +44,7 @@ CREATE TABLE employee (
   person_id       BIGINT,
   PRIMARY KEY (id),
   CONSTRAINT e_organization_id FOREIGN KEY (organization_id) REFERENCES organization,
-  CONSTRAINT e_person_id FOREIGN KEY (person_id) REFERENCES person
+  CONSTRAINT e_person_id FOREIGN KEY (person_id) REFERENCES person ON DELETE SET NULL
 );
 
 CREATE TABLE certificate (

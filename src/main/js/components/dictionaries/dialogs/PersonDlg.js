@@ -6,6 +6,10 @@ import TextField from 'material-ui/TextField';
 import DatePicker from 'material-ui/DatePicker';
 import $ from 'jquery';
 
+const create = "create";
+const update = "update";
+const del = "delete";
+
 class PersonDlg extends React.Component {
     constructor(props) {
         super(props);
@@ -21,25 +25,30 @@ class PersonDlg extends React.Component {
     }
 
     componentWillReceiveProps(nextProps) {
-        const updatingPerson = nextProps.updatingPerson;
+        const operation = nextProps.operation;
 
         let state = this.state;
         state.newPerson={};
-        state.isUpdate=false;
-        if (updatingPerson !== null) {
-            state.isUpdate=true;
-            state.restMethod = "PUT";
-            state.dlgTitle = "Изменение персоны: " + updatingPerson.fio;
-            state.btnLabel = "Редактировать";
-
-            state.newPerson.id=updatingPerson.id;
-            state.newPerson.surname=updatingPerson.surname;
-            state.newPerson.name=updatingPerson.name;
-            state.newPerson.middleName=updatingPerson.middleName;
-        } else {
+        if (operation === create) {
             state.restMethod = "POST";
             state.dlgTitle = "Новая персона";
             state.btnLabel = "Создать";
+        } else if (operation === update || operation === del) {
+            const dlgData = nextProps.dlgData;
+            state.newPerson.id=dlgData.id;
+            state.newPerson.surname=dlgData.surname;
+            state.newPerson.name=dlgData.name;
+            state.newPerson.middleName=dlgData.middleName;
+
+            if (operation === update) {
+                state.restMethod = "PUT";
+                state.dlgTitle = "Изменение персоны: " + dlgData.fio;
+                state.btnLabel = "Редактировать";
+            } else {
+                state.restMethod = "DELETE";
+                state.dlgTitle = "Удаление персоны: " + dlgData.fio;
+                state.btnLabel = "Удалить";
+            }
         }
     }
 
@@ -48,7 +57,7 @@ class PersonDlg extends React.Component {
         let loadPersons = this.props.loadPersons;
         let loadEmployees = this.props.loadEmployees;
         let onDataUpdate = this.props.onDataUpdate;
-        let isUpdate = this.state.isUpdate;
+        const operation = this.props.operation;
 
         $.ajax({
             url: '/rest/person',
@@ -59,10 +68,14 @@ class PersonDlg extends React.Component {
             async: false,
             success: function(msg) {
                 loadPersons();
-                if (isUpdate) {
+                if (operation !== create) {
                     loadEmployees();
                 }
-                onDataUpdate("person", msg.id);
+                if (operation !== del) {
+                    onDataUpdate("person", msg.id);
+                } else {
+                    onDataUpdate("person", null);
+                }
             }
         });
 
@@ -85,6 +98,8 @@ class PersonDlg extends React.Component {
             <FlatButton type="submit" label={this.state.btnLabel} primary={true} key="submit"/>,
         ];
 
+        const isDisabled = this.props.operation === del;
+
         return (
             <div>
                 <Dialog
@@ -94,11 +109,11 @@ class PersonDlg extends React.Component {
                     onRequestClose={this.props.onClose}
                 >
                     <form onSubmit={this.handleSubmit}>
-                        <TextField name="surname" floatingLabelText="Фамилия" defaultValue={this.state.newPerson.surname} onChange={this.onChange}/>
+                        <TextField name="surname" floatingLabelText="Фамилия" disabled={isDisabled} defaultValue={this.state.newPerson.surname} onChange={this.onChange}/>
                         <br/>
-                        <TextField name="name" floatingLabelText="Имя" defaultValue={this.state.newPerson.name} onChange={this.onChange}/>
+                        <TextField name="name" floatingLabelText="Имя" disabled={isDisabled} defaultValue={this.state.newPerson.name} onChange={this.onChange}/>
                         <br/>
-                        <TextField name="middleName" floatingLabelText="Отчество" defaultValue={this.state.newPerson.middleName} onChange={this.onChange}/>
+                        <TextField name="middleName" floatingLabelText="Отчество" disabled={isDisabled} defaultValue={this.state.newPerson.middleName} onChange={this.onChange}/>
                         <br/>
                         {actions}
                     </form>

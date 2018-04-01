@@ -201,11 +201,12 @@ class DictionarySelector extends React.Component {
                     />
                     <PersonDlg
                         open={this.state.dlgOpeningState.person}
+                        operation={this.state.operation}
                         onClose={() => this.onClose("person")}
                         onDataUpdate={this.onDataUpdate}
                         loadPersons={this.props.loadPersons}
                         loadEmployees={this.props.loadEmployees}
-                        updatingPerson={this.state.dlgData.person}
+                        dlgData={this.state.dlgData.person}
                     />
                 </div>
         } else if (this.props.dictionary === "employees") {
@@ -225,12 +226,13 @@ class DictionarySelector extends React.Component {
                     />
                     <EmployeeDlg
                         open={this.state.dlgOpeningState.employee}
+                        operation={this.state.operation}
                         onClose={() => this.onClose("employee")}
                         onDataUpdate={this.onDataUpdate}
                         loadEmployees={this.props.loadEmployees}
-                        updatingEmployee={this.state.dlgData.employee}
                         persons={this.props.allPersons}
                         organizations={this.props.allOrganizations}
+                        dlgData={this.state.dlgData.employee}
                     />
                 </div>
         } else if (this.props.dictionary === "certificates") {
@@ -250,10 +252,11 @@ class DictionarySelector extends React.Component {
                     />
                     <CertificateDlg
                         open={this.state.dlgOpeningState.certificate}
+                        operation={this.state.operation}
                         onClose={() => this.onClose("certificate")}
                         onDataUpdate={this.onDataUpdate}
                         loadCertificates={this.props.loadCertificates}
-                        updatingCertificate={this.state.dlgData.certificate}
+                        dlgData={this.state.dlgData.certificate}
                     />
                 </div>
         } else if (this.props.dictionary === "confirmations") {
@@ -273,10 +276,11 @@ class DictionarySelector extends React.Component {
                     />
                     <ConfirmationDlg
                         open={this.state.dlgOpeningState.confirmation}
+                        operation={this.state.operation}
                         onClose={() => this.onClose("confirmation")}
                         onDataUpdate={this.onDataUpdate}
                         loadConfirmations={this.props.loadConfirmations}
-                        updatingConfirmation={this.state.dlgData.confirmation}
+                        dlgData={this.state.dlgData.confirmation}
                     />
                 </div>
         }

@@ -60,10 +60,14 @@ class Employees extends React.Component {
             let employees = [];
             if (root.employees) {
                 root.employees.forEach(function (employee) {
+                    let personFio = "Иформация о персоне отсутствует";
+                    if (employee.person) {
+                        personFio = employee.person.fio;
+                    }
                     employees.push(
                         <ListItem
                             key={key + employee.id}
-                            primaryText={employee.person.fio + "; " + employee.position}
+                            primaryText={personFio + "; " + employee.position}
                             onClick={() => selectEmployee(employee.id)}
                         />
                     );
@@ -86,7 +90,7 @@ class Employees extends React.Component {
 
         });
 
-        let fio;
+        let fio = "Иформация о персоне отсутствует";
         if (this.props.employee.person) {
             fio = this.props.employee.person.fio;
         }
