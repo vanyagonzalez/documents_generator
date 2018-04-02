@@ -8,21 +8,13 @@ import SelectField from 'material-ui/SelectField';
 import MenuItem from 'material-ui/MenuItem';
 import $ from 'jquery';
 
-const floatLeftStyle = {
-    float: "left",
-    width: "50%",
-};
-
-const floatRightStyle = {
-    float: "right",
-    width: "50%",
-};
-
-const tableHeight = '150px';
-
 const marginRight = {
     marginRight: '50px',
 };
+
+const create = "create";
+const update = "update";
+const del = "delete";
 
 class  EmployeeDlg extends React.Component {
     constructor(props) {
@@ -41,51 +33,65 @@ class  EmployeeDlg extends React.Component {
     }
 
     componentWillReceiveProps(nextProps) {
-        const updatingEmployee = nextProps.updatingEmployee;
-
+        const operation = nextProps.operation;
         let state = this.state;
         state.newEmployee = {
             person: {},
             organization: {},
         };
-        if (updatingEmployee !== null && updatingEmployee.id) {
-            state.restMethod = "PUT";
-            let fio;
-            if (updatingEmployee.person) {
-                fio = updatingEmployee.person.fio;
-            }
-            state.dlgTitle = "Изменение рабочего: " + fio;
-            state.btnLabel = "Редактировать";
-
-            state.newEmployee.id=updatingEmployee.id;
-            state.newEmployee.person=updatingEmployee.person;
-            state.newEmployee.organization=updatingEmployee.organization;
-            state.newEmployee.position=updatingEmployee.position;
-            state.newEmployee.orderNumber=updatingEmployee.orderNumber;
-            state.newEmployee.orderDate=updatingEmployee.orderDate;
-        } else {
+        if (operation === create) {
             state.restMethod = "POST";
-            state.dlgTitle = "Новая персона";
+            state.dlgTitle = "Новый сотррудник";
             state.btnLabel = "Создать";
+        } else if (operation === update || operation === del) {
+            const dlgData = nextProps.dlgData;
+            state.newEmployee.id=dlgData.id;
+            if (dlgData.person) {
+                state.newEmployee.person = dlgData.person;
+            }
+            state.newEmployee.organization=dlgData.organization;
+            state.newEmployee.position=dlgData.position;
+            state.newEmployee.orderNumber=dlgData.orderNumber;
+            state.newEmployee.orderDate=dlgData.orderDate;
+
+            let fio;
+            if (dlgData.person) {
+                fio = dlgData.person.fio;
+            }
+
+            if (operation === update) {
+                state.restMethod = "PUT";
+                state.dlgTitle = "Изменение рабочего: " + fio;
+                state.btnLabel = "Редактировать";
+            } else {
+                state.restMethod = "DELETE";
+                state.dlgTitle = "Удаление рабочего: " + fio;
+                state.btnLabel = "Удалить";
+            }
+
         }
     }
 
     handleSubmit(e){
         e.preventDefault();
         let loadEmployees = this.props.loadEmployees;
-        let newEmployee = this.state.newEmployee;
         let onDataUpdate = this.props.onDataUpdate;
+        const operation = this.props.operation;
 
         $.ajax({
             url: '/rest/employee',
-            type: 'POST',
-            data: JSON.stringify(newEmployee),
+            type: this.state.restMethod,
+            data: JSON.stringify(this.state.newEmployee),
             contentType: 'application/json; charset=utf-8',
             dataType: 'json',
             async: false,
             success: function(msg) {
                 loadEmployees();
-                onDataUpdate("employee", msg.id);
+                if (operation !== del) {
+                    onDataUpdate("employee", msg.id);
+                } else {
+                    onDataUpdate("employee", null);
+                }
             }
         });
 
@@ -131,6 +137,18 @@ class  EmployeeDlg extends React.Component {
             orderDate = new Date(this.state.newEmployee.orderDate);
         }
 
+        let personId = null;
+        if (this.state.newEmployee.person) {
+            personId = this.state.newEmployee.person.id;
+        }
+
+        let organizationId = null;
+        if (this.state.newEmployee.organization) {
+            organizationId = this.state.newEmployee.organization.id;
+        }
+
+        const isDisabled = this.props.operation === del;
+
         return (
             <div>
                 <Dialog
@@ -140,12 +158,12 @@ class  EmployeeDlg extends React.Component {
                     onRequestClose={this.props.onClose}
                 >
                     <form onSubmit={this.handleSubmit}>
-                        <SelectField value={this.state.newEmployee.person.id} floatingLabelText="Персона"
+                        <SelectField value={personId} floatingLabelText="Персона" disabled={isDisabled}
                                      onChange={(event, index, value) => this.onChangeSelect("person", value)}>
                             {persons}
                         </SelectField>
                         <br/>
-                        <SelectField value={this.state.newEmployee.organization.id} floatingLabelText="Организация"
+                        <SelectField value={organizationId} floatingLabelText="Организация" disabled={isDisabled}
                                      onChange={(event, index, value) => this.onChangeSelect("organization", value)}>
                             {organizations}
                         </SelectField>
@@ -153,6 +171,7 @@ class  EmployeeDlg extends React.Component {
                         <TextField
                             name="position"
                             floatingLabelText="Должность"
+                            disabled={isDisabled}
                             defaultValue={this.state.newEmployee.position}
                             onChange={this.onChange}/>
                         <br/>
@@ -160,10 +179,12 @@ class  EmployeeDlg extends React.Component {
                             name="orderNumber"
                             floatingLabelText="Номер приказа о назначении на должность"
                             onChange={this.onChange}
+                            disabled={isDisabled}
                             defaultValue={this.state.newEmployee.orderNumber}
                             style={marginRight}/>
                         <DatePicker
                             floatingLabelText="Дата приказа о назначении на должность"
+                            disabled={isDisabled}
                             defaultDate={orderDate}
                             onChange={(e, date) => this.onChangeDate(date, "orderDate")}
                         />

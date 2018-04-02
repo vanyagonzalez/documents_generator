@@ -35,4 +35,10 @@ public class EmployeeController {
     public EmployeeDto postEmployee(@RequestBody EmployeeDto employeeDto) {
         return EmployeeConverter.convertToDto(employeeService.save(EmployeeConverter.convertFromDto(employeeDto)));
     }
+
+    @RequestMapping(method = RequestMethod.DELETE, value = "/employee")
+    public Boolean deleteEmployee(@RequestBody EmployeeDto employeeDto) {
+        employeeService.delete(EmployeeConverter.convertFromDto(employeeDto));
+        return Boolean.TRUE;
+    }
 }

@@ -21,8 +21,12 @@ class KindOfWork extends React.Component {
         let otherRepresentatives = [];
         if (this.props.item.otherRepresentatives) {
             this.props.item.otherRepresentatives.forEach(function (otherRepresentative) {
+                let personFio = "Персона не задана";
+                if (otherRepresentative.person) {
+                    personFio = otherRepresentative.person.fio;
+                }
                 otherRepresentatives.push(
-                    <li key={otherRepresentative.id}>{otherRepresentative.name}</li>
+                    <li key={otherRepresentative.id}>{otherRepresentative.organization.name + "; " + personFio}</li>
                 );
             });
         }
@@ -51,7 +55,7 @@ class KindOfWork extends React.Component {
         }
         let executorRepresentativeFio = "";
         if (this.props.item.executorRepresentative) {
-            executorRepresentativeFio = this.props.item.executorRepresentative.fio;
+            executorRepresentativeFio = this.props.item.executorRepresentative.person.fio;
         }
 
         let beginDate;

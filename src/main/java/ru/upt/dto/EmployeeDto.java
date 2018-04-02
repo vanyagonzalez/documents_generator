@@ -20,12 +20,6 @@ public class EmployeeDto extends BasicEmployeeDto {
      */
     private Date orderDate;
 
-    /**
-     * Список организаций
-     */
-    private List<BasicOrganizationDto> organizations;
-
-
     public EmployeeDto(Long id,
                        BasicPersonDto personDto,
                        BasicOrganizationDto organizationDto,

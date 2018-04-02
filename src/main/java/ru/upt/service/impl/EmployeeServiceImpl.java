@@ -17,14 +17,10 @@ import java.util.Set;
 @Service
 public class EmployeeServiceImpl implements EmployeeService {
     private final EmployeeCrudRepository employeeCrudRepository;
-    private final PersonCrudRepository personCrudRepository;
-    private final OrganizationCrudRepository organizationCrudRepository;
 
     @Autowired
-    public EmployeeServiceImpl(EmployeeCrudRepository employeeCrudRepository, PersonCrudRepository personCrudRepository, OrganizationCrudRepository organizationCrudRepository) {
+    public EmployeeServiceImpl(EmployeeCrudRepository employeeCrudRepository) {
         this.employeeCrudRepository = employeeCrudRepository;
-        this.personCrudRepository = personCrudRepository;
-        this.organizationCrudRepository = organizationCrudRepository;
     }
 
     @Override
@@ -41,14 +37,11 @@ public class EmployeeServiceImpl implements EmployeeService {
 
     @Override
     public Employee save(Employee employee) {
-        //todo не возвращает значения полей у объектов после сохранения
-        Employee saved = employeeCrudRepository.save(employee);
-        if (saved.getPerson() != null) {
-            saved.setPerson(personCrudRepository.findOne(saved.getPerson().getId()));
-        }
-        if (saved.getOrganization() != null) {
-            saved.setOrganization(organizationCrudRepository.findOne(saved.getOrganization().getId()));
-        }
-        return saved;
+        return employeeCrudRepository.save(employee);
+    }
+
+    @Override
+    public void delete(Employee employee) {
+        employeeCrudRepository.delete(employee.getId());
     }
 }

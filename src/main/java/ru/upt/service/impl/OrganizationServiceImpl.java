@@ -13,10 +13,12 @@ import java.util.List;
 @Service
 public class OrganizationServiceImpl implements OrganizationService {
     private final OrganizationCrudRepository organizationCrudRepository;
+    private final EmployeeCrudRepository employeeCrudRepository;
 
     @Autowired
-    public OrganizationServiceImpl(OrganizationCrudRepository organizationCrudRepository) {
+    public OrganizationServiceImpl(OrganizationCrudRepository organizationCrudRepository, EmployeeCrudRepository employeeCrudRepository) {
         this.organizationCrudRepository = organizationCrudRepository;
+        this.employeeCrudRepository = employeeCrudRepository;
     }
 
     @Override
@@ -38,6 +40,8 @@ public class OrganizationServiceImpl implements OrganizationService {
 
     @Override
     public void delete(Organization organization) {
+        organization = getById(organization.getId());
+        organization.getEmployees().forEach(employeeCrudRepository::delete);
         organizationCrudRepository.delete(organization);
     }
 }

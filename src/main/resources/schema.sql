@@ -132,7 +132,7 @@ CREATE TABLE kind_of_work (
   PRIMARY KEY (id),
   CONSTRAINT kow_documentation_sheet_id FOREIGN KEY (documentation_sheet_id) REFERENCES documentation_sheet,
   CONSTRAINT kow_executor_id FOREIGN KEY (executor_id) REFERENCES organization,
-  CONSTRAINT kow_executor_representative_id FOREIGN KEY (executor_representative_id) REFERENCES employee
+  CONSTRAINT kow_executor_representative_id FOREIGN KEY (executor_representative_id) REFERENCES employee ON DELETE SET NULL
 );
 
 CREATE TABLE work_certificate (
@@ -156,5 +156,5 @@ CREATE TABLE work_employee (
   employee_id BIGINT NOT NULL,
   PRIMARY KEY (work_id, employee_id),
   CONSTRAINT we_work_id FOREIGN KEY (work_id) REFERENCES kind_of_work,
-  CONSTRAINT we_employee_id FOREIGN KEY (employee_id) REFERENCES employee
+  CONSTRAINT we_employee_id FOREIGN KEY (employee_id) REFERENCES employee ON DELETE CASCADE
 );
