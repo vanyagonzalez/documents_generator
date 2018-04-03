@@ -40,4 +40,10 @@ public class ConfirmationController {
     public ConfirmationDto putConfirmation(@RequestBody ConfirmationDto confirmationDto) {
         return ConfirmationConverter.convertToDto(confirmationService.save(ConfirmationConverter.convertFromDto(confirmationDto)));
     }
+
+    @RequestMapping(method = RequestMethod.DELETE, value = "/confirmation")
+    public Boolean deleteConfirmation(@RequestBody ConfirmationDto confirmationDto) {
+        confirmationService.delete(ConfirmationConverter.convertFromDto(confirmationDto));
+        return Boolean.TRUE;
+    }
 }

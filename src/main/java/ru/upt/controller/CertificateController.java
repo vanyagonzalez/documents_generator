@@ -40,4 +40,10 @@ public class CertificateController {
     public CertificateDto putCertificate(@RequestBody CertificateDto certificateDto) {
         return CertificateConverter.convertToDto(certificateService.save(CertificateConverter.convertFromDto(certificateDto)));
     }
+
+    @RequestMapping(method = RequestMethod.DELETE, value = "/certificate")
+    public Boolean deleteCertificate(@RequestBody CertificateDto certificateDto) {
+        certificateService.delete(CertificateConverter.convertFromDto(certificateDto));
+        return Boolean.TRUE;
+    }
 }

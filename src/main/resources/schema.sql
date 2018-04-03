@@ -140,7 +140,7 @@ CREATE TABLE work_certificate (
   certificate_id BIGINT NOT NULL,
   PRIMARY KEY (work_id, certificate_id),
   CONSTRAINT wcer_work_id FOREIGN KEY (work_id) REFERENCES kind_of_work,
-  CONSTRAINT wcer_certificate_id FOREIGN KEY (certificate_id) REFERENCES certificate
+  CONSTRAINT wcer_certificate_id FOREIGN KEY (certificate_id) REFERENCES certificate ON DELETE CASCADE
 );
 
 CREATE TABLE work_confirmation (
@@ -148,7 +148,7 @@ CREATE TABLE work_confirmation (
   confirmation_id BIGINT NOT NULL,
   PRIMARY KEY (work_id, confirmation_id),
   CONSTRAINT wcon_work_id FOREIGN KEY (work_id) REFERENCES kind_of_work,
-  CONSTRAINT wcon_confirmation_id FOREIGN KEY (confirmation_id) REFERENCES confirmation
+  CONSTRAINT wcon_confirmation_id FOREIGN KEY (confirmation_id) REFERENCES confirmation ON DELETE CASCADE
 );
 
 CREATE TABLE work_employee (

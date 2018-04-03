@@ -6,6 +6,10 @@ import TextField from 'material-ui/TextField';
 import DatePicker from 'material-ui/DatePicker';
 import $ from 'jquery';
 
+const create = "create";
+const update = "update";
+const del = "delete";
+
 class ConfirmationDlg extends React.Component {
     constructor(props) {
         super(props);
@@ -21,31 +25,38 @@ class ConfirmationDlg extends React.Component {
     }
 
     componentWillReceiveProps(nextProps) {
-        const updatingConfirmation = nextProps.updatingConfirmation;
-
+        const operation = nextProps.operation;
         let state = this.state;
         state.newCertificate={};
-        if (updatingConfirmation !== null) {
-            state.restMethod = "PUT";
-            state.dlgTitle = "Изменение подтверждения: " + updatingConfirmation.name;
-            state.btnLabel = "Редактировать";
-
-            state.newConfirmation.id=updatingConfirmation.id;
-            state.newConfirmation.name=updatingConfirmation.name;
-            state.newConfirmation.number=updatingConfirmation.number;
-            state.newConfirmation.issueDate=updatingConfirmation.issueDate;
-            state.newConfirmation.copy=updatingConfirmation.copy;
-        } else {
+        if (operation === create) {
             state.restMethod = "POST";
             state.dlgTitle = "Новое подтверждение";
             state.btnLabel = "Создать";
+        } else if (operation === update || operation === del) {
+            const dlgData = nextProps.dlgData;
+            state.newConfirmation.id=dlgData.id;
+            state.newConfirmation.name=dlgData.name;
+            state.newConfirmation.number=dlgData.number;
+            state.newConfirmation.issueDate=dlgData.issueDate;
+            state.newConfirmation.copy=dlgData.copy;
+
+            if (operation === update) {
+                state.restMethod = "PUT";
+                state.dlgTitle = "Изменение подтверждения: " + dlgData.name;
+                state.btnLabel = "Редактировать";
+            } else {
+                state.restMethod = "DELETE";
+                state.dlgTitle = "Удаление подтверждения: " + dlgData.name;
+                state.btnLabel = "Удалить";
+            }
         }
     }
 
     handleSubmit(e){
         e.preventDefault();
-        let loadConfirmations = this.props.loadConfirmations;
-        let onDataUpdate = this.props.onDataUpdate;
+        const loadConfirmations = this.props.loadConfirmations;
+        const onDataUpdate = this.props.onDataUpdate;
+        const operation = this.props.operation;
 
         $.ajax({
             url: '/rest/confirmation',
@@ -56,7 +67,11 @@ class ConfirmationDlg extends React.Component {
             async: false,
             success: function(msg) {
                 loadConfirmations();
-                onDataUpdate("confirmation", msg.id);
+                if (operation !== del) {
+                    onDataUpdate("confirmation", msg.id);
+                } else {
+                    onDataUpdate("confirmation", null);
+                }
             }
         });
 
@@ -86,6 +101,8 @@ class ConfirmationDlg extends React.Component {
             issueDate = new Date(this.state.newConfirmation.issueDate);
         }
 
+        const isDisabled = this.props.operation === del;
+
         return (
             <div>
                 <Dialog
@@ -95,17 +112,18 @@ class ConfirmationDlg extends React.Component {
                     onRequestClose={this.props.onClose}
                 >
                     <form onSubmit={this.handleSubmit}>
-                        <TextField name="name" floatingLabelText="Наименование документа" defaultValue={this.state.newConfirmation.name} onChange={this.onChange}/>
+                        <TextField name="name" floatingLabelText="Наименование документа" disabled={isDisabled} defaultValue={this.state.newConfirmation.name} onChange={this.onChange}/>
                         <br/>
-                        <TextField name="number" floatingLabelText="Номер документа" defaultValue={this.state.newConfirmation.number} onChange={this.onChange}/>
+                        <TextField name="number" floatingLabelText="Номер документа" disabled={isDisabled} defaultValue={this.state.newConfirmation.number} onChange={this.onChange}/>
                         <br/>
                         <DatePicker
                             floatingLabelText="Дата выдачи документа"
+                            disabled={isDisabled}
                             defaultDate={issueDate}
                             onChange={(e, date) => this.onChangeDate(date, "issueDate")}
                         />
                         <br/>
-                        <TextField name="copy" floatingLabelText="Скан-копия документа" defaultValue={this.state.newConfirmation.copy} onChange={this.onChange}/>
+                        <TextField name="copy" floatingLabelText="Скан-копия документа" disabled={isDisabled} defaultValue={this.state.newConfirmation.copy} onChange={this.onChange}/>
                         <br/>
                         {actions}
                     </form>

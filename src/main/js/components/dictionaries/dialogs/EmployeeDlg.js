@@ -68,14 +68,13 @@ class  EmployeeDlg extends React.Component {
                 state.dlgTitle = "Удаление рабочего: " + fio;
                 state.btnLabel = "Удалить";
             }
-
         }
     }
 
     handleSubmit(e){
         e.preventDefault();
-        let loadEmployees = this.props.loadEmployees;
-        let onDataUpdate = this.props.onDataUpdate;
+        const loadEmployees = this.props.loadEmployees;
+        const onDataUpdate = this.props.onDataUpdate;
         const operation = this.props.operation;
 
         $.ajax({

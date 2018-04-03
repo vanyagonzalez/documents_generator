@@ -29,6 +29,7 @@ public class ConfirmationConverter {
 
     public static Confirmation convertFromDto(ConfirmationDto confirmationDto) {
         return new Confirmation(
+                confirmationDto.getId(),
                 confirmationDto.getName(),
                 confirmationDto.getNumber(),
                 confirmationDto.getIssueDate(),

@@ -33,4 +33,9 @@ public class ConfirmationServiceImpl implements ConfirmationService {
     public Confirmation save(Confirmation confirmation) {
         return confirmationCrudRepository.save(confirmation);
     }
+
+    @Override
+    public void delete(Confirmation confirmation) {
+        confirmationCrudRepository.delete(confirmation);
+    }
 }

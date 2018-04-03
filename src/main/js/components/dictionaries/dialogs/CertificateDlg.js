@@ -6,6 +6,10 @@ import TextField from 'material-ui/TextField';
 import DatePicker from 'material-ui/DatePicker';
 import $ from 'jquery';
 
+const create = "create";
+const update = "update";
+const del = "delete";
+
 class CertificateDlg extends React.Component {
     constructor(props) {
         super(props);
@@ -21,36 +25,43 @@ class CertificateDlg extends React.Component {
     }
 
     componentWillReceiveProps(nextProps) {
-        const updatingCertificate = nextProps.updatingCertificate;
-
+        const operation = nextProps.operation;
         let state = this.state;
         state.newCertificate={};
-        if (updatingCertificate !== null) {
-            state.restMethod = "PUT";
-            state.dlgTitle = "Изменение сертификата: " + updatingCertificate.material;
-            state.btnLabel = "Редактировать";
-
-            state.newCertificate.id=updatingCertificate.id;
-            state.newCertificate.material=updatingCertificate.material;
-            state.newCertificate.standardDocument=updatingCertificate.standardDocument;
-            state.newCertificate.documentKind=updatingCertificate.documentKind;
-            state.newCertificate.documentNumber=updatingCertificate.documentNumber;
-            state.newCertificate.documentDate=updatingCertificate.documentDate;
-            state.newCertificate.documentEndDate=updatingCertificate.documentEndDate;
-            state.newCertificate.materialVolume=updatingCertificate.materialVolume;
-            state.newCertificate.measureUnit=updatingCertificate.measureUnit;
-            state.newCertificate.documentCopy=updatingCertificate.documentCopy;
-        } else {
+        if (operation === create) {
             state.restMethod = "POST";
             state.dlgTitle = "Новый сертификат";
             state.btnLabel = "Создать";
+        } else if (operation === update || operation === del) {
+            const dlgData = nextProps.dlgData;
+            state.newCertificate.id=dlgData.id;
+            state.newCertificate.material=dlgData.material;
+            state.newCertificate.standardDocument=dlgData.standardDocument;
+            state.newCertificate.documentKind=dlgData.documentKind;
+            state.newCertificate.documentNumber=dlgData.documentNumber;
+            state.newCertificate.documentDate=dlgData.documentDate;
+            state.newCertificate.documentEndDate=dlgData.documentEndDate;
+            state.newCertificate.materialVolume=dlgData.materialVolume;
+            state.newCertificate.measureUnit=dlgData.measureUnit;
+            state.newCertificate.documentCopy=dlgData.documentCopy;
+
+            if (operation === update) {
+                state.restMethod = "PUT";
+                state.dlgTitle = "Изменение сертификата: " + dlgData.material;
+                state.btnLabel = "Редактировать";
+            } else {
+                state.restMethod = "DELETE";
+                state.dlgTitle = "Удаление сертификата: " + dlgData.material;
+                state.btnLabel = "Удалить";
+            }
         }
     }
 
     handleSubmit(e){
         e.preventDefault();
-        let loadCertificates = this.props.loadCertificates;
-        let onDataUpdate = this.props.onDataUpdate;
+        const loadCertificates = this.props.loadCertificates;
+        const onDataUpdate = this.props.onDataUpdate;
+        const operation = this.props.operation;
 
         $.ajax({
             url: '/rest/certificate',
@@ -61,7 +72,11 @@ class CertificateDlg extends React.Component {
             async: false,
             success: function(msg) {
                 loadCertificates();
-                onDataUpdate("certificate", msg.id);
+                if (operation !== del) {
+                    onDataUpdate("certificate", msg.id);
+                } else {
+                    onDataUpdate("certificate", null);
+                }
             }
         });
 
@@ -95,6 +110,8 @@ class CertificateDlg extends React.Component {
             documentEndDate = new Date(this.state.newCertificate.documentEndDate);
         }
 
+        const isDisabled = this.props.operation === del;
+
         return (
             <div>
                 <Dialog
@@ -104,31 +121,33 @@ class CertificateDlg extends React.Component {
                     onRequestClose={this.props.onClose}
                 >
                     <form onSubmit={this.handleSubmit}>
-                        <TextField name="material" floatingLabelText="Наименование сертифицируемого материала" defaultValue={this.state.newCertificate.material} onChange={this.onChange}/>
+                        <TextField name="material" floatingLabelText="Наименование сертифицируемого материала" disabled={isDisabled} defaultValue={this.state.newCertificate.material} onChange={this.onChange}/>
                         <br/>
-                        <TextField name="standardDocument" floatingLabelText="Нормативный документ" defaultValue={this.state.newCertificate.standardDocument} onChange={this.onChange}/>
+                        <TextField name="standardDocument" floatingLabelText="Нормативный документ" disabled={isDisabled} defaultValue={this.state.newCertificate.standardDocument} onChange={this.onChange}/>
                         <br/>
-                        <TextField name="documentKind" floatingLabelText="Вид документа" defaultValue={this.state.newCertificate.documentKind} onChange={this.onChange}/>
+                        <TextField name="documentKind" floatingLabelText="Вид документа" disabled={isDisabled} defaultValue={this.state.newCertificate.documentKind} onChange={this.onChange}/>
                         <br/>
-                        <TextField name="documentNumber" floatingLabelText="Нормер документа" defaultValue={this.state.newCertificate.documentNumber} onChange={this.onChange}/>
+                        <TextField name="documentNumber" floatingLabelText="Нормер документа" disabled={isDisabled} defaultValue={this.state.newCertificate.documentNumber} onChange={this.onChange}/>
                         <br/>
                         <DatePicker
                             floatingLabelText="Дата выдачи документа"
+                            disabled={isDisabled}
                             defaultDate={documentDate}
                             onChange={(e, date) => this.onChangeDate(date, "documentDate")}
                         />
                         <br/>
                         <DatePicker
                             floatingLabelText="Дата окончания срока действия документа"
+                            disabled={isDisabled}
                             defaultDate={documentEndDate}
                             onChange={(e, date) => this.onChangeDate(date, "documentEndDate")}
                         />
                         <br/>
-                        <TextField name="materialVolume" floatingLabelText="Объем материала" defaultValue={this.state.newCertificate.materialVolume} onChange={this.onChange}/>
+                        <TextField name="materialVolume" floatingLabelText="Объем материала" disabled={isDisabled} defaultValue={this.state.newCertificate.materialVolume} onChange={this.onChange}/>
                         <br/>
-                        <TextField name="measureUnit" floatingLabelText="Единица измерения объема материала" defaultValue={this.state.newCertificate.measureUnit} onChange={this.onChange}/>
+                        <TextField name="measureUnit" floatingLabelText="Единица измерения объема материала" disabled={isDisabled} defaultValue={this.state.newCertificate.measureUnit} onChange={this.onChange}/>
                         <br/>
-                        <TextField name="documentCopy" floatingLabelText="Скан-копия документа" defaultValue={this.state.newCertificate.documentCopy} onChange={this.onChange}/>
+                        <TextField name="documentCopy" floatingLabelText="Скан-копия документа" disabled={isDisabled} defaultValue={this.state.newCertificate.documentCopy} onChange={this.onChange}/>
                         <br/>
                         {actions}
                     </form>

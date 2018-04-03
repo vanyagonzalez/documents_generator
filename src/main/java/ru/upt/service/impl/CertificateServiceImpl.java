@@ -34,4 +34,9 @@ public class CertificateServiceImpl implements CertificateService {
     public Certificate save(Certificate certificate) {
         return certificateCrudRepository.save(certificate);
     }
+
+    @Override
+    public void delete(Certificate certificate) {
+        certificateCrudRepository.delete(certificate);
+    }
 }
