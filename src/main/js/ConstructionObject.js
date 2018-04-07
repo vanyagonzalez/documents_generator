@@ -15,23 +15,7 @@ const paperStyle = {
     display: 'inline-block',
     float: "left",
     marginRight: "10px",
-    width: "170px",
-};
-
-const floatLeftStyle = {
-    float: "left",
-    width: "50%",
-};
-const floatRightStyle = {
-    float: "right",
-    width: "50%",
-};
-const clearBothStyle = {
-    clear: "both ",
-};
-const splitPaneStyle = {
-    height: "80vh",
-    position: "relative",
+    // width: "170px",
 };
 
 class ConstructionObject extends React.Component {
@@ -103,7 +87,17 @@ class ConstructionObject extends React.Component {
     }
 
     render() {
+        let bodyHeight = parseInt(this.props.bodyHeight.replace('vh',''));
         paperStyle.height = this.props.bodyHeight;
+        let constrObjStyle = {};
+        constrObjStyle.height = this.props.bodyHeight;
+        const constrObjInfoStyle = {
+            height: bodyHeight * 0.15 + 'vh',
+        };
+        const splitPaneStyle = {
+            height: bodyHeight * 0.85 + 'vh',
+            position: "relative",
+        };
 
         const constructionObjects = [];
         const handleChoice = this.handleChoice;
@@ -114,21 +108,23 @@ class ConstructionObject extends React.Component {
         return (
             <div>
                 <Paper style={paperStyle}>
-                    <Menu>
+                    <Menu width={'100px'}>
                         {constructionObjects}
                     </Menu>
                 </Paper>
 
-                <div>
-                    <div>
-                        <ConstrObjectDlg
-                            customers={this.props.customers}
-                            developers={this.props.developers}
-                            updateConstrObjs={this.loadConstrObjsFromServer}
-                        />
-                    </div>
-                    <div>
-                        <ConstrObjBasicInfo constrObj={this.state.selectedConstrObj}/>
+                <div style={constrObjStyle}>
+                    <div style={constrObjInfoStyle}>
+                        <div>
+                            <ConstrObjectDlg
+                                customers={this.props.customers}
+                                developers={this.props.developers}
+                                updateConstrObjs={this.loadConstrObjsFromServer}
+                            />
+                        </div>
+                        <div>
+                            <ConstrObjBasicInfo constrObj={this.state.selectedConstrObj}/>
+                        </div>
                     </div>
                     <Divider />
                     <SplitPane defaultSize="50%" split="vertical" style={splitPaneStyle}>
@@ -137,6 +133,7 @@ class ConstructionObject extends React.Component {
                                 constrObj={this.state.selectedConstrObj}
                                 onClick={this.chooseListItem}
                                 updateConstrObj={this.loadConstrObjFromServer}
+                                bodyHeight={splitPaneStyle.height}
                             />
                         </div>
                         <div>

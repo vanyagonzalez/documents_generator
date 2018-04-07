@@ -1,10 +1,10 @@
 import React from 'react';
 import Dialog from 'material-ui/Dialog';
 import FlatButton from 'material-ui/FlatButton';
-import RaisedButton from 'material-ui/RaisedButton';
 import TextField from 'material-ui/TextField';
 import SelectField from 'material-ui/SelectField';
 import MenuItem from 'material-ui/MenuItem';
+import ButtonsBlock from '../../ButtonsBlock';
 import $ from 'jquery';
 
 class ConstrObjectDlg extends React.Component {
@@ -87,7 +87,11 @@ class ConstrObjectDlg extends React.Component {
 
         return (
             <div>
-                <RaisedButton label="Создать объект строительства" onClick={this.handleOpen} />
+                <ButtonsBlock
+                    onCreate={() => this.handleOpen()}
+                    onUpdate={() => this.handleOpen()}
+                    onDelete={() => this.handleOpen()}
+                />
                 <Dialog
                     title="Новый объект строительства"
                     modal={true}

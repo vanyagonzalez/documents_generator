@@ -138,26 +138,32 @@ class ConstrObjPartitionList extends React.Component {
             float: "right",
             width: "50%",
         };
+        let bodyHeight = parseInt(this.props.bodyHeight.replace('vh',''));
+
         const clearBothStyle = {
-            clear: "both ",
+            clear: "both",
+            height: bodyHeight * 0.95 + 'vh',
+            overflow: 'auto',
         };
 
         return (
             <div>
-                <div style={floatLeftStyle}>
-                    <Toggle
-                        toggled={this.state.open}
-                        onToggle={this.handleToggle}
-                        labelPosition="right"
-                        label="Развернуть дерево"
-                    />
-                </div>
-                <div style={floatRightStyle}>
-                    <ProjectPartitionDlg
-                        constrObjId={this.props.constrObj.id}
-                        updateConstrObj={this.props.updateConstrObj}
-                    />
+                <div style={{height:bodyHeight * 0.05 + 'vh', margin:'10px'}}>
+                    <div style={floatLeftStyle}>
+                        <ProjectPartitionDlg
+                            constrObjId={this.props.constrObj.id}
+                            updateConstrObj={this.props.updateConstrObj}
+                        />
                     </div>
+                    <div style={floatRightStyle}>
+                        <Toggle
+                            toggled={this.state.open}
+                            onToggle={this.handleToggle}
+                            labelPosition="right"
+                            label="Развернуть дерево"
+                        />
+                    </div>
+                </div>
                 <div style={clearBothStyle}>
                     <List>
                         {projectPartitions}

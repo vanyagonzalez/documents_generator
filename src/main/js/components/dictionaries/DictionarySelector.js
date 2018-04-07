@@ -3,7 +3,7 @@ const React = require('react');
 import Dialog from 'material-ui/Dialog';
 import FlatButton from 'material-ui/FlatButton';
 
-import ButtonsBlock from './ButtonsBlock'
+import ButtonsBlock from '../ButtonsBlock'
 import Persons from './views/Persons'
 import PersonDlg from './dialogs/PersonDlg'
 import Organizations from './views/Organizations'
@@ -18,9 +18,6 @@ import $ from 'jquery';
 
 const width = '45%';
 
-const buttonsBlockStyle = {
-    height: "10%",
-};
 const dataBlockStyle = {
     height: "90%",
 };
@@ -163,7 +160,6 @@ class DictionarySelector extends React.Component {
             dictionary =
                 <div style={heightStyle}>
                     <ButtonsBlock
-                        style={buttonsBlockStyle}
                         onCreate={() => this.onCreate("organization")}
                         onUpdate={() => this.onUpdate("organization")}
                         onDelete={() => this.onDelete("organization")}
@@ -188,7 +184,6 @@ class DictionarySelector extends React.Component {
             dictionary =
                 <div style={heightStyle}>
                     <ButtonsBlock
-                        style={buttonsBlockStyle}
                         onCreate={() => this.onCreate("person")}
                         onUpdate={() => this.onUpdate("person")}
                         onDelete={() => this.onDelete("person")}
@@ -213,7 +208,6 @@ class DictionarySelector extends React.Component {
             dictionary =
                 <div style={heightStyle}>
                     <ButtonsBlock
-                        style={buttonsBlockStyle}
                         onCreate={() => this.onCreate("employee")}
                         onUpdate={() => this.onUpdate("employee")}
                         onDelete={() => this.onDelete("employee")}
@@ -239,7 +233,6 @@ class DictionarySelector extends React.Component {
             dictionary =
                 <div style={heightStyle}>
                     <ButtonsBlock
-                        style={buttonsBlockStyle}
                         onCreate={() => this.onCreate("certificate")}
                         onUpdate={() => this.onUpdate("certificate")}
                         onDelete={() => this.onDelete("certificate")}
@@ -263,7 +256,6 @@ class DictionarySelector extends React.Component {
             dictionary =
                 <div style={heightStyle}>
                     <ButtonsBlock
-                        style={buttonsBlockStyle}
                         onCreate={() => this.onCreate("confirmation")}
                         onUpdate={() => this.onUpdate("confirmation")}
                         onDelete={() => this.onDelete("confirmation")}

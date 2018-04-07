@@ -9,7 +9,6 @@ import {
     TableRow,
     TableRowColumn,
 } from 'material-ui/Table';
-import $ from 'jquery';
 
 class Confirmations extends React.Component {
     constructor(props) {

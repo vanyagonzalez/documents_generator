@@ -68,7 +68,7 @@ class ProjectPartitionDlg extends React.Component {
 
         return (
             <div>
-                <RaisedButton label="Добавить новый раздел проекта" onClick={this.handleOpen} />
+                <RaisedButton label="Новый раздел проекта" onClick={this.handleOpen} />
                 <Dialog
                     title="Новый раздел проекта"
                     modal={true}

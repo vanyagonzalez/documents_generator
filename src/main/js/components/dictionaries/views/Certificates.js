@@ -9,8 +9,6 @@ import {
     TableRow,
     TableRowColumn,
 } from 'material-ui/Table';
-import ButtonsBlock from './../ButtonsBlock';
-import $ from 'jquery';
 
 class Certificates extends React.Component {
     constructor(props) {

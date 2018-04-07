@@ -13,7 +13,7 @@ const kindOfWorkType = "kindOfWork";
 class ListItemData extends React.Component {
 
     render() {
-        let content = <h2>Элемент не выбран</h2>;
+        let content = <div style={{padding: '70px 0', textAlign: 'center'}}><h2>Элемент не выбран</h2></div>;
         let item = this.props.selectedItem;
         let updateConstrObj = this.props.updateConstrObj;
         let constrObjId = this.props.constrObjId;
