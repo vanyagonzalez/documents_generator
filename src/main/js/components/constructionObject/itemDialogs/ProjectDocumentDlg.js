@@ -1,10 +1,12 @@
 import React from 'react';
 import Dialog from 'material-ui/Dialog';
 import FlatButton from 'material-ui/FlatButton';
-import RaisedButton from 'material-ui/RaisedButton';
 import TextField from 'material-ui/TextField';
 import SelectField from 'material-ui/SelectField';
 import MenuItem from 'material-ui/MenuItem';
+import ButtonsBlock from '../../ButtonsBlock';
+import IconButton from 'material-ui/IconButton';
+import Add from 'material-ui/svg-icons/content/add-circle'
 import $ from 'jquery';
 
 class ProjectDocumentDlg extends React.Component {
@@ -98,9 +100,19 @@ class ProjectDocumentDlg extends React.Component {
             <FlatButton type="submit" label="Создать" primary={true} key="submit"/>,
         ];
 
+        const otherButtons =
+            <IconButton tooltip="Добавить проектную документацию" onClick={this.handleOpen}>
+                <Add/>
+            </IconButton>;
+
         return (
             <div>
-                <RaisedButton label="Добавить проектную документацию" onClick={this.handleOpen} />
+                <ButtonsBlock
+                    onCreate={() => this.handleOpen()}
+                    onUpdate={() => this.handleOpen()}
+                    onDelete={() => this.handleOpen()}
+                    otherButtons={otherButtons}
+                />
                 <Dialog
                     title="Новая проектная документация"
                     modal={true}

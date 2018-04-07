@@ -1,8 +1,10 @@
 import React from 'react';
 import Dialog from 'material-ui/Dialog';
 import FlatButton from 'material-ui/FlatButton';
-import RaisedButton from 'material-ui/RaisedButton';
 import TextField from 'material-ui/TextField';
+import ButtonsBlock from '../../ButtonsBlock';
+import IconButton from 'material-ui/IconButton';
+import Add from 'material-ui/svg-icons/content/add-circle'
 import $ from 'jquery';
 
 class DocumentationSheetDlg extends React.Component {
@@ -63,9 +65,19 @@ class DocumentationSheetDlg extends React.Component {
             <FlatButton type="submit" label="Создать" primary={true} key="submit"/>,
         ];
 
+        const otherButtons =
+            <IconButton tooltip="Добавить лист проектной документации" onClick={this.handleOpen}>
+                <Add/>
+            </IconButton>;
+
         return (
             <div>
-                <RaisedButton label="Добавить лист проектной документации" onClick={this.handleOpen} />
+                <ButtonsBlock
+                    onCreate={() => this.handleOpen()}
+                    onUpdate={() => this.handleOpen()}
+                    onDelete={() => this.handleOpen()}
+                    otherButtons={otherButtons}
+                />
                 <Dialog
                     title="Новый лист проектной документации"
                     modal={true}

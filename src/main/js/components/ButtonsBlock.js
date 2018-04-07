@@ -1,5 +1,4 @@
 const React = require('react');
-import RaisedButton from 'material-ui/RaisedButton';
 import IconButton from 'material-ui/IconButton';
 import Add from 'material-ui/svg-icons/content/add-circle-outline'
 import Copy from 'material-ui/svg-icons/content/content-copy'
@@ -10,7 +9,7 @@ const buttonsBlockStyle = {
     height: "10%",
 };
 const btnStyle = {
-    margin: '10px 0px 10px 10px',
+    margin: '2px',
 };
 
 class ButtonsBlock extends React.Component {
@@ -22,20 +21,28 @@ class ButtonsBlock extends React.Component {
 
     }
     render() {
+        const lastBtnStyle = {};
+        lastBtnStyle.margin = btnStyle.margin;
+        if (this.props.otherButtons) {
+            lastBtnStyle.borderRight='1px solid #bbbbbbbb';
+            lastBtnStyle.borderWith='';
+        }
+
         return (
             <div style={buttonsBlockStyle}>
-                <IconButton tooltip="Создать" onClick={this.props.onCreate}>
+                <IconButton tooltip="Создать" style={btnStyle} onClick={this.props.onCreate}>
                     <Add/>
                 </IconButton>
-                <IconButton tooltip="Копия" onClick={this.onClick}>
+                <IconButton tooltip="Копия" style={btnStyle} onClick={this.onClick}>
                     <Copy/>
                 </IconButton>
-                <IconButton tooltip="Редактировать" onClick={this.props.onUpdate}>
+                <IconButton tooltip="Редактировать" style={btnStyle} onClick={this.props.onUpdate}>
                     <Create/>
                 </IconButton>
-                <IconButton tooltip="Удалить" onClick={this.props.onDelete}>
+                <IconButton tooltip="Удалить" style={lastBtnStyle} onClick={this.props.onDelete}>
                     <Delete/>
                 </IconButton>
+                {this.props.otherButtons}
             </div>
         );
     }

@@ -1,7 +1,6 @@
 import React from 'react';
 import Dialog from 'material-ui/Dialog';
 import FlatButton from 'material-ui/FlatButton';
-import RaisedButton from 'material-ui/RaisedButton';
 import TextField from 'material-ui/TextField';
 import SelectField from 'material-ui/SelectField';
 import MenuItem from 'material-ui/MenuItem';
@@ -15,6 +14,9 @@ import {
     TableRow,
     TableRowColumn,
 } from 'material-ui/Table';
+import ButtonsBlock from '../../ButtonsBlock';
+import IconButton from 'material-ui/IconButton';
+import Add from 'material-ui/svg-icons/content/add-circle'
 import $ from 'jquery';
 
 const dialogStyle = {
@@ -214,9 +216,19 @@ class KindOfWorkDlg extends React.Component {
 
         const tableHeight = '150px';
 
+        const otherButtons =
+            <IconButton tooltip="Добавить вид работы" onClick={this.handleOpen}>
+                <Add/>
+            </IconButton>;
+
         return (
             <div>
-                <RaisedButton label="Добавить вид работы" onClick={this.handleOpen} />
+                <ButtonsBlock
+                    onCreate={() => this.handleOpen()}
+                    onUpdate={() => this.handleOpen()}
+                    onDelete={() => this.handleOpen()}
+                    otherButtons={otherButtons}
+                />
                 <Dialog
                     title="Новый вид работы"
                     modal={true}
