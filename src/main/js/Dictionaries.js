@@ -5,7 +5,12 @@ import MenuItem from 'material-ui/MenuItem';
 import Paper from 'material-ui/Paper';
 import DictionarySelector from './components/dictionaries/DictionarySelector';
 
-const divHeight = '90vh';
+const paperStyle = {
+    display: 'inline-block',
+    float: "left",
+    marginRight: "10px",
+    //margin: '16px 32px 16px 0',
+};
 
 class Dictionaries extends React.Component {
     constructor(props) {
@@ -24,14 +29,7 @@ class Dictionaries extends React.Component {
     }
 
     render() {
-        const paperStyle = {
-            display: 'inline-block',
-            float: "left",
-            marginRight: "10px",
-            //margin: '16px 32px 16px 0',
-        };
-
-        paperStyle.height = divHeight;
+        paperStyle.height = this.props.bodyHeight;
 
         return (
             <div>
@@ -52,7 +50,7 @@ class Dictionaries extends React.Component {
                         allEmployees={this.props.allEmployees}
                         allCertificates={this.props.allCertificates}
                         allConfirmations={this.props.allConfirmations}
-                        divHeight={divHeight}
+                        divHeight={this.props.bodyHeight}
                         loadOrganizations={this.props.loadOrganizations}
                         loadPersons={this.props.loadPersons}
                         loadEmployees={this.props.loadEmployees}

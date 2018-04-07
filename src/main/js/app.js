@@ -17,6 +17,8 @@ const styles = {
     },
 };
 
+const bodyHeight = '90vh';
+
 class App extends React.Component {
     constructor(props) {
         super(props);
@@ -131,6 +133,7 @@ class App extends React.Component {
                 >
                     <Tab label="Объект" value="constrObj">
                         <ConstructionObject
+                            bodyHeight={bodyHeight}
                             customers={this.state.customers}
                             developers={this.state.developers}
                             executors={this.state.executors}
@@ -145,6 +148,7 @@ class App extends React.Component {
                     </Tab>
                     <Tab label="Словари" value="dicts">
                         <Dictionaries
+                            bodyHeight={bodyHeight}
                             allOrganizations={this.state.allOrganizations}
                             allPersons={this.state.allPersons}
                             allEmployees={this.state.allEmployees}

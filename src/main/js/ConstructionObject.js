@@ -1,12 +1,38 @@
 const React = require('react');
 
+import Menu from 'material-ui/Menu';
+import MenuItem from 'material-ui/MenuItem';
+import Paper from 'material-ui/Paper';
 import SplitPane from 'react-split-pane/lib/SplitPane';
-import SelectConstructionObject from './components/constructionObject/SelectConstructionObject'
+import Divider from 'material-ui/Divider';
 import ConstrObjectDlg from './components/constructionObject/itemDialogs/ConstrObjectDlg'
 import ConstrObjBasicInfo from './components/constructionObject/ConstrObjBasicInfo'
 import ConstrObjPartitionList from './components/constructionObject/ConstrObjPartitionList'
 import ListItemData from './components/constructionObject/ListItemData'
 import $ from 'jquery';
+
+const paperStyle = {
+    display: 'inline-block',
+    float: "left",
+    marginRight: "10px",
+    width: "170px",
+};
+
+const floatLeftStyle = {
+    float: "left",
+    width: "50%",
+};
+const floatRightStyle = {
+    float: "right",
+    width: "50%",
+};
+const clearBothStyle = {
+    clear: "both ",
+};
+const splitPaneStyle = {
+    height: "80vh",
+    position: "relative",
+};
 
 class ConstructionObject extends React.Component {
     constructor(props) {
@@ -77,64 +103,60 @@ class ConstructionObject extends React.Component {
     }
 
     render() {
-        const floatLeftStyle = {
-            float: "left",
-            width: "50%",
-        };
-        const floatRightStyle = {
-            float: "right",
-            width: "50%",
-        };
-        const clearBothStyle = {
-            clear: "both ",
-        };
-        const splitPaneStyle = {
-            height: "80vh"
-        };
+        paperStyle.height = this.props.bodyHeight;
+
+        const constructionObjects = [];
+        const handleChoice = this.handleChoice;
+        this.state.constrObjs.forEach(function(constructionObject) {
+            constructionObjects.push(<MenuItem key={constructionObject.id} onClick={(e) => handleChoice(constructionObject.id)}>{constructionObject.code}</MenuItem>);
+        });
 
         return (
             <div>
-                <div style={floatLeftStyle}>
-                    <SelectConstructionObject
-                        value={this.state.selectedConstrObjId}
-                        constrObjs={this.state.constrObjs}
-                        onConstrObjSelect={this.handleChoice}/>
-                </div>
-                <div style={floatRightStyle}>
-                    <ConstrObjectDlg
-                        customers={this.props.customers}
-                        developers={this.props.developers}
-                        updateConstrObjs={this.loadConstrObjsFromServer}
-                    />
-                </div>
-                <div style={clearBothStyle}>
-                    <ConstrObjBasicInfo constrObj={this.state.selectedConstrObj}/>
-                </div>
-                <SplitPane defaultSize="50%" split="vertical" style={splitPaneStyle}>
+                <Paper style={paperStyle}>
+                    <Menu>
+                        {constructionObjects}
+                    </Menu>
+                </Paper>
+
+                <div>
                     <div>
-                        <ConstrObjPartitionList
-                            constrObj={this.state.selectedConstrObj}
-                            onClick={this.chooseListItem}
-                            updateConstrObj={this.loadConstrObjFromServer}
+                        <ConstrObjectDlg
+                            customers={this.props.customers}
+                            developers={this.props.developers}
+                            updateConstrObjs={this.loadConstrObjsFromServer}
                         />
                     </div>
                     <div>
-                        <ListItemData idListItem={this.state.idListItem}
-                                      typeListItem={this.state.typeListItem}
-                                      selectedItem={this.state.selectedItem}
-                                      constrObjId={this.state.selectedConstrObj.id}
-                                      updateConstrObj={this.loadConstrObjFromServer}
-                                      authors={this.props.authors}
-                                      customerRepresentatives={this.props.customerRepresentatives}
-                                      developerRepresentatives={this.props.developerRepresentatives}
-                                      executors={this.props.executors}
-                                      executorRepresentatives={this.props.executorRepresentatives}
-                                      otherRepresentatives={this.props.otherRepresentatives}
-                                      allCertificates={this.props.allCertificates}
-                                      allConfirmations={this.props.allConfirmations}
-                        />
+                        <ConstrObjBasicInfo constrObj={this.state.selectedConstrObj}/>
                     </div>
-                </SplitPane>
+                    <Divider />
+                    <SplitPane defaultSize="50%" split="vertical" style={splitPaneStyle}>
+                        <div>
+                            <ConstrObjPartitionList
+                                constrObj={this.state.selectedConstrObj}
+                                onClick={this.chooseListItem}
+                                updateConstrObj={this.loadConstrObjFromServer}
+                            />
+                        </div>
+                        <div>
+                            <ListItemData idListItem={this.state.idListItem}
+                                          typeListItem={this.state.typeListItem}
+                                          selectedItem={this.state.selectedItem}
+                                          constrObjId={this.state.selectedConstrObj.id}
+                                          updateConstrObj={this.loadConstrObjFromServer}
+                                          authors={this.props.authors}
+                                          customerRepresentatives={this.props.customerRepresentatives}
+                                          developerRepresentatives={this.props.developerRepresentatives}
+                                          executors={this.props.executors}
+                                          executorRepresentatives={this.props.executorRepresentatives}
+                                          otherRepresentatives={this.props.otherRepresentatives}
+                                          allCertificates={this.props.allCertificates}
+                                          allConfirmations={this.props.allConfirmations}
+                            />
+                        </div>
+                    </SplitPane>
+                </div>
             </div>
         );
     }
