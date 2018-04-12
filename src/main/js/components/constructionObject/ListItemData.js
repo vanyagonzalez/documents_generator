@@ -36,6 +36,9 @@ class ListItemData extends React.Component {
                     updateConstrObj={updateConstrObj}
                     updateSelectedItem={updateSelectedItem}
                     constrObjId={constrObjId}
+                    authors={this.props.authors}
+                    customerRepresentatives={this.props.customerRepresentatives}
+                    developerRepresentatives={this.props.developerRepresentatives}
                 />
             } else if (this.props.selectedItemType === documentationSheetType) {
                 content = <DocumentationSheet

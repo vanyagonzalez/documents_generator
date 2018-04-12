@@ -65,7 +65,7 @@ class ProjectPartition extends React.Component {
                 />
                 <ProjectDocumentDlg
                     open={this.state.openProjectDocumentDlg}
-                    itemId={this.props.item.id}
+                    parentId={this.props.item.id}
                     updateConstrObj={this.props.updateConstrObj}
                     updateSelectedItem={this.props.updateSelectedItem}
                     constrObjId={this.props.constrObjId}

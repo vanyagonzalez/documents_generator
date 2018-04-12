@@ -10,9 +10,37 @@ import {
     TableRowColumn,
 } from 'material-ui/Table';
 
+import ProjectDocumentDlg from "../itemDialogs/ProjectDocumentDlg"
 import DocumentationSheetDlg from "../itemDialogs/DocumentationSheetDlg"
+import ButtonsBlock from '../../ButtonsBlock';
+import IconButton from 'material-ui/IconButton';
+import Add from 'material-ui/svg-icons/content/add-circle'
 
 class ProjectDocument extends React.Component {
+    constructor(props) {
+        super(props);
+        this.state = {
+            openProjectDocumentDlg: false,
+            openDocumentationSheetDlg: false,
+        };
+        this.onOpenProjectDocumentDlg = this.onOpenProjectDocumentDlg.bind(this);
+        this.onCloseProjectDocumentDlg = this.onCloseProjectDocumentDlg.bind(this);
+        this.onOpenDocumentationSheetDlg = this.onOpenDocumentationSheetDlg.bind(this);
+        this.onCloseDocumentationSheetDlg = this.onCloseDocumentationSheetDlg.bind(this);
+    }
+
+    onOpenProjectDocumentDlg() {
+        this.setState({openProjectDocumentDlg: true});
+    }
+    onCloseProjectDocumentDlg() {
+        this.setState({openProjectDocumentDlg: false});
+    }
+    onOpenDocumentationSheetDlg() {
+        this.setState({openDocumentationSheetDlg: true});
+    }
+    onCloseDocumentationSheetDlg() {
+        this.setState({openDocumentationSheetDlg: false});
+    }
 
     render() {
         let authorFio = "";
@@ -28,12 +56,37 @@ class ProjectDocument extends React.Component {
             developerRepresentativeFio = this.props.item.developerRepresentative.fio;
         }
 
+        const otherButtons =
+            <IconButton tooltip="Добавить лист проектной документации" onClick={this.onOpenDocumentationSheetDlg}>
+                <Add/>
+            </IconButton>;
+
         return (
             <div>
-                <DocumentationSheetDlg
-                    itemId={this.props.item.id}
+                <ButtonsBlock
+                    onCreate={() => this.onOpenProjectDocumentDlg()}
+                    onUpdate={() => this.onOpenProjectDocumentDlg()}
+                    onDelete={() => this.onOpenProjectDocumentDlg()}
+                    otherButtons={otherButtons}
+                />
+                <ProjectDocumentDlg
+                    open={this.state.openProjectDocumentDlg}
+                    parentId={this.props.item.projectPartition.id}
                     updateConstrObj={this.props.updateConstrObj}
+                    updateSelectedItem={this.props.updateSelectedItem}
                     constrObjId={this.props.constrObjId}
+                    authors={this.props.authors}
+                    customerRepresentatives={this.props.customerRepresentatives}
+                    developerRepresentatives={this.props.developerRepresentatives}
+                    onClose={this.onCloseProjectDocumentDlg}
+                />
+                <DocumentationSheetDlg
+                    open={this.state.openDocumentationSheetDlg}
+                    parentId={this.props.item.id}
+                    updateConstrObj={this.props.updateConstrObj}
+                    updateSelectedItem={this.props.updateSelectedItem}
+                    constrObjId={this.props.constrObjId}
+                    onClose={this.onCloseDocumentationSheetDlg}
                 />
                 <br/>
                 <Table>

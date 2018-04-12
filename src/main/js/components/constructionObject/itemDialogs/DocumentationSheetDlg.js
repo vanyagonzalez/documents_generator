@@ -7,50 +7,46 @@ import IconButton from 'material-ui/IconButton';
 import Add from 'material-ui/svg-icons/content/add-circle'
 import $ from 'jquery';
 
+const documentationSheetType = "documentationSheet";
+
 class DocumentationSheetDlg extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
             open: false,
             newDocumentationSheet: {
-                projectDocument: {},
+                projectDocument: {
+                    id: null,
+                },
             },
         };
-        this.handleOpen = this.handleOpen.bind(this);
-        this.handleClose = this.handleClose.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
         this.onChange = this.onChange.bind(this);
     }
 
-    handleOpen(){
-        const state = this.state;
-        state.open=true;
-        state.newDocumentationSheet.projectDocument.id = this.props.itemId;
-        this.setState(state);
-    };
-
-    handleClose(){
-        this.setState({open: false});
-    };
-
     handleSubmit(e){
         e.preventDefault();
+        let newDocumentationSheet = this.state.newDocumentationSheet;
+        newDocumentationSheet.projectDocument.id = this.props.parentId;
+
         let updateConstrObj = this.props.updateConstrObj;
+        let updateSelectedItem = this.props.updateSelectedItem;
         let constrObjId = this.props.constrObjId;
 
         $.ajax({
             url: '/rest/documentationSheet',
             type: 'POST',
-            data: JSON.stringify(this.state.newDocumentationSheet),
+            data: JSON.stringify(newDocumentationSheet),
             contentType: 'application/json; charset=utf-8',
             dataType: 'json',
             async: false,
             success: function(msg) {
                 updateConstrObj(constrObjId);
+                updateSelectedItem(documentationSheetType, msg.id);
             }
         });
 
-        this.handleClose();
+        this.props.onClose();
     };
 
     onChange(e){
@@ -61,7 +57,7 @@ class DocumentationSheetDlg extends React.Component {
 
     render() {
         const actions = [
-            <FlatButton label="Отмена" onClick={this.handleClose} primary={true} key="cancel"/>,
+            <FlatButton label="Отмена" onClick={this.props.onClose} primary={true} key="cancel"/>,
             <FlatButton type="submit" label="Создать" primary={true} key="submit"/>,
         ];
 
@@ -72,17 +68,11 @@ class DocumentationSheetDlg extends React.Component {
 
         return (
             <div>
-                <ButtonsBlock
-                    onCreate={() => this.handleOpen()}
-                    onUpdate={() => this.handleOpen()}
-                    onDelete={() => this.handleOpen()}
-                    otherButtons={otherButtons}
-                />
                 <Dialog
                     title="Новый лист проектной документации"
                     modal={true}
-                    open={this.state.open}
-                    onRequestClose={this.handleClose}
+                    open={this.props.open}
+                    onRequestClose={this.props.onClose}
                 >
                     <form onSubmit={this.handleSubmit}>
                         <TextField name="name" floatingLabelText="Наименование листа" onChange={this.onChange}/>

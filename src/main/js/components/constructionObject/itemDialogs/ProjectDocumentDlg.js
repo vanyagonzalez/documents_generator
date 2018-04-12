@@ -35,7 +35,7 @@ class ProjectDocumentDlg extends React.Component {
     handleSubmit(e){
         e.preventDefault();
         let newProjectDocument = this.state.newProjectDocument;
-        newProjectDocument.projectPartition.id = this.props.itemId;
+        newProjectDocument.projectPartition.id = this.props.parentId;
 
         let updateConstrObj = this.props.updateConstrObj;
         let updateSelectedItem = this.props.updateSelectedItem;
