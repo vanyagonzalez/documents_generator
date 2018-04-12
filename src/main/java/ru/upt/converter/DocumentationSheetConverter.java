@@ -25,7 +25,8 @@ public class DocumentationSheetConverter {
                 documentationSheet.getName(),
                 documentationSheet.getKindOfWorks().stream().map(KindOfWorkConverter::convertToBasicDto).collect(Collectors.toList()),
                 documentationSheet.getNumber(),
-                documentationSheet.getChange()
+                documentationSheet.getChange(),
+                ProjectDocumentConverter.convertToBasicDto(documentationSheet.getProjectDocument())
         );
     }
 

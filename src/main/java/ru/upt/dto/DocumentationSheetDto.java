@@ -28,9 +28,11 @@ public class DocumentationSheetDto extends BasicDocumentationSheetDto {
                                  String name,
                                  List<BasicKindOfWorkDto> kindOfWorks,
                                  Long number,
-                                 Long change) {
+                                 Long change,
+                                 BasicProjectDocumentDto projectDocument) {
         super(id, name, kindOfWorks);
         this.number = number;
         this.change = change;
+        this.projectDocument = projectDocument;
     }
 }

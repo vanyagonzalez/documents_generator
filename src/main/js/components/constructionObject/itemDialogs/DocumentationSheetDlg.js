@@ -61,11 +61,6 @@ class DocumentationSheetDlg extends React.Component {
             <FlatButton type="submit" label="Создать" primary={true} key="submit"/>,
         ];
 
-        const otherButtons =
-            <IconButton tooltip="Добавить лист проектной документации" onClick={this.handleOpen}>
-                <Add/>
-            </IconButton>;
-
         return (
             <div>
                 <Dialog

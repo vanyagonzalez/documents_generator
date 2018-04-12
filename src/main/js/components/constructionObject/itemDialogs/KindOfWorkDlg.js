@@ -14,9 +14,7 @@ import {
     TableRow,
     TableRowColumn,
 } from 'material-ui/Table';
-import ButtonsBlock from '../../ButtonsBlock';
-import IconButton from 'material-ui/IconButton';
-import Add from 'material-ui/svg-icons/content/add-circle'
+
 import $ from 'jquery';
 
 const dialogStyle = {
@@ -46,6 +44,8 @@ const clearBothStyle = {
     clear: "both ",
 };
 
+const kindOfWorkType = "kindOfWork";
+
 class KindOfWorkDlg extends React.Component {
     constructor(props) {
         super(props);
@@ -60,28 +60,19 @@ class KindOfWorkDlg extends React.Component {
                 confirmations: [],
             },
         };
-        this.handleOpen = this.handleOpen.bind(this);
-        this.handleClose = this.handleClose.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
         this.onChange = this.onChange.bind(this);
         this.onRowSelection = this.onRowSelection.bind(this);
         this.onChangeDate = this.onChangeDate.bind(this);
     }
 
-    handleOpen(){
-        const state = this.state;
-        state.open=true;
-        state.newKindOfWork.documentationSheet.id = this.props.itemId;
-        this.setState(state);
-    };
-
-    handleClose(){
-        this.setState({open: false});
-    };
-
     handleSubmit(e){
         e.preventDefault();
+        let newKindOfWork = this.state.newKindOfWork;
+        newKindOfWork.documentationSheet.id = this.props.parentId;
         let updateConstrObj = this.props.updateConstrObj;
+        let updateSelectedItem = this.props.updateSelectedItem;
+
         let constrObjId = this.props.constrObjId;
         let otherRepresentatives = this.props.otherRepresentatives;
         let certificates = this.props.certificates;
@@ -90,7 +81,7 @@ class KindOfWorkDlg extends React.Component {
         $.ajax({
             url: '/rest/kindOfWork',
             type: 'POST',
-            data: JSON.stringify(this.state.newKindOfWork),
+            data: JSON.stringify(newKindOfWork),
             contentType: 'application/json; charset=utf-8',
             dataType: 'json',
             async: false,
@@ -105,10 +96,11 @@ class KindOfWorkDlg extends React.Component {
                     obj.selected = false;
                 });
                 updateConstrObj(constrObjId);
+                updateSelectedItem(kindOfWorkType, msg.id);
             }
         });
 
-        this.handleClose();
+        this.props.onClose();
     };
 
     onChange(e){
@@ -216,24 +208,13 @@ class KindOfWorkDlg extends React.Component {
 
         const tableHeight = '150px';
 
-        const otherButtons =
-            <IconButton tooltip="Добавить вид работы" onClick={this.handleOpen}>
-                <Add/>
-            </IconButton>;
-
         return (
             <div>
-                <ButtonsBlock
-                    onCreate={() => this.handleOpen()}
-                    onUpdate={() => this.handleOpen()}
-                    onDelete={() => this.handleOpen()}
-                    otherButtons={otherButtons}
-                />
                 <Dialog
                     title="Новый вид работы"
                     modal={true}
-                    open={this.state.open}
-                    onRequestClose={this.handleClose}
+                    open={this.props.open}
+                    onRequestClose={this.props.onClose}
                     contentStyle={dialogStyle}
                     autoScrollBodyContent={true}
                 >
