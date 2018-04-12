@@ -58,6 +58,11 @@ class ListItemData extends React.Component {
                     updateConstrObj={updateConstrObj}
                     updateSelectedItem={updateSelectedItem}
                     constrObjId={constrObjId}
+                    executors={this.props.executors}
+                    executorRepresentatives={this.props.executorRepresentatives}
+                    otherRepresentatives={this.props.otherRepresentatives}
+                    allCertificates={this.props.allCertificates}
+                    allConfirmations={this.props.allConfirmations}
                 />
             }
         }

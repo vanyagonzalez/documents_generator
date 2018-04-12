@@ -66,7 +66,8 @@ public class KindOfWorkConverter {
                 kindOfWork.getAdditionalReason(),
                 kindOfWork.getBeginDate(),
                 kindOfWork.getEndDate(),
-                kindOfWork.getPresentationDate()
+                kindOfWork.getPresentationDate(),
+                DocumentationSheetConverter.convertToBasicDto(kindOfWork.getDocumentationSheet())
         );
     }
 

@@ -72,7 +72,8 @@ public class KindOfWorkDto extends BasicKindOfWorkDto {
                          String additionalReason,
                          Date beginDate,
                          Date endDate,
-                         Date presentationDate) {
+                         Date presentationDate,
+                         BasicDocumentationSheetDto documentationSheet) {
         super(id, name);
         this.amountOfWork = amountOfWork;
         this.measureUnit = measureUnit;
@@ -85,5 +86,6 @@ public class KindOfWorkDto extends BasicKindOfWorkDto {
         this.beginDate = beginDate;
         this.endDate = endDate;
         this.presentationDate = presentationDate;
+        this.documentationSheet = documentationSheet;
     }
 }

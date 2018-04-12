@@ -10,8 +10,25 @@ import {
     TableRowColumn,
 } from 'material-ui/Table';
 import FlatButton from 'material-ui/FlatButton';
+import KindOfWorkDlg from "../itemDialogs/KindOfWorkDlg"
+import ButtonsBlock from '../../ButtonsBlock';
 
 class KindOfWork extends React.Component {
+    constructor(props) {
+        super(props);
+        this.state = {
+            openKindOfWorkDlg: false,
+        };
+        this.onOpenKindOfWorkDlg = this.onOpenKindOfWorkDlg.bind(this);
+        this.onCloseKindOfWorkDlg = this.onCloseKindOfWorkDlg.bind(this);
+    }
+
+    onOpenKindOfWorkDlg() {
+        this.setState({openKindOfWorkDlg: true});
+    }
+    onCloseKindOfWorkDlg() {
+        this.setState({openKindOfWorkDlg: false});
+    }
 
     generateDocument(id, type) {
         window.location="/rest/kindOfWork/" + id + "/document/" + type;
@@ -76,7 +93,26 @@ class KindOfWork extends React.Component {
 
         return (
             <div>
-                <FlatButton label="Форма АОСР1" primary={true} onClick={() => this.generateDocument(this.props.item.id, "aosr1")}/>
+                <ButtonsBlock
+                    onCreate={() => this.onOpenKindOfWorkDlg()}
+                    onUpdate={() => this.onOpenKindOfWorkDlg()}
+                    onDelete={() => this.onOpenKindOfWorkDlg()}
+                    otherButtons={<FlatButton label="Форма АОСР1" primary={true} onClick={() => this.generateDocument(this.props.item.id, "aosr1")}/>}
+                />
+                <KindOfWorkDlg
+                    open={this.state.openKindOfWorkDlg}
+                    parentId={this.props.item.documentationSheet.id}
+                    updateConstrObj={this.props.updateConstrObj}
+                    updateSelectedItem={this.props.updateSelectedItem}
+                    constrObjId={this.props.constrObjId}
+                    executors={this.props.executors}
+                    executorRepresentatives={this.props.executorRepresentatives}
+                    otherRepresentatives={this.props.otherRepresentatives}
+                    certificates={this.props.allCertificates}
+                    confirmations={this.props.allConfirmations}
+                    onClose={this.onCloseKindOfWorkDlg}
+                />
+
                 <br/>
                 <Table>
                     <TableBody
