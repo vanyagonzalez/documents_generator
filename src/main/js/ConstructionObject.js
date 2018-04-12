@@ -25,15 +25,15 @@ class ConstructionObject extends React.Component {
             constrObjs: [],
             selectedConstrObjId: null,
             selectedConstrObj: {},
-            typeListItem: null,
-            idListItem: null,
+            selectedItemType: null,
+            selectedItemId: null,
             selectedItem: null,
         };
 
         this.loadConstrObjsFromServer = this.loadConstrObjsFromServer.bind(this);
         this.loadConstrObjFromServer = this.loadConstrObjFromServer.bind(this);
         this.handleChoice = this.handleChoice.bind(this);
-        this.chooseListItem = this.chooseListItem.bind(this);
+        this.selectItem = this.selectItem.bind(this);
     }
 
     componentDidMount() {
@@ -70,16 +70,16 @@ class ConstructionObject extends React.Component {
         this.loadConstrObjFromServer(value);
     }
 
-    chooseListItem(type, id) {
+    selectItem(type, id) {
         const self = this;
 
-        if (this.state.typeListItem !== type || this.state.idListItem !== id) {
+        if (this.state.selectedItemType !== type || this.state.selectedItemId !== id) {
             $.ajax({
                 url: "/rest/" + type + "/" + id
             }).then(function (data) {
                 self.setState({
-                    idListItem: id,
-                    typeListItem: type,
+                    selectedItemId: id,
+                    selectedItemType: type,
                     selectedItem: data
                 });
             });
@@ -130,18 +130,22 @@ class ConstructionObject extends React.Component {
                     <SplitPane defaultSize="50%" split="vertical" style={splitPaneStyle}>
                         <div>
                             <ConstrObjPartitionList
+                                selectedItemId={this.state.selectedItemId}
+                                selectedItemType={this.state.selectedItemType}
                                 constrObj={this.state.selectedConstrObj}
-                                onClick={this.chooseListItem}
+                                onClick={this.selectItem}
                                 updateConstrObj={this.loadConstrObjFromServer}
+                                updateSelectedItem={this.selectItem}
                                 bodyHeight={splitPaneStyle.height}
                             />
                         </div>
                         <div>
-                            <ListItemData idListItem={this.state.idListItem}
-                                          typeListItem={this.state.typeListItem}
+                            <ListItemData selectedItemId={this.state.selectedItemId}
+                                          selectedItemType={this.state.selectedItemType}
                                           selectedItem={this.state.selectedItem}
                                           constrObjId={this.state.selectedConstrObj.id}
                                           updateConstrObj={this.loadConstrObjFromServer}
+                                          updateSelectedItem={this.selectItem}
                                           authors={this.props.authors}
                                           customerRepresentatives={this.props.customerRepresentatives}
                                           developerRepresentatives={this.props.developerRepresentatives}

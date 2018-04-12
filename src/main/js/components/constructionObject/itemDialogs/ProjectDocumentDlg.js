@@ -4,16 +4,14 @@ import FlatButton from 'material-ui/FlatButton';
 import TextField from 'material-ui/TextField';
 import SelectField from 'material-ui/SelectField';
 import MenuItem from 'material-ui/MenuItem';
-import ButtonsBlock from '../../ButtonsBlock';
-import IconButton from 'material-ui/IconButton';
-import Add from 'material-ui/svg-icons/content/add-circle'
 import $ from 'jquery';
+
+const projectDocumentType = "projectDocument";
 
 class ProjectDocumentDlg extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            open: false,
             newProjectDocument: {
                 author: {
                     id: null,
@@ -29,42 +27,34 @@ class ProjectDocumentDlg extends React.Component {
                 },
             },
         };
-        this.handleOpen = this.handleOpen.bind(this);
-        this.handleClose = this.handleClose.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
         this.onChange = this.onChange.bind(this);
         this.onChangeSelect = this.onChangeSelect.bind(this);
     }
 
-    handleOpen(){
-        const state = this.state;
-        state.open=true;
-        state.newProjectDocument.projectPartition.id = this.props.itemId;
-        this.setState(state);
-    };
-
-    handleClose(){
-        this.setState({open: false});
-    };
-
     handleSubmit(e){
         e.preventDefault();
+        let newProjectDocument = this.state.newProjectDocument;
+        newProjectDocument.projectPartition.id = this.props.itemId;
+
         let updateConstrObj = this.props.updateConstrObj;
+        let updateSelectedItem = this.props.updateSelectedItem;
         let constrObjId = this.props.constrObjId;
 
         $.ajax({
             url: '/rest/projectDocument',
             type: 'POST',
-            data: JSON.stringify(this.state.newProjectDocument),
+            data: JSON.stringify(newProjectDocument),
             contentType: 'application/json; charset=utf-8',
             dataType: 'json',
             async: false,
             success: function(msg) {
                 updateConstrObj(constrObjId);
+                updateSelectedItem(projectDocumentType, msg.id);
             }
         });
 
-        this.handleClose();
+        this.props.onClose();
     };
 
     onChange(e){
@@ -96,28 +86,19 @@ class ProjectDocumentDlg extends React.Component {
         });
 
         const actions = [
-            <FlatButton label="Отмена" onClick={this.handleClose} primary={true} key="cancel"/>,
+            <FlatButton label="Отмена" onClick={this.props.onClose} primary={true} key="cancel"/>,
             <FlatButton type="submit" label="Создать" primary={true} key="submit"/>,
         ];
 
-        const otherButtons =
-            <IconButton tooltip="Добавить проектную документацию" onClick={this.handleOpen}>
-                <Add/>
-            </IconButton>;
+
 
         return (
             <div>
-                <ButtonsBlock
-                    onCreate={() => this.handleOpen()}
-                    onUpdate={() => this.handleOpen()}
-                    onDelete={() => this.handleOpen()}
-                    otherButtons={otherButtons}
-                />
                 <Dialog
                     title="Новая проектная документация"
                     modal={true}
-                    open={this.state.open}
-                    onRequestClose={this.handleClose}
+                    open={this.props.open}
+                    onRequestClose={this.props.onClose}
                 >
                     <form onSubmit={this.handleSubmit}>
                         <TextField name="name" floatingLabelText="Наименование проектной документации" onChange={this.onChange}/>
