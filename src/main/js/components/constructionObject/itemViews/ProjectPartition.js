@@ -20,59 +20,72 @@ class ProjectPartition extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            openProjectPartitionDlg: false,
-            openProjectDocumentDlg: false,
+            openParentDlg: false,
+            openChildDlg: false,
+            operation: null
         };
-        this.onOpenProjectPartitionDlg = this.onOpenProjectPartitionDlg.bind(this);
-        this.onCloseProjectPartitionDlg = this.onCloseProjectPartitionDlg.bind(this);
-        this.onOpenProjectDocumentDlg = this.onOpenProjectDocumentDlg.bind(this);
-        this.onCloseProjectDocumentDlg = this.onCloseProjectDocumentDlg.bind(this);
+        this.onOpenDlg = this.onOpenDlg.bind(this);
+        this.onCloseDlg = this.onCloseDlg.bind(this);
     }
 
-    onOpenProjectPartitionDlg() {
-        this.setState({openProjectPartitionDlg: true});
+    onOpenDlg(isParent, operation) {
+        if (isParent) {
+            this.setState({
+                openParentDlg: true,
+                operation: operation
+            });
+        } else {
+            this.setState({
+                openChildDlg: true,
+                operation: operation
+            });
+        }
     }
-    onCloseProjectPartitionDlg() {
-        this.setState({openProjectPartitionDlg: false});
-    }
-    onOpenProjectDocumentDlg() {
-        this.setState({openProjectDocumentDlg: true});
-    }
-    onCloseProjectDocumentDlg() {
-        this.setState({openProjectDocumentDlg: false});
+    onCloseDlg(isParent) {
+        if (isParent) {
+            this.setState({
+                openParentDlg: false,
+                operation: null
+            });
+        } else {
+            this.setState({
+                openChildDlg: false,
+                operation: null
+            });
+        }
     }
 
     render() {
         const otherButtons =
-            <IconButton tooltip="Добавить проектную документацию" onClick={this.onOpenProjectDocumentDlg}>
+            <IconButton tooltip="Добавить проектную документацию" onClick={() => this.onOpenDlg(false, "create")}>
                 <Add/>
             </IconButton>;
 
         return (
             <div>
                 <ButtonsBlock
-                    onCreate={() => this.onOpenProjectPartitionDlg()}
-                    onUpdate={() => this.onOpenProjectPartitionDlg()}
-                    onDelete={() => this.onOpenProjectPartitionDlg()}
+                    onCreate={() => this.onOpenDlg(true, "create")}
+                    onCopy={() => this.onOpenDlg(true, "copy")}
+                    onUpdate={() => this.onOpenDlg(true, "update")}
+                    onDelete={() => this.onOpenDlg(true, "delete")}
                     otherButtons={otherButtons}
                 />
                 <ProjectPartitionDlg
-                    open={this.state.openProjectPartitionDlg}
-                    constrObjId={this.props.constrObjId}
+                    open={this.state.openParentDlg}
+                    parentId={this.props.item.constructionObject.id}
                     updateConstrObj={this.props.updateConstrObj}
                     updateSelectedItem={this.props.updateSelectedItem}
-                    onClose={this.onCloseProjectPartitionDlg}
+                    onClose={() => this.onCloseDlg(true)}
                 />
                 <ProjectDocumentDlg
-                    open={this.state.openProjectDocumentDlg}
+                    open={this.state.openChildDlg}
                     parentId={this.props.item.id}
                     updateConstrObj={this.props.updateConstrObj}
                     updateSelectedItem={this.props.updateSelectedItem}
-                    constrObjId={this.props.constrObjId}
                     authors={this.props.authors}
                     customerRepresentatives={this.props.customerRepresentatives}
                     developerRepresentatives={this.props.developerRepresentatives}
-                    onClose={this.onCloseProjectDocumentDlg}
+                    onClose={() => this.onCloseDlg(false)}
                 />
                 <br/>
                 <Table>

@@ -20,52 +20,66 @@ class DocumentationSheet extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            openDocumentationSheetDlg: false,
-            openKindOfWorkDlg: false,
+            openParentDlg: false,
+            openChildDlg: false,
+            operation: null
         };
-        this.onOpenDocumentationSheetDlg = this.onOpenDocumentationSheetDlg.bind(this);
-        this.onCloseDocumentationSheetDlg = this.onCloseDocumentationSheetDlg.bind(this);
-        this.onOpenKindOfWorkDlg = this.onOpenKindOfWorkDlg.bind(this);
-        this.onCloseKindOfWorkDlg = this.onCloseKindOfWorkDlg.bind(this);
+        this.onOpenDlg = this.onOpenDlg.bind(this);
+        this.onCloseDlg = this.onCloseDlg.bind(this);
     }
 
-    onOpenDocumentationSheetDlg() {
-        this.setState({openDocumentationSheetDlg: true});
+    onOpenDlg(isParent, operation) {
+        if (isParent) {
+            this.setState({
+                openParentDlg: true,
+                operation: operation
+            });
+        } else {
+            this.setState({
+                openChildDlg: true,
+                operation: operation
+            });
+        }
     }
-    onCloseDocumentationSheetDlg() {
-        this.setState({openDocumentationSheetDlg: false});
-    }
-    onOpenKindOfWorkDlg() {
-        this.setState({openKindOfWorkDlg: true});
-    }
-    onCloseKindOfWorkDlg() {
-        this.setState({openKindOfWorkDlg: false});
+    onCloseDlg(isParent) {
+        if (isParent) {
+            this.setState({
+                openParentDlg: false,
+                operation: null
+            });
+        } else {
+            this.setState({
+                openChildDlg: false,
+                operation: null
+            });
+        }
     }
 
     render() {
         const otherButtons =
-            <IconButton tooltip="Добавить вид работы" onClick={this.onOpenKindOfWorkDlg}>
+            <IconButton tooltip="Добавить вид работы" onClick={() => this.onOpenDlg(false, "create")}>
                 <Add/>
             </IconButton>;
 
         return (
             <div>
                 <ButtonsBlock
-                    onCreate={() => this.onOpenDocumentationSheetDlg()}
-                    onUpdate={() => this.onOpenDocumentationSheetDlg()}
-                    onDelete={() => this.onOpenDocumentationSheetDlg()}
+                    onCreate={() => this.onOpenDlg(true, "create")}
+                    onCopy={() => this.onOpenDlg(true, "copy")}
+                    onUpdate={() => this.onOpenDlg(true, "update")}
+                    onDelete={() => this.onOpenDlg(true, "delete")}
                     otherButtons={otherButtons}
                 />
                 <DocumentationSheetDlg
-                    open={this.state.openDocumentationSheetDlg}
+                    open={this.state.openParentDlg}
                     parentId={this.props.item.projectDocument.id}
                     updateConstrObj={this.props.updateConstrObj}
                     updateSelectedItem={this.props.updateSelectedItem}
                     constrObjId={this.props.constrObjId}
-                    onClose={this.onCloseDocumentationSheetDlg}
+                    onClose={() => this.onCloseDlg(true)}
                 />
                 <KindOfWorkDlg
-                    open={this.state.openKindOfWorkDlg}
+                    open={this.state.openChildDlg}
                     parentId={this.props.item.id}
                     updateConstrObj={this.props.updateConstrObj}
                     updateSelectedItem={this.props.updateSelectedItem}
@@ -75,7 +89,7 @@ class DocumentationSheet extends React.Component {
                     otherRepresentatives={this.props.otherRepresentatives}
                     certificates={this.props.allCertificates}
                     confirmations={this.props.allConfirmations}
-                    onClose={this.onCloseKindOfWorkDlg}
+                    onClose={() => this.onCloseDlg(false)}
                 />
                 <br/>
                 <Table>

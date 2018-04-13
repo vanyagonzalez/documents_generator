@@ -12,6 +12,7 @@ class ConstrObjectDlg extends React.Component {
         super(props);
         this.state = {
             open: false,
+            operation: null,
             newConstrObj: {
                 name: null,
                 customer: {
@@ -29,12 +30,18 @@ class ConstrObjectDlg extends React.Component {
         this.onChangeSelect = this.onChangeSelect.bind(this);
     }
 
-    handleOpen(){
-        this.setState({open: true});
+    handleOpen(operation){
+        this.setState({
+            open: true,
+            operation: operation,
+        });
     };
 
     handleClose(){
-        this.setState({open: false});
+        this.setState({
+            open: false,
+            operation: operation,
+        });
     };
 
     handleSubmit(e){
@@ -88,9 +95,10 @@ class ConstrObjectDlg extends React.Component {
         return (
             <div>
                 <ButtonsBlock
-                    onCreate={() => this.handleOpen()}
-                    onUpdate={() => this.handleOpen()}
-                    onDelete={() => this.handleOpen()}
+                    onCreate={() => this.handleOpen("create")}
+                    onCopy={() => this.handleOpen("copy")}
+                    onUpdate={() => this.handleOpen("update")}
+                    onDelete={() => this.handleOpen("delete")}
                 />
                 <Dialog
                     title="Новый объект строительства"

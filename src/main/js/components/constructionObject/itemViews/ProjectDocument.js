@@ -20,26 +20,39 @@ class ProjectDocument extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            openProjectDocumentDlg: false,
-            openDocumentationSheetDlg: false,
+            openParentDlg: false,
+            openChildDlg: false,
+            operation: null
         };
-        this.onOpenProjectDocumentDlg = this.onOpenProjectDocumentDlg.bind(this);
-        this.onCloseProjectDocumentDlg = this.onCloseProjectDocumentDlg.bind(this);
-        this.onOpenDocumentationSheetDlg = this.onOpenDocumentationSheetDlg.bind(this);
-        this.onCloseDocumentationSheetDlg = this.onCloseDocumentationSheetDlg.bind(this);
+        this.onOpenDlg = this.onOpenDlg.bind(this);
+        this.onCloseDlg = this.onCloseDlg.bind(this);
     }
 
-    onOpenProjectDocumentDlg() {
-        this.setState({openProjectDocumentDlg: true});
+    onOpenDlg(isParent, operation) {
+        if (isParent) {
+            this.setState({
+                openParentDlg: true,
+                operation: operation
+            });
+        } else {
+            this.setState({
+                openChildDlg: true,
+                operation: operation
+            });
+        }
     }
-    onCloseProjectDocumentDlg() {
-        this.setState({openProjectDocumentDlg: false});
-    }
-    onOpenDocumentationSheetDlg() {
-        this.setState({openDocumentationSheetDlg: true});
-    }
-    onCloseDocumentationSheetDlg() {
-        this.setState({openDocumentationSheetDlg: false});
+    onCloseDlg(isParent) {
+        if (isParent) {
+            this.setState({
+                openParentDlg: false,
+                operation: null
+            });
+        } else {
+            this.setState({
+                openChildDlg: false,
+                operation: null
+            });
+        }
     }
 
     render() {
@@ -57,36 +70,35 @@ class ProjectDocument extends React.Component {
         }
 
         const otherButtons =
-            <IconButton tooltip="Добавить лист проектной документации" onClick={this.onOpenDocumentationSheetDlg}>
+            <IconButton tooltip="Добавить лист проектной документации" onClick={() => this.onOpenDlg(false, "create")}>
                 <Add/>
             </IconButton>;
 
         return (
             <div>
                 <ButtonsBlock
-                    onCreate={() => this.onOpenProjectDocumentDlg()}
-                    onUpdate={() => this.onOpenProjectDocumentDlg()}
-                    onDelete={() => this.onOpenProjectDocumentDlg()}
+                    onCreate={() => this.onOpenDlg(true, "create")}
+                    onCopy={() => this.onOpenDlg(true, "copy")}
+                    onUpdate={() => this.onOpenDlg(true, "update")}
+                    onDelete={() => this.onOpenDlg(true, "delete")}
                     otherButtons={otherButtons}
                 />
                 <ProjectDocumentDlg
-                    open={this.state.openProjectDocumentDlg}
+                    open={this.state.openParentDlg}
                     parentId={this.props.item.projectPartition.id}
                     updateConstrObj={this.props.updateConstrObj}
                     updateSelectedItem={this.props.updateSelectedItem}
-                    constrObjId={this.props.constrObjId}
                     authors={this.props.authors}
                     customerRepresentatives={this.props.customerRepresentatives}
                     developerRepresentatives={this.props.developerRepresentatives}
-                    onClose={this.onCloseProjectDocumentDlg}
+                    onClose={() => this.onCloseDlg(true)}
                 />
                 <DocumentationSheetDlg
-                    open={this.state.openDocumentationSheetDlg}
+                    open={this.state.openChildDlg}
                     parentId={this.props.item.id}
                     updateConstrObj={this.props.updateConstrObj}
                     updateSelectedItem={this.props.updateSelectedItem}
-                    constrObjId={this.props.constrObjId}
-                    onClose={this.onCloseDocumentationSheetDlg}
+                    onClose={() => this.onCloseDlg(false)}
                 />
                 <br/>
                 <Table>

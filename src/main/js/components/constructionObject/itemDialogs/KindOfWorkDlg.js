@@ -73,7 +73,6 @@ class KindOfWorkDlg extends React.Component {
         let updateConstrObj = this.props.updateConstrObj;
         let updateSelectedItem = this.props.updateSelectedItem;
 
-        let constrObjId = this.props.constrObjId;
         let otherRepresentatives = this.props.otherRepresentatives;
         let certificates = this.props.certificates;
         let confirmations = this.props.confirmations;
@@ -95,7 +94,7 @@ class KindOfWorkDlg extends React.Component {
                 confirmations.forEach((obj) => {
                     obj.selected = false;
                 });
-                updateConstrObj(constrObjId);
+                updateConstrObj();
                 updateSelectedItem(kindOfWorkType, msg.id);
             }
         });

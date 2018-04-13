@@ -33,7 +33,7 @@ class ButtonsBlock extends React.Component {
                 <IconButton tooltip="Создать" style={btnStyle} onClick={this.props.onCreate}>
                     <Add/>
                 </IconButton>
-                <IconButton tooltip="Копия" style={btnStyle} onClick={this.onClick}>
+                <IconButton tooltip="Копия" style={btnStyle} onClick={this.props.onCopy}>
                     <Copy/>
                 </IconButton>
                 <IconButton tooltip="Редактировать" style={btnStyle} onClick={this.props.onUpdate}>

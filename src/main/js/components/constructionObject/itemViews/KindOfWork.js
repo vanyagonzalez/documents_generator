@@ -17,17 +17,39 @@ class KindOfWork extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            openKindOfWorkDlg: false,
+            openParentDlg: false,
+            openChildDlg: false,
+            operation: null
         };
-        this.onOpenKindOfWorkDlg = this.onOpenKindOfWorkDlg.bind(this);
-        this.onCloseKindOfWorkDlg = this.onCloseKindOfWorkDlg.bind(this);
+        this.onOpenDlg = this.onOpenDlg.bind(this);
+        this.onCloseDlg = this.onCloseDlg.bind(this);
     }
 
-    onOpenKindOfWorkDlg() {
-        this.setState({openKindOfWorkDlg: true});
+    onOpenDlg(isParent, operation) {
+        if (isParent) {
+            this.setState({
+                openParentDlg: true,
+                operation: operation
+            });
+        } else {
+            this.setState({
+                openChildDlg: true,
+                operation: operation
+            });
+        }
     }
-    onCloseKindOfWorkDlg() {
-        this.setState({openKindOfWorkDlg: false});
+    onCloseDlg(isParent) {
+        if (isParent) {
+            this.setState({
+                openParentDlg: false,
+                operation: null
+            });
+        } else {
+            this.setState({
+                openChildDlg: false,
+                operation: null
+            });
+        }
     }
 
     generateDocument(id, type) {
@@ -94,23 +116,23 @@ class KindOfWork extends React.Component {
         return (
             <div>
                 <ButtonsBlock
-                    onCreate={() => this.onOpenKindOfWorkDlg()}
-                    onUpdate={() => this.onOpenKindOfWorkDlg()}
-                    onDelete={() => this.onOpenKindOfWorkDlg()}
+                    onCreate={() => this.onOpenDlg(true, "create")}
+                    onCopy={() => this.onOpenDlg(true, "copy")}
+                    onUpdate={() => this.onOpenDlg(true, "update")}
+                    onDelete={() => this.onOpenDlg(true, "delete")}
                     otherButtons={<FlatButton label="Форма АОСР1" primary={true} onClick={() => this.generateDocument(this.props.item.id, "aosr1")}/>}
                 />
                 <KindOfWorkDlg
-                    open={this.state.openKindOfWorkDlg}
+                    open={this.state.openParentDlg}
                     parentId={this.props.item.documentationSheet.id}
                     updateConstrObj={this.props.updateConstrObj}
                     updateSelectedItem={this.props.updateSelectedItem}
-                    constrObjId={this.props.constrObjId}
                     executors={this.props.executors}
                     executorRepresentatives={this.props.executorRepresentatives}
                     otherRepresentatives={this.props.otherRepresentatives}
                     certificates={this.props.allCertificates}
                     confirmations={this.props.allConfirmations}
-                    onClose={this.onCloseKindOfWorkDlg}
+                    onClose={() => this.onCloseDlg(true)}
                 />
 
                 <br/>

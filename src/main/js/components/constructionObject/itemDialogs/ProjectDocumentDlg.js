@@ -39,7 +39,6 @@ class ProjectDocumentDlg extends React.Component {
 
         let updateConstrObj = this.props.updateConstrObj;
         let updateSelectedItem = this.props.updateSelectedItem;
-        let constrObjId = this.props.constrObjId;
 
         $.ajax({
             url: '/rest/projectDocument',
@@ -49,7 +48,7 @@ class ProjectDocumentDlg extends React.Component {
             dataType: 'json',
             async: false,
             success: function(msg) {
-                updateConstrObj(constrObjId);
+                updateConstrObj();
                 updateSelectedItem(projectDocumentType, msg.id);
             }
         });

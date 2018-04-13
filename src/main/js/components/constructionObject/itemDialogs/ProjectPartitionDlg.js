@@ -23,10 +23,9 @@ class ProjectPartitionDlg extends React.Component {
     handleSubmit(e){
         e.preventDefault();
         let newProjectPartition = this.state.newProjectPartition;
-        newProjectPartition.constructionObject.id = this.props.constrObjId;
+        newProjectPartition.constructionObject.id = this.props.parentId;
         let updateConstrObj = this.props.updateConstrObj;
         let updateSelectedItem = this.props.updateSelectedItem;
-        let constrObjId = this.props.constrObjId;
 
         $.ajax({
             url: '/rest/projectPartition',
@@ -36,7 +35,7 @@ class ProjectPartitionDlg extends React.Component {
             dataType: 'json',
             async: false,
             success: function(msg) {
-                updateConstrObj(constrObjId);
+                updateConstrObj();
                 updateSelectedItem(projectPartitionType, msg.id);
             }
         });

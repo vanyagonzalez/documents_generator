@@ -134,7 +134,7 @@ class ConstructionObject extends React.Component {
                                 selectedItemType={this.state.selectedItemType}
                                 constrObj={this.state.selectedConstrObj}
                                 onClick={this.selectItem}
-                                updateConstrObj={this.loadConstrObjFromServer}
+                                updateConstrObj={() => this.loadConstrObjFromServer(this.state.selectedConstrObj.id)}
                                 updateSelectedItem={this.selectItem}
                                 bodyHeight={splitPaneStyle.height}
                             />
@@ -144,7 +144,7 @@ class ConstructionObject extends React.Component {
                                           selectedItemType={this.state.selectedItemType}
                                           selectedItem={this.state.selectedItem}
                                           constrObjId={this.state.selectedConstrObj.id}
-                                          updateConstrObj={this.loadConstrObjFromServer}
+                                          updateConstrObj={() => this.loadConstrObjFromServer(this.state.selectedConstrObj.id)}
                                           updateSelectedItem={this.selectItem}
                                           authors={this.props.authors}
                                           customerRepresentatives={this.props.customerRepresentatives}
