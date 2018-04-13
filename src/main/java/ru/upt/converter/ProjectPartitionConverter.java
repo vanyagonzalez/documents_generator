@@ -36,6 +36,7 @@ public class ProjectPartitionConverter {
     public static ProjectPartition convertFromDto(ProjectPartitionDto projectPartitionDto) {
 
         return new ProjectPartition(
+                projectPartitionDto.getId(),
                 projectPartitionDto.getName(),
                 projectPartitionDto.getCode(),
                 ConstructionObjectConverter.convertFromBasicDto(projectPartitionDto.getConstructionObject())

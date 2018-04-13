@@ -188,6 +188,7 @@ class ConstrObjPartitionList extends React.Component {
                         <RaisedButton label="Новый раздел проекта" onClick={this.onOpenProjectPartitionDlg} />
                         <ProjectPartitionDlg
                             open={this.state.openProjectPartitionDlg}
+                            operation="create"
                             parentId={this.props.constrObj.id}
                             updateConstrObj={this.props.updateConstrObj}
                             updateSelectedItem={this.props.updateSelectedItem}

@@ -47,4 +47,11 @@ public class ProjectPartition {
         this.code = code;
         this.constructionObject = constructionObject;
     }
+
+    public ProjectPartition(Long id, String name, String code, ConstructionObject constructionObject) {
+        this.id = id;
+        this.name = name;
+        this.code = code;
+        this.constructionObject = constructionObject;
+    }
 }

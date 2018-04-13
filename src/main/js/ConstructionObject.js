@@ -70,18 +70,26 @@ class ConstructionObject extends React.Component {
         this.loadConstrObjFromServer(value);
     }
 
-    selectItem(type, id) {
+    selectItem(type, id, isRequired) {
         const self = this;
 
-        if (this.state.selectedItemType !== type || this.state.selectedItemId !== id) {
-            $.ajax({
-                url: "/rest/" + type + "/" + id
-            }).then(function (data) {
-                self.setState({
-                    selectedItemId: id,
-                    selectedItemType: type,
-                    selectedItem: data
+        if (id) {
+            if (isRequired || this.state.selectedItemType !== type || this.state.selectedItemId !== id) {
+                $.ajax({
+                    url: "/rest/" + type + "/" + id
+                }).then(function (data) {
+                    self.setState({
+                        selectedItemId: id,
+                        selectedItemType: type,
+                        selectedItem: data
+                    });
                 });
+            }
+        } else {
+            self.setState({
+                selectedItemId: null,
+                selectedItemType: null,
+                selectedItem: null
             });
         }
     }

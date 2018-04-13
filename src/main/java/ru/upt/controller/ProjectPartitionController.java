@@ -22,7 +22,18 @@ public class ProjectPartitionController {
     }
 
     @RequestMapping(method = RequestMethod.POST, value = "/projectPartition")
-    public ProjectPartitionDto createProjectPartition(@RequestBody ProjectPartitionDto projectPartitionDto) {
+    public ProjectPartitionDto postProjectPartition(@RequestBody ProjectPartitionDto projectPartitionDto) {
         return ProjectPartitionConverter.convertToDto(projectPartitionService.save(ProjectPartitionConverter.convertFromDto(projectPartitionDto)));
+    }
+
+    @RequestMapping(method = RequestMethod.PUT, value = "/projectPartition")
+    public ProjectPartitionDto putProjectPartition(@RequestBody ProjectPartitionDto projectPartitionDto) {
+        return ProjectPartitionConverter.convertToDto(projectPartitionService.save(ProjectPartitionConverter.convertFromDto(projectPartitionDto)));
+    }
+
+    @RequestMapping(method = RequestMethod.DELETE, value = "/projectPartition")
+    public Boolean deleteProjectPartition(@RequestBody ProjectPartitionDto projectPartitionDto) {
+        projectPartitionService.delete(ProjectPartitionConverter.convertFromDto(projectPartitionDto));
+        return Boolean.TRUE;
     }
 }

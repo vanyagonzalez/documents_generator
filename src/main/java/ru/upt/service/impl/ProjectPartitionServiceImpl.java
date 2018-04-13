@@ -25,4 +25,9 @@ public class ProjectPartitionServiceImpl implements ProjectPartitionService {
     public ProjectPartition save(ProjectPartition projectPartition) {
         return projectPartitionCrudRepository.save(projectPartition);
     }
+
+    @Override
+    public void delete(ProjectPartition projectPartition) {
+        projectPartitionCrudRepository.delete(projectPartition);
+    }
 }
