@@ -37,6 +37,11 @@ public class KindOfWorkServiceImpl implements KindOfWorkService {
     }
 
     @Override
+    public void delete(KindOfWork kindOfWork) {
+        kindOfWorkCrudRepository.delete(kindOfWork);
+    }
+
+    @Override
     public DocumentGenerationResult generateAosr1Document(Long id) throws IOException, Docx4JException {
         KindOfWork kindOfWork = kindOfWorkCrudRepository.findOne(id);
         ConstructionObject constrObj = kindOfWork.getDocumentationSheet().getProjectDocument().getProjectPartition().getConstructionObject();
