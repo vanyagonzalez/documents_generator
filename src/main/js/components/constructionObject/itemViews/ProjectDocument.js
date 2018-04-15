@@ -99,6 +99,7 @@ class ProjectDocument extends React.Component {
                 />
                 <DocumentationSheetDlg
                     open={this.state.openChildDlg}
+                    operation={this.state.operation}
                     parentId={this.props.item.id}
                     updateConstrObj={this.props.updateConstrObj}
                     updateSelectedItem={this.props.updateSelectedItem}
