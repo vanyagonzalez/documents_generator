@@ -81,4 +81,15 @@ public class ProjectDocument {
         this.developerRepresentative = developerRepresentative;
         this.projectPartition = projectPartition;
     }
+
+    public ProjectDocument(Long id, String name, String code, String phase, Employee author, Employee customerRepresentative, Employee developerRepresentative, ProjectPartition projectPartition) {
+        this.id = id;
+        this.name = name;
+        this.code = code;
+        this.phase = phase;
+        this.author = author;
+        this.customerRepresentative = customerRepresentative;
+        this.developerRepresentative = developerRepresentative;
+        this.projectPartition = projectPartition;
+    }
 }

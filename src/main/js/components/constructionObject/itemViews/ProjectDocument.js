@@ -16,6 +16,8 @@ import ButtonsBlock from '../../ButtonsBlock';
 import IconButton from 'material-ui/IconButton';
 import Add from 'material-ui/svg-icons/content/add-circle'
 
+import * as Constants from '../../../AppConstants';
+
 class ProjectDocument extends React.Component {
     constructor(props) {
         super(props);
@@ -58,33 +60,35 @@ class ProjectDocument extends React.Component {
     render() {
         let authorFio = "";
         if (this.props.item.author) {
-            authorFio = this.props.item.author.fio;
+            authorFio = this.props.item.author.person.fio;
         }
         let customerRepresentativeFio = "";
         if (this.props.item.customerRepresentative) {
-            customerRepresentativeFio = this.props.item.customerRepresentative.fio;
+            customerRepresentativeFio = this.props.item.customerRepresentative.person.fio;
         }
         let developerRepresentativeFio = "";
         if (this.props.item.developerRepresentative) {
-            developerRepresentativeFio = this.props.item.developerRepresentative.fio;
+            developerRepresentativeFio = this.props.item.developerRepresentative.person.fio;
         }
 
         const otherButtons =
-            <IconButton tooltip="Добавить лист проектной документации" onClick={() => this.onOpenDlg(false, "create")}>
+            <IconButton tooltip="Добавить лист проектной документации" onClick={() => this.onOpenDlg(false, Constants.CREATE)}>
                 <Add/>
             </IconButton>;
 
         return (
             <div>
                 <ButtonsBlock
-                    onCreate={() => this.onOpenDlg(true, "create")}
-                    onCopy={() => this.onOpenDlg(true, "copy")}
-                    onUpdate={() => this.onOpenDlg(true, "update")}
-                    onDelete={() => this.onOpenDlg(true, "delete")}
+                    onCreate={() => this.onOpenDlg(true, Constants.CREATE)}
+                    onCopy={() => this.onOpenDlg(true, Constants.COPY)}
+                    onUpdate={() => this.onOpenDlg(true, Constants.UPDATE)}
+                    onDelete={() => this.onOpenDlg(true, Constants.DELETE)}
                     otherButtons={otherButtons}
                 />
                 <ProjectDocumentDlg
                     open={this.state.openParentDlg}
+                    operation={this.state.operation}
+                    item={this.props.item}
                     parentId={this.props.item.projectPartition.id}
                     updateConstrObj={this.props.updateConstrObj}
                     updateSelectedItem={this.props.updateSelectedItem}

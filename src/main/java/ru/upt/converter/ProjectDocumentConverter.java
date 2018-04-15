@@ -45,6 +45,7 @@ public class ProjectDocumentConverter {
         BasicEmployeeDto developerRepresentative = projectDocumentDto.getDeveloperRepresentative();
 
         return new ProjectDocument(
+                projectDocumentDto.getId(),
                 projectDocumentDto.getName(),
                 projectDocumentDto.getCode(),
                 projectDocumentDto.getPhase(),

@@ -33,6 +33,7 @@ public class ProjectDocumentServiceImpl implements ProjectDocumentService {
 
     @Override
     public void delete(ProjectDocument projectDocument) {
+        projectDocument = projectDocumentCrudRepository.findOne(projectDocument.getId());
         for (DocumentationSheet documentationSheet : projectDocument.getDocumentationSheets()) {
             documentationSheetService.delete(documentationSheet);
         }

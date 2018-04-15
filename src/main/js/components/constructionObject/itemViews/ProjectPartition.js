@@ -16,6 +16,8 @@ import ButtonsBlock from '../../ButtonsBlock';
 import IconButton from 'material-ui/IconButton';
 import Add from 'material-ui/svg-icons/content/add-circle'
 
+import * as Constants from '../../../AppConstants';
+
 class ProjectPartition extends React.Component {
     constructor(props) {
         super(props);
@@ -57,17 +59,17 @@ class ProjectPartition extends React.Component {
 
     render() {
         const otherButtons =
-            <IconButton tooltip="Добавить проектную документацию" onClick={() => this.onOpenDlg(false, "create")}>
+            <IconButton tooltip="Добавить проектную документацию" onClick={() => this.onOpenDlg(false, Constants.CREATE)}>
                 <Add/>
             </IconButton>;
 
         return (
             <div>
                 <ButtonsBlock
-                    onCreate={() => this.onOpenDlg(true, "create")}
-                    onCopy={() => this.onOpenDlg(true, "copy")}
-                    onUpdate={() => this.onOpenDlg(true, "update")}
-                    onDelete={() => this.onOpenDlg(true, "delete")}
+                    onCreate={() => this.onOpenDlg(true, Constants.CREATE)}
+                    onCopy={() => this.onOpenDlg(true, Constants.COPY)}
+                    onUpdate={() => this.onOpenDlg(true, Constants.UPDATE)}
+                    onDelete={() => this.onOpenDlg(true, Constants.DELETE)}
                     otherButtons={otherButtons}
                 />
                 <ProjectPartitionDlg

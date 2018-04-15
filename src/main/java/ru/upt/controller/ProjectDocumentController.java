@@ -22,7 +22,18 @@ public class ProjectDocumentController {
     }
 
     @RequestMapping(method = RequestMethod.POST, value = "/projectDocument")
-    public ProjectDocumentDto createProjectDocument(@RequestBody ProjectDocumentDto projectDocumentDto) {
+    public ProjectDocumentDto postProjectDocument(@RequestBody ProjectDocumentDto projectDocumentDto) {
         return ProjectDocumentConverter.convertToDto(projectDocumentService.save(ProjectDocumentConverter.convertFromDto(projectDocumentDto)));
+    }
+
+    @RequestMapping(method = RequestMethod.PUT, value = "/projectDocument")
+    public ProjectDocumentDto putProjectDocument(@RequestBody ProjectDocumentDto projectDocumentDto) {
+        return ProjectDocumentConverter.convertToDto(projectDocumentService.save(ProjectDocumentConverter.convertFromDto(projectDocumentDto)));
+    }
+
+    @RequestMapping(method = RequestMethod.DELETE, value = "/projectDocument")
+    public Boolean deleteProjectDocument(@RequestBody ProjectDocumentDto projectDocumentDto) {
+        projectDocumentService.delete(ProjectDocumentConverter.convertFromDto(projectDocumentDto));
+        return Boolean.TRUE;
     }
 }

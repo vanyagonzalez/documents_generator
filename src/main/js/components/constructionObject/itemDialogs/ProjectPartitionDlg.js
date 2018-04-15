@@ -62,9 +62,9 @@ class ProjectPartitionDlg extends React.Component {
 
     handleSubmit(e){
         e.preventDefault();
-        let newProjectPartition = this.state.newProjectPartition;
-        let updateConstrObj = this.props.updateConstrObj;
-        let updateSelectedItem = this.props.updateSelectedItem;
+        const newProjectPartition = this.state.newProjectPartition;
+        const updateConstrObj = this.props.updateConstrObj;
+        const updateSelectedItem = this.props.updateSelectedItem;
         const operation = this.props.operation;
 
         $.ajax({
