@@ -33,6 +33,7 @@ public class DocumentationSheetServiceImpl implements DocumentationSheetService 
 
     @Override
     public void delete(DocumentationSheet documentationSheet) {
+        documentationSheet = documentationSheetCrudRepository.findOne(documentationSheet.getId());
         for (KindOfWork kindOfWork : documentationSheet.getKindOfWorks()) {
             kindOfWorkService.delete(kindOfWork);
         }

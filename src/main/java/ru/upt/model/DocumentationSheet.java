@@ -47,6 +47,14 @@ public class DocumentationSheet {
         this.projectDocument = projectDocument;
     }
 
+    public DocumentationSheet(Long id, String name, Long number, Long change, ProjectDocument projectDocument) {
+        this.id = id;
+        this.name = name;
+        this.number = number;
+        this.change = change;
+        this.projectDocument = projectDocument;
+    }
+
     public DocumentationSheet(Long id, String name) {
         this.id = id;
         this.name = name;

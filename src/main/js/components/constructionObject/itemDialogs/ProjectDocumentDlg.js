@@ -15,18 +15,10 @@ class ProjectDocumentDlg extends React.Component {
             dlgTitle: null,
             btnLabel: "кнопка",
             newProjectDocument: {
-                author: {
-                    id: null,
-                },
-                customerRepresentative: {
-                    id: null,
-                },
-                developerRepresentative: {
-                    id: null,
-                },
-                projectPartition: {
-                    id: null,
-                },
+                author: {},
+                customerRepresentative: {},
+                developerRepresentative: {},
+                projectPartition: {},
             },
         };
         this.handleSubmit = this.handleSubmit.bind(this);

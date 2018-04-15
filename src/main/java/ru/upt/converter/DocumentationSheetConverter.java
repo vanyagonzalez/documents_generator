@@ -32,6 +32,7 @@ public class DocumentationSheetConverter {
 
     public static DocumentationSheet convertFromDto(DocumentationSheetDto documentationSheetDto) {
         return new DocumentationSheet(
+                documentationSheetDto.getId(),
                 documentationSheetDto.getName(),
                 documentationSheetDto.getNumber(),
                 documentationSheetDto.getChange(),
