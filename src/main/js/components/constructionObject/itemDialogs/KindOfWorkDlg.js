@@ -14,11 +14,12 @@ import {
     TableRow,
     TableRowColumn,
 } from 'material-ui/Table';
+import {Tabs, Tab} from 'material-ui/Tabs';
 
 import $ from 'jquery';
 
 const dialogStyle = {
-    width: '60%',
+    width: '40%',
     maxWidth: 'none',
 };
 
@@ -33,7 +34,7 @@ const floatLeftStyle = {
 
 const floatDateLeftStyle = {
     float: "left",
-    width: "22%",
+    width: "33%",
 };
 
 const floatRightStyle = {
@@ -50,6 +51,7 @@ class KindOfWorkDlg extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
+            value: 'basicInfo',
             open: false,
             newKindOfWork: {
                 documentationSheet: {},
@@ -64,6 +66,7 @@ class KindOfWorkDlg extends React.Component {
         this.onChange = this.onChange.bind(this);
         this.onRowSelection = this.onRowSelection.bind(this);
         this.onChangeDate = this.onChangeDate.bind(this);
+        this.handleChange = this.handleChange.bind(this);
     }
 
     handleSubmit(e){
@@ -135,6 +138,12 @@ class KindOfWorkDlg extends React.Component {
         this.setState(state);
     }
 
+    handleChange(value) {
+        this.setState({
+            value: value,
+        });
+    };
+
     render() {
         let executors = [];
         this.props.executors.forEach(function(executor) {
@@ -143,14 +152,14 @@ class KindOfWorkDlg extends React.Component {
 
         let executorRepresentatives = [];
         this.props.executorRepresentatives.forEach(function(executorRepresentative) {
-            executorRepresentatives.push(<MenuItem key={"executorRepresentative_" + executorRepresentative.id} value={executorRepresentative.id} primaryText={executorRepresentative.fio} />);
+            executorRepresentatives.push(<MenuItem key={"executorRepresentative_" + executorRepresentative.id} value={executorRepresentative.id} primaryText={executorRepresentative.person.fio} />);
         });
 
         let otherRepresentatives = [];
         this.props.otherRepresentatives.forEach(function(otherRepresentative) {
             otherRepresentatives.push(
             <TableRow key={"otherRepresentative_" + otherRepresentative.id} selected={otherRepresentative.selected}>
-                <TableRowColumn>{otherRepresentative.fio}</TableRowColumn>
+                <TableRowColumn>{otherRepresentative.person.fio}</TableRowColumn>
             </TableRow>
             );
         });
@@ -159,7 +168,7 @@ class KindOfWorkDlg extends React.Component {
         this.state.newKindOfWork.otherRepresentatives.forEach(function(otherRepresentative) {
             selectedOtherRepresentatives.push(
                 <TableRow key={"selectedOtherRepresentatives_" + otherRepresentative.id}>
-                    <TableRowColumn>{otherRepresentative.fio}</TableRowColumn>
+                    <TableRowColumn>{otherRepresentative.person.fio}</TableRowColumn>
                 </TableRow>
             );
         });
@@ -207,6 +216,8 @@ class KindOfWorkDlg extends React.Component {
 
         const tableHeight = '150px';
 
+        const tabStyle = {height: '40vh'}
+
         return (
             <div>
                 <Dialog
@@ -218,165 +229,176 @@ class KindOfWorkDlg extends React.Component {
                     autoScrollBodyContent={true}
                 >
                     <form onSubmit={this.handleSubmit}>
-                        <TextField name="name" floatingLabelText="Наименование работы" onChange={this.onChange} style={marginRight} />
-                        <TextField name="amountOfWork" floatingLabelText="Объем выполненной работы" onChange={this.onChange} style={marginRight} />
-                        <TextField name="measureUnit" floatingLabelText="Единица измерения" onChange={this.onChange} style={marginRight} />
-                        <TextField name="additionalReason" floatingLabelText="Дополнительные нормативные документы" onChange={this.onChange}/>
-                        <br/>
-                        <SelectField value={this.state.newKindOfWork.executor.id} floatingLabelText="Организация фактически выполнившая работу"
-                                     onChange={(event, index, value) => this.onChangeSelect("executor", value)}
-                                     style={marginRight} >
-                            {executors}
-                        </SelectField>
-                        <SelectField value={this.state.newKindOfWork.executorRepresentative.id} floatingLabelText="Представитель исполнителя работы"
-                                     onChange={(event, index, value) => this.onChangeSelect("executorRepresentative", value)}>
-                            {executorRepresentatives}
-                        </SelectField>
-                        <br/>
-                        <div style={floatDateLeftStyle}>
-                            <DatePicker
-                                floatingLabelText="Дата начала производства работ"
-                                locale="ru"
-                                onChange={(e, date) => this.onChangeDate(date, "beginDate")}
-                            />
-                        </div>
-                        <div style={floatDateLeftStyle}>
-                            <DatePicker
-                                floatingLabelText="Дата окончания производства работ"
-                                locale="ru"
-                                onChange={(e, date) => this.onChangeDate(date, "endDate")}
-                            />
-                        </div>
-                        <div style={floatDateLeftStyle}>
-                            <DatePicker
-                                floatingLabelText="Дата проведения комиссии по приемке работ"
-                                locale="ru"
-                                onChange={(e, date) => this.onChangeDate(date, "presentationDate")}
-                            />
-                        </div>
-                        <br/>
-                        <div style={floatLeftStyle}>
-                            <Table
-                                height={tableHeight}
-                                selectable={true}
-                                fixedHeader={true}
-                                multiSelectable={true}
-                                className={"tableForSelecting"}
-                                onRowSelection={(rows) => this.onRowSelection(rows, "otherRepresentatives")}>
-                                <TableHeader displaySelectAll={false} adjustForCheckbox={false} enableSelectAll={false}>
-                                    <TableRow>
-                                        <TableHeaderColumn colSpan="2" style={{textAlign: 'center'}}>
-                                            Возможные представители иных лиц
-                                        </TableHeaderColumn>
-                                    </TableRow>
-                                </TableHeader>
-                                <TableBody
-                                    displayRowCheckbox={true}
-                                    className={"tableBodyForSelecting"}
-                                    deselectOnClickaway={false}>
-                                    {otherRepresentatives}
-                                </TableBody>
-                            </Table>
-                        </div>
-                        <div style={floatRightStyle}>
-                            <Table
-                                height={tableHeight}
-                                fixedHeader={true}
-                                className={"tableForSelecting"}>
-                                <TableHeader displaySelectAll={false} adjustForCheckbox={false} enableSelectAll={false}>
-                                    <TableRow>
-                                        <TableHeaderColumn colSpan="2" style={{textAlign: 'center'}}>
-                                            Выбранные представители иных лиц
-                                        </TableHeaderColumn>
-                                    </TableRow>
-                                </TableHeader>
-                                <TableBody displayRowCheckbox={false} className={"tableBodyForSelecting"}>
-                                    {selectedOtherRepresentatives}
-                                </TableBody>
-                            </Table>
-                        </div>
-                        <br/>
-                        <div style={floatLeftStyle}>
-                            <Table
-                                height={tableHeight}
-                                selectable={true}
-                                fixedHeader={true}
-                                multiSelectable={true}
-                                className={"tableForSelecting"}
-                                onRowSelection={(rows) => this.onRowSelection(rows, "certificates")}>
-                                <TableHeader displaySelectAll={false} adjustForCheckbox={false} enableSelectAll={false}>
-                                    <TableRow>
-                                        <TableHeaderColumn colSpan="2" style={{textAlign: 'center'}}>
-                                            Возможные материалы
-                                        </TableHeaderColumn>
-                                    </TableRow>
-                                </TableHeader>
-                                <TableBody
-                                    displayRowCheckbox={true}
-                                    className={"tableBodyForSelecting"}
-                                    deselectOnClickaway={false}>
-                                    {certificates}
-                                </TableBody>
-                            </Table>
-                        </div>
-                        <div style={floatRightStyle}>
-                            <Table
-                                height={tableHeight}
-                                fixedHeader={true}
-                                className={"tableForSelecting"}>
-                                <TableHeader displaySelectAll={false} adjustForCheckbox={false} enableSelectAll={false}>
-                                    <TableRow>
-                                        <TableHeaderColumn colSpan="2" style={{textAlign: 'center'}}>
-                                            Выбранные материалы
-                                        </TableHeaderColumn>
-                                    </TableRow>
-                                </TableHeader>
-                                <TableBody displayRowCheckbox={false} className={"tableBodyForSelecting"}>
-                                    {selectedCertificates}
-                                </TableBody>
-                            </Table>
-                        </div>
-                        <br/>
-                        <div style={floatLeftStyle}>
-                            <Table
-                                height={tableHeight}
-                                selectable={true}
-                                fixedHeader={true}
-                                multiSelectable={true}
-                                className={"tableForSelecting"}
-                                onRowSelection={(rows) => this.onRowSelection(rows, "confirmations")}>
-                                <TableHeader displaySelectAll={false} adjustForCheckbox={false} enableSelectAll={false}>
-                                    <TableRow>
-                                        <TableHeaderColumn colSpan="2" style={{textAlign: 'center'}}>
-                                            Возможные документы, подтверждающие качество выполенных работ
-                                        </TableHeaderColumn>
-                                    </TableRow>
-                                </TableHeader>
-                                <TableBody
-                                    displayRowCheckbox={true}
-                                    className={"tableBodyForSelecting"}
-                                    deselectOnClickaway={false}>
-                                    {confirmations}
-                                </TableBody>
-                            </Table>
-                        </div>
-                        <div style={floatRightStyle}>
-                            <Table
-                                height={tableHeight}
-                                fixedHeader={true}
-                                className={"tableForSelecting"}>
-                                <TableHeader displaySelectAll={false} adjustForCheckbox={false} enableSelectAll={false}>
-                                    <TableRow>
-                                        <TableHeaderColumn colSpan="2" style={{textAlign: 'center'}}>
-                                            Выбранные документы, подтверждающие качество выполенных работ
-                                        </TableHeaderColumn>
-                                    </TableRow>
-                                </TableHeader>
-                                <TableBody displayRowCheckbox={false} className={"tableBodyForSelecting"}>
-                                    {selectedConfirmations}
-                                </TableBody>
-                            </Table>
-                        </div>
+                        <Tabs
+                            value={this.state.value}
+                            onChange={this.handleChange}
+                            style={tabStyle}
+                        >
+                            <Tab label="Основная информация" value="basicInfo">
+                                <TextField name="name" floatingLabelText="Наименование работы" onChange={this.onChange} style={marginRight} />
+                                <br/>
+                                <TextField name="amountOfWork" floatingLabelText="Объем выполненной работы" onChange={this.onChange} style={marginRight} />
+                                <TextField name="measureUnit" floatingLabelText="Единица измерения" onChange={this.onChange} style={marginRight} />
+                                <br/>
+                                <TextField name="additionalReason" floatingLabelText="Дополнительные нормативные документы" onChange={this.onChange}/>
+                                <br/>
+
+                                <div style={floatDateLeftStyle}>
+                                    <DatePicker
+                                        floatingLabelText="Дата начала производства работ"
+                                        onChange={(e, date) => this.onChangeDate(date, "beginDate")}
+                                    />
+                                </div>
+                                <div style={floatDateLeftStyle}>
+                                    <DatePicker
+                                        floatingLabelText="Дата окончания производства работ"
+                                        onChange={(e, date) => this.onChangeDate(date, "endDate")}
+                                    />
+                                </div>
+                                <div style={floatDateLeftStyle}>
+                                    <DatePicker
+                                        floatingLabelText="Дата проведения комиссии по приемке работ"
+                                        onChange={(e, date) => this.onChangeDate(date, "presentationDate")}
+                                    />
+                                </div>
+                            </Tab>
+                            <Tab label="Представители" value="representatives">
+                                <SelectField value={this.state.newKindOfWork.executor.id} floatingLabelText="Организация фактически выполнившая работу"
+                                             onChange={(event, index, value) => this.onChangeSelect("executor", value)}
+                                             style={marginRight} >
+                                    {executors}
+                                </SelectField>
+                                <SelectField value={this.state.newKindOfWork.executorRepresentative.id} floatingLabelText="Представитель исполнителя работы"
+                                             onChange={(event, index, value) => this.onChangeSelect("executorRepresentative", value)}>
+                                    {executorRepresentatives}
+                                </SelectField>
+                                <br/>
+                                <div style={floatLeftStyle}>
+                                    <Table
+                                        height={tableHeight}
+                                        selectable={true}
+                                        fixedHeader={true}
+                                        multiSelectable={true}
+                                        className={"tableForSelecting"}
+                                        onRowSelection={(rows) => this.onRowSelection(rows, "otherRepresentatives")}>
+                                        <TableHeader displaySelectAll={false} adjustForCheckbox={false} enableSelectAll={false}>
+                                            <TableRow>
+                                                <TableHeaderColumn colSpan="2" style={{textAlign: 'center'}}>
+                                                    Возможные представители иных лиц
+                                                </TableHeaderColumn>
+                                            </TableRow>
+                                        </TableHeader>
+                                        <TableBody
+                                            displayRowCheckbox={true}
+                                            className={"tableBodyForSelecting"}
+                                            deselectOnClickaway={false}>
+                                            {otherRepresentatives}
+                                        </TableBody>
+                                    </Table>
+                                </div>
+                                <div style={floatRightStyle}>
+                                    <Table
+                                        height={tableHeight}
+                                        fixedHeader={true}
+                                        className={"tableForSelecting"}>
+                                        <TableHeader displaySelectAll={false} adjustForCheckbox={false} enableSelectAll={false}>
+                                            <TableRow>
+                                                <TableHeaderColumn colSpan="2" style={{textAlign: 'center'}}>
+                                                    Выбранные представители иных лиц
+                                                </TableHeaderColumn>
+                                            </TableRow>
+                                        </TableHeader>
+                                        <TableBody displayRowCheckbox={false} className={"tableBodyForSelecting"}>
+                                            {selectedOtherRepresentatives}
+                                        </TableBody>
+                                    </Table>
+                                </div>
+                            </Tab>
+                            <Tab label="Материалы" value="certificates">
+                                <div style={floatLeftStyle}>
+                                    <Table
+                                        height={tableHeight}
+                                        selectable={true}
+                                        fixedHeader={true}
+                                        multiSelectable={true}
+                                        className={"tableForSelecting"}
+                                        onRowSelection={(rows) => this.onRowSelection(rows, "certificates")}>
+                                        <TableHeader displaySelectAll={false} adjustForCheckbox={false} enableSelectAll={false}>
+                                            <TableRow>
+                                                <TableHeaderColumn colSpan="2" style={{textAlign: 'center'}}>
+                                                    Возможные материалы
+                                                </TableHeaderColumn>
+                                            </TableRow>
+                                        </TableHeader>
+                                        <TableBody
+                                            displayRowCheckbox={true}
+                                            className={"tableBodyForSelecting"}
+                                            deselectOnClickaway={false}>
+                                            {certificates}
+                                        </TableBody>
+                                    </Table>
+                                </div>
+                                <div style={floatRightStyle}>
+                                    <Table
+                                        height={tableHeight}
+                                        fixedHeader={true}
+                                        className={"tableForSelecting"}>
+                                        <TableHeader displaySelectAll={false} adjustForCheckbox={false} enableSelectAll={false}>
+                                            <TableRow>
+                                                <TableHeaderColumn colSpan="2" style={{textAlign: 'center'}}>
+                                                    Выбранные материалы
+                                                </TableHeaderColumn>
+                                            </TableRow>
+                                        </TableHeader>
+                                        <TableBody displayRowCheckbox={false} className={"tableBodyForSelecting"}>
+                                            {selectedCertificates}
+                                        </TableBody>
+                                    </Table>
+                                </div>
+                                <br/>
+                                <div style={floatLeftStyle}>
+                                    <Table
+                                        height={tableHeight}
+                                        selectable={true}
+                                        fixedHeader={true}
+                                        multiSelectable={true}
+                                        className={"tableForSelecting"}
+                                        onRowSelection={(rows) => this.onRowSelection(rows, "confirmations")}>
+                                        <TableHeader displaySelectAll={false} adjustForCheckbox={false} enableSelectAll={false}>
+                                            <TableRow>
+                                                <TableHeaderColumn colSpan="2" style={{textAlign: 'center'}}>
+                                                    Возможные документы, подтверждающие качество выполенных работ
+                                                </TableHeaderColumn>
+                                            </TableRow>
+                                        </TableHeader>
+                                        <TableBody
+                                            displayRowCheckbox={true}
+                                            className={"tableBodyForSelecting"}
+                                            deselectOnClickaway={false}>
+                                            {confirmations}
+                                        </TableBody>
+                                    </Table>
+                                </div>
+                                <div style={floatRightStyle}>
+                                    <Table
+                                        height={tableHeight}
+                                        fixedHeader={true}
+                                        className={"tableForSelecting"}>
+                                        <TableHeader displaySelectAll={false} adjustForCheckbox={false} enableSelectAll={false}>
+                                            <TableRow>
+                                                <TableHeaderColumn colSpan="2" style={{textAlign: 'center'}}>
+                                                    Выбранные документы, подтверждающие качество выполенных работ
+                                                </TableHeaderColumn>
+                                            </TableRow>
+                                        </TableHeader>
+                                        <TableBody displayRowCheckbox={false} className={"tableBodyForSelecting"}>
+                                            {selectedConfirmations}
+                                        </TableBody>
+                                    </Table>
+                                </div>
+                            </Tab>
+                        </Tabs>
+
                         <br/>
                         {actions}
                     </form>
