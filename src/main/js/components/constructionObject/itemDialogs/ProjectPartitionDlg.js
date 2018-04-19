@@ -94,15 +94,16 @@ class ProjectPartitionDlg extends React.Component {
     }
 
     render() {
-        const actions = [
-            <FlatButton label="Отмена" onClick={this.props.onClose} primary={true} key="cancel"/>,
-            <FlatButton type="submit" label={this.state.btnLabel} primary={true} key="submit"/>,
-        ];
+        let dialog;
+        if (this.props.open) {
+            const actions = [
+                <FlatButton label="Отмена" onClick={this.props.onClose} primary={true} key="cancel"/>,
+                <FlatButton type="submit" label={this.state.btnLabel} primary={true} key="submit"/>,
+            ];
 
-        const isDisabled = this.props.operation === Constants.DELETE;
+            const isDisabled = this.props.operation === Constants.DELETE;
 
-        return (
-            <div>
+            dialog =
                 <Dialog
                     title={this.state.dlgTitle}
                     modal={true}
@@ -116,7 +117,12 @@ class ProjectPartitionDlg extends React.Component {
                         <br/>
                         {actions}
                     </form>
-                </Dialog>
+                </Dialog>;
+        }
+
+        return (
+            <div>
+                {dialog}
             </div>
         );
     }

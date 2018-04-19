@@ -77,29 +77,25 @@ class ConstrObjectDlg extends React.Component {
 
 
     render() {
-        let customers = [];
-        this.props.customers.forEach(function(customer) {
-            customers.push(<MenuItem key={"customer_" + customer.id} value={customer.id} primaryText={customer.name} />);
-        });
+        let dialog;
+        if (this.state.open) {
+            let customers = [];
+            this.props.customers.forEach(function (customer) {
+                customers.push(<MenuItem key={"customer_" + customer.id} value={customer.id}
+                                         primaryText={customer.name}/>);
+            });
 
-        let developers = [];
-        this.props.developers.forEach(function(developer) {
-            developers.push(<MenuItem key={"developer_" + developer.id} value={developer.id} primaryText={developer.name} />);
-        });
+            let developers = [];
+            this.props.developers.forEach(function (developer) {
+                developers.push(<MenuItem key={"developer_" + developer.id} value={developer.id}
+                                          primaryText={developer.name}/>);
+            });
 
-        const actions = [
-            <FlatButton label="Отмена" onClick={this.handleClose} primary={true} key="cancel"/>,
-            <FlatButton type="submit" label="Создать" primary={true} key="submit"/>,
-        ];
-
-        return (
-            <div>
-                <ButtonsBlock
-                    onCreate={() => this.handleOpen("create")}
-                    onCopy={() => this.handleOpen("copy")}
-                    onUpdate={() => this.handleOpen("update")}
-                    onDelete={() => this.handleOpen("delete")}
-                />
+            const actions = [
+                <FlatButton label="Отмена" onClick={this.handleClose} primary={true} key="cancel"/>,
+                <FlatButton type="submit" label="Создать" primary={true} key="submit"/>,
+            ];
+            dialog =
                 <Dialog
                     title="Новый объект строительства"
                     modal={true}
@@ -125,7 +121,18 @@ class ConstrObjectDlg extends React.Component {
                         <br/>
                         {actions}
                     </form>
-                </Dialog>
+                </Dialog>;
+        }
+
+        return (
+            <div>
+                <ButtonsBlock
+                    onCreate={() => this.handleOpen("create")}
+                    onCopy={() => this.handleOpen("copy")}
+                    onUpdate={() => this.handleOpen("update")}
+                    onDelete={() => this.handleOpen("delete")}
+                />
+                {dialog}
             </div>
         );
     }

@@ -117,30 +117,35 @@ class ProjectDocumentDlg extends React.Component {
     }
 
     render() {
-        let authors = [];
-        this.props.authors.forEach(function(author) {
-            authors.push(<MenuItem key={"author_" + author.id} value={author.id} primaryText={author.person.fio} />);
-        });
+        let dialog;
+        if (this.props.open) {
+            let authors = [];
+            this.props.authors.forEach(function (author) {
+                authors.push(<MenuItem key={"author_" + author.id} value={author.id} primaryText={author.person.fio}/>);
+            });
 
-        let customerRepresentatives = [];
-        this.props.customerRepresentatives.forEach(function(customerRepresentative) {
-            customerRepresentatives.push(<MenuItem key={"customerRepresentative_" + customerRepresentative.id} value={customerRepresentative.id} primaryText={customerRepresentative.person.fio} />);
-        });
+            let customerRepresentatives = [];
+            this.props.customerRepresentatives.forEach(function (customerRepresentative) {
+                customerRepresentatives.push(<MenuItem key={"customerRepresentative_" + customerRepresentative.id}
+                                                       value={customerRepresentative.id}
+                                                       primaryText={customerRepresentative.person.fio}/>);
+            });
 
-        let developerRepresentatives = [];
-        this.props.developerRepresentatives.forEach(function(developerRepresentative) {
-            developerRepresentatives.push(<MenuItem key={"developerRepresentative_" + developerRepresentative.id} value={developerRepresentative.id} primaryText={developerRepresentative.person.fio} />);
-        });
+            let developerRepresentatives = [];
+            this.props.developerRepresentatives.forEach(function (developerRepresentative) {
+                developerRepresentatives.push(<MenuItem key={"developerRepresentative_" + developerRepresentative.id}
+                                                        value={developerRepresentative.id}
+                                                        primaryText={developerRepresentative.person.fio}/>);
+            });
 
-        const actions = [
-            <FlatButton label="Отмена" onClick={this.props.onClose} primary={true} key="cancel"/>,
-            <FlatButton type="submit" label={this.state.btnLabel} primary={true} key="submit"/>,
-        ];
+            const actions = [
+                <FlatButton label="Отмена" onClick={this.props.onClose} primary={true} key="cancel"/>,
+                <FlatButton type="submit" label={this.state.btnLabel} primary={true} key="submit"/>,
+            ];
 
-        const isDisabled = this.props.operation === Constants.DELETE;
+            const isDisabled = this.props.operation === Constants.DELETE;
 
-        return (
-            <div>
+            dialog =
                 <Dialog
                     title={this.state.dlgTitle}
                     modal={true}
@@ -171,7 +176,12 @@ class ProjectDocumentDlg extends React.Component {
                         <br/>
                         {actions}
                     </form>
-                </Dialog>
+                </Dialog>;
+        }
+
+        return (
+            <div>
+                {dialog}
             </div>
         );
     }
