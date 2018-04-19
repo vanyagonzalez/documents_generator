@@ -63,9 +63,9 @@ class DocumentationSheetDlg extends React.Component {
 
     handleSubmit(e){
         e.preventDefault();
-        let newDocumentationSheet = this.state.newDocumentationSheet;
-        let updateConstrObj = this.props.updateConstrObj;
-        let updateSelectedItem = this.props.updateSelectedItem;
+        const newDocumentationSheet = this.state.newDocumentationSheet;
+        const updateConstrObj = this.props.updateConstrObj;
+        const updateSelectedItem = this.props.updateSelectedItem;
         const operation = this.props.operation;
 
         $.ajax({

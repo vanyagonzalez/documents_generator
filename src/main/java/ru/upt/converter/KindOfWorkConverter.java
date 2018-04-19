@@ -48,8 +48,8 @@ public class KindOfWorkConverter {
         BasicEmployeeDto executorRepresentativeDto = executorRepresentative != null ?
                 new BasicEmployeeDto(
                         executorRepresentative.getId(),
-                        PersonConverter.convertToBasicDto(executorRepresentative.getPerson()),
-                        OrganizationConverter.convertToBasicDto(executorRepresentative.getOrganization()),
+                        executorRepresentative.getPerson() != null ? PersonConverter.convertToBasicDto(executorRepresentative.getPerson()) : null,
+                        executorRepresentative.getOrganization() != null ? OrganizationConverter.convertToBasicDto(executorRepresentative.getOrganization()) : null,
                         executorRepresentative.getPosition()
                 ) : null;
 
@@ -82,6 +82,7 @@ public class KindOfWorkConverter {
                 kindOfWorkDto.getConfirmations().stream().map(ConfirmationConverter::convertFromBasicDto).collect(Collectors.toSet()) : null;
 
         return new KindOfWork(
+                kindOfWorkDto.getId(),
                 kindOfWorkDto.getName(),
                 kindOfWorkDto.getAmountOfWork(),
                 kindOfWorkDto.getMeasureUnit(),

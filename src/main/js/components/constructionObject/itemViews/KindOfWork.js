@@ -124,6 +124,8 @@ class KindOfWork extends React.Component {
                 />
                 <KindOfWorkDlg
                     open={this.state.openParentDlg}
+                    operation={this.state.operation}
+                    item={this.props.item}
                     parentId={this.props.item.documentationSheet.id}
                     updateConstrObj={this.props.updateConstrObj}
                     updateSelectedItem={this.props.updateSelectedItem}

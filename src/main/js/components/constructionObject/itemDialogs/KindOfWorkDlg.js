@@ -15,6 +15,7 @@ import {
     TableRowColumn,
 } from 'material-ui/Table';
 import {Tabs, Tab} from 'material-ui/Tabs';
+import * as Constants from '../../../AppConstants';
 
 import $ from 'jquery';
 
@@ -41,18 +42,15 @@ const floatRightStyle = {
     float: "right",
     width: "50%",
 };
-const clearBothStyle = {
-    clear: "both ",
-};
-
-const kindOfWorkType = "kindOfWork";
 
 class KindOfWorkDlg extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
             value: 'basicInfo',
-            open: false,
+            restMethod: null,
+            dlgTitle: null,
+            btnLabel: "кнопка",
             newKindOfWork: {
                 documentationSheet: {},
                 executor: {},
@@ -69,36 +67,80 @@ class KindOfWorkDlg extends React.Component {
         this.handleChange = this.handleChange.bind(this);
     }
 
+    componentWillReceiveProps(nextProps) {
+        if (nextProps.open) {
+            const operation = nextProps.operation;
+            let state = this.state;
+            state.newKindOfWork={
+                documentationSheet: {
+                    id: nextProps.parentId,
+                },
+                executor: {},
+                executorRepresentative: {},
+                otherRepresentatives: [],
+                certificates: [],
+                confirmations: [],
+            };
+
+            if (operation === Constants.CREATE) {
+                state.restMethod = "POST";
+                state.dlgTitle = "Новый вид работы";
+                state.btnLabel = "Создать";
+            } else if (operation === Constants.COPY || operation === Constants.UPDATE || operation === Constants.DELETE) {
+                const item = nextProps.item;
+                state.newKindOfWork.name=item.name;
+                state.newKindOfWork.amountOfWork=item.amountOfWork;
+                state.newKindOfWork.measureUnit=item.measureUnit;
+                state.newKindOfWork.executor=item.executor;
+                state.newKindOfWork.executorRepresentative=item.executorRepresentative;
+                state.newKindOfWork.otherRepresentatives=item.otherRepresentatives;
+                state.newKindOfWork.certificates=item.certificates;
+                state.newKindOfWork.confirmations=item.confirmations;
+                state.newKindOfWork.additionalReason=item.additionalReason;
+                state.newKindOfWork.beginDate=item.beginDate;
+                state.newKindOfWork.endDate=item.endDate;
+                state.newKindOfWork.presentationDate=item.presentationDate;
+
+                if (operation === Constants.COPY) {
+                    state.restMethod = "POST";
+                    state.dlgTitle = "Новый вид работы";
+                    state.btnLabel = "Создать";
+                } else if (operation === Constants.UPDATE) {
+                    state.newKindOfWork.id=item.id;
+                    state.restMethod = "PUT";
+                    state.dlgTitle = "Изменение вида работы: " + item.name;
+                    state.btnLabel = "Редактировать";
+                } else {
+                    state.newKindOfWork.id=item.id;
+                    state.restMethod = "DELETE";
+                    state.dlgTitle = "Удаление вида работы: " + item.name;
+                    state.btnLabel = "Удалить";
+                }
+            }
+        }
+    }
+
     handleSubmit(e){
         e.preventDefault();
-        let newKindOfWork = this.state.newKindOfWork;
-        newKindOfWork.documentationSheet.id = this.props.parentId;
-        let updateConstrObj = this.props.updateConstrObj;
-        let updateSelectedItem = this.props.updateSelectedItem;
-
-        let otherRepresentatives = this.props.otherRepresentatives;
-        let certificates = this.props.certificates;
-        let confirmations = this.props.confirmations;
+        const newKindOfWork = this.state.newKindOfWork;
+        const updateConstrObj = this.props.updateConstrObj;
+        const updateSelectedItem = this.props.updateSelectedItem;
+        const operation = this.props.operation;
 
         $.ajax({
             url: '/rest/kindOfWork',
-            type: 'POST',
+            type: this.state.restMethod,
             data: JSON.stringify(newKindOfWork),
             contentType: 'application/json; charset=utf-8',
             dataType: 'json',
             async: false,
             success: function(msg) {
-                otherRepresentatives.forEach((obj) => {
-                    obj.selected = false;
-                });
-                certificates.forEach((obj) => {
-                    obj.selected = false;
-                });
-                confirmations.forEach((obj) => {
-                    obj.selected = false;
-                });
                 updateConstrObj();
-                updateSelectedItem(kindOfWorkType, msg.id);
+                if (operation !== Constants.DELETE) {
+                    updateSelectedItem(Constants.KIND_OF_WORK_TYPE, msg.id, true);
+                } else {
+                    updateSelectedItem(Constants.KIND_OF_WORK_TYPE, null);
+                }
             }
         });
 
@@ -108,11 +150,14 @@ class KindOfWorkDlg extends React.Component {
     onChange(e){
         const state = this.state;
         state.newKindOfWork[e.target.name] = e.target.value;
-        this.setState(state);
+        // this.setState(state);
     }
 
     onChangeSelect(name, value){
         const state = this.state;
+        if (typeof state.newKindOfWork[name] === 'undefined' || typeof state.newKindOfWork[name]) {
+            state.newKindOfWork[name] = {};
+        }
         state.newKindOfWork[name].id = value;
         this.setState(state);
     }
@@ -135,7 +180,7 @@ class KindOfWorkDlg extends React.Component {
     onChangeDate(date, name){
         const state = this.state;
         state.newKindOfWork[name] = date.getTime();
-        this.setState(state);
+        // this.setState(state);
     }
 
     handleChange(value) {
@@ -145,83 +190,118 @@ class KindOfWorkDlg extends React.Component {
     };
 
     render() {
-        let executors = [];
-        this.props.executors.forEach(function(executor) {
-            executors.push(<MenuItem key={"executor_" + executor.id} value={executor.id} primaryText={executor.name} />);
-        });
+        let dialog;
+        if (this.props.open) {
+            const executors = [];
+            this.props.executors.forEach(function(executor) {
+                executors.push(<MenuItem key={"executor_" + executor.id} value={executor.id} primaryText={executor.name} />);
+            });
 
-        let executorRepresentatives = [];
-        this.props.executorRepresentatives.forEach(function(executorRepresentative) {
-            executorRepresentatives.push(<MenuItem key={"executorRepresentative_" + executorRepresentative.id} value={executorRepresentative.id} primaryText={executorRepresentative.person.fio} />);
-        });
+            const executorRepresentatives = [];
+            this.props.executorRepresentatives.forEach(function(executorRepresentative) {
+                executorRepresentatives.push(<MenuItem key={"executorRepresentative_" + executorRepresentative.id} value={executorRepresentative.id} primaryText={executorRepresentative.person.fio} />);
+            });
 
-        let otherRepresentatives = [];
-        this.props.otherRepresentatives.forEach(function(otherRepresentative) {
-            otherRepresentatives.push(
-            <TableRow key={"otherRepresentative_" + otherRepresentative.id} selected={otherRepresentative.selected}>
-                <TableRowColumn>{otherRepresentative.person.fio}</TableRowColumn>
-            </TableRow>
-            );
-        });
+            const selectedOtherRepresentatives = [];
+            const selectedOtherRepresentativesIds = [];
+            this.state.newKindOfWork.otherRepresentatives.forEach(function(otherRepresentative) {
+                selectedOtherRepresentatives.push(
+                    <TableRow key={"selectedOtherRepresentatives_" + otherRepresentative.id}>
+                        <TableRowColumn>{otherRepresentative.person.fio}</TableRowColumn>
+                    </TableRow>
+                );
+                selectedOtherRepresentativesIds.push(otherRepresentative.id);
+            });
 
-        let selectedOtherRepresentatives = [];
-        this.state.newKindOfWork.otherRepresentatives.forEach(function(otherRepresentative) {
-            selectedOtherRepresentatives.push(
-                <TableRow key={"selectedOtherRepresentatives_" + otherRepresentative.id}>
-                    <TableRowColumn>{otherRepresentative.person.fio}</TableRowColumn>
-                </TableRow>
-            );
-        });
+            const otherRepresentatives = [];
+            this.props.otherRepresentatives.forEach(function(otherRepresentative) {
+                const selected = selectedOtherRepresentativesIds.includes(otherRepresentative.id);
+                otherRepresentatives.push(
+                    <TableRow key={"otherRepresentative_" + otherRepresentative.id} selected={selected}>
+                        <TableRowColumn>{otherRepresentative.person.fio}</TableRowColumn>
+                    </TableRow>
+                );
+            });
 
-        let certificates = [];
-        this.props.certificates.forEach(function(certificate) {
-            certificates.push(
-            <TableRow key={"certificates_" + certificate.id} selected={certificate.selected}>
-                <TableRowColumn>{certificate.material}</TableRowColumn>
-            </TableRow>
-            );
-        });
+            const selectedCertificates = [];
+            const selectedCertificatesIds = [];
+            this.state.newKindOfWork.certificates.forEach(function(certificate) {
+                selectedCertificates.push(
+                    <TableRow key={"selectedCertificates_" + certificate.id}>
+                        <TableRowColumn>{certificate.material}</TableRowColumn>
+                    </TableRow>
+                );
+                selectedCertificatesIds.push(certificate.id);
+            });
 
-        let selectedCertificates = [];
-        this.state.newKindOfWork.certificates.forEach(function(certificate) {
-            selectedCertificates.push(
-                <TableRow key={"selectedCertificates_" + certificate.id}>
+            const certificates = [];
+            this.props.certificates.forEach(function(certificate) {
+                const selected = selectedCertificatesIds.includes(certificate.id);
+                certificates.push(
+                <TableRow key={"certificates_" + certificate.id} selected={selected}>
                     <TableRowColumn>{certificate.material}</TableRowColumn>
                 </TableRow>
-            );
-        });
+                );
+            });
 
-        let confirmations = [];
-        this.props.confirmations.forEach(function(confirmation) {
-            confirmations.push(
-            <TableRow key={"confirmation_" + confirmation.id} selected={confirmation.selected}>
-                <TableRowColumn>{confirmation.name}</TableRowColumn>
-            </TableRow>
-            );
-        });
+            const selectedConfirmations = [];
+            const selectedConfirmationsIds = [];
+            this.state.newKindOfWork.confirmations.forEach(function(confirmation) {
+                selectedConfirmations.push(
+                    <TableRow key={"selectedConfirmations_" + confirmation.id}>
+                        <TableRowColumn>{confirmation.name}</TableRowColumn>
+                    </TableRow>
+                );
+                selectedConfirmationsIds.push(confirmation.id);
+            });
 
-        let selectedConfirmations = [];
-        this.state.newKindOfWork.confirmations.forEach(function(confirmation) {
-            selectedConfirmations.push(
-                <TableRow key={"selectedConfirmations_" + confirmation.id}>
+            const confirmations = [];
+            this.props.confirmations.forEach(function(confirmation) {
+                const selected = selectedConfirmationsIds.includes(confirmation.id);
+                confirmations.push(
+                <TableRow key={"confirmation_" + confirmation.id} selected={selected}>
                     <TableRowColumn>{confirmation.name}</TableRowColumn>
                 </TableRow>
-            );
-        });
+                );
+            });
 
-        const actions = [
-            <FlatButton label="Отмена" onClick={this.handleClose} primary={true} key="cancel"/>,
-            <FlatButton type="submit" label="Создать" primary={true} key="submit"/>,
-        ];
+            const actions = [
+                <FlatButton label="Отмена" onClick={this.props.onClose} primary={true} key="cancel"/>,
+                <FlatButton type="submit" label={this.state.btnLabel} primary={true} key="submit"/>,
+            ];
 
-        const tableHeight = '150px';
+            const tableHeight = '150px';
+            const tabStyle = {height: '40vh'};
+            const isDisabled = this.props.operation === Constants.DELETE;
 
-        const tabStyle = {height: '40vh'}
+            let beginDate;
+            if (this.state.newKindOfWork.beginDate) {
+                beginDate = new Date(this.state.newKindOfWork.beginDate);
+            }
 
-        return (
-            <div>
+            let endDate;
+            if (this.state.newKindOfWork.endDate) {
+                endDate = new Date(this.state.newKindOfWork.endDate);
+            }
+
+            let presentationDate;
+            if (this.state.newKindOfWork.presentationDate) {
+                presentationDate = new Date(this.state.newKindOfWork.presentationDate);
+            }
+
+            let executorId;
+            if (this.state.newKindOfWork.executor) {
+                executorId = this.state.newKindOfWork.executor.id;
+            }
+
+            let executorRepresentativeId;
+            if (this.state.newKindOfWork.executorRepresentative) {
+                executorRepresentativeId = this.state.newKindOfWork.executorRepresentative.id;
+            }
+
+            dialog =
                 <Dialog
-                    title="Новый вид работы"
+                    title={this.state.dlgTitle}
                     modal={true}
                     open={this.props.open}
                     onRequestClose={this.props.onClose}
@@ -235,52 +315,61 @@ class KindOfWorkDlg extends React.Component {
                             style={tabStyle}
                         >
                             <Tab label="Основная информация" value="basicInfo">
-                                <TextField name="name" floatingLabelText="Наименование работы" onChange={this.onChange} style={marginRight} />
+                                <TextField name="name" floatingLabelText="Наименование работы" disabled={isDisabled} defaultValue={this.state.newKindOfWork.name} onChange={this.onChange} style={marginRight} />
                                 <br/>
-                                <TextField name="amountOfWork" floatingLabelText="Объем выполненной работы" onChange={this.onChange} style={marginRight} />
-                                <TextField name="measureUnit" floatingLabelText="Единица измерения" onChange={this.onChange} style={marginRight} />
+                                <TextField name="amountOfWork" floatingLabelText="Объем выполненной работы" disabled={isDisabled} defaultValue={this.state.newKindOfWork.amountOfWork} onChange={this.onChange} style={marginRight} />
+                                <TextField name="measureUnit" floatingLabelText="Единица измерения" disabled={isDisabled} defaultValue={this.state.newKindOfWork.measureUnit} onChange={this.onChange} style={marginRight} />
                                 <br/>
-                                <TextField name="additionalReason" floatingLabelText="Дополнительные нормативные документы" onChange={this.onChange}/>
+                                <TextField name="additionalReason" floatingLabelText="Дополнительные нормативные документы" disabled={isDisabled} defaultValue={this.state.newKindOfWork.additionalReason} onChange={this.onChange}/>
                                 <br/>
 
                                 <div style={floatDateLeftStyle}>
                                     <DatePicker
                                         floatingLabelText="Дата начала производства работ"
+                                        disabled={isDisabled}
+                                        defaultDate={beginDate}
                                         onChange={(e, date) => this.onChangeDate(date, "beginDate")}
                                     />
                                 </div>
                                 <div style={floatDateLeftStyle}>
                                     <DatePicker
                                         floatingLabelText="Дата окончания производства работ"
+                                        disabled={isDisabled}
+                                        defaultDate={endDate}
                                         onChange={(e, date) => this.onChangeDate(date, "endDate")}
                                     />
                                 </div>
                                 <div style={floatDateLeftStyle}>
                                     <DatePicker
                                         floatingLabelText="Дата проведения комиссии по приемке работ"
+                                        disabled={isDisabled}
+                                        defaultDate={presentationDate}
                                         onChange={(e, date) => this.onChangeDate(date, "presentationDate")}
                                     />
                                 </div>
                             </Tab>
                             <Tab label="Представители" value="representatives">
-                                <SelectField value={this.state.newKindOfWork.executor.id} floatingLabelText="Организация фактически выполнившая работу"
+                                <SelectField value={executorId} floatingLabelText="Организация фактически выполнившая работу"
                                              onChange={(event, index, value) => this.onChangeSelect("executor", value)}
+                                             disabled={isDisabled}
                                              style={marginRight} >
                                     {executors}
                                 </SelectField>
-                                <SelectField value={this.state.newKindOfWork.executorRepresentative.id} floatingLabelText="Представитель исполнителя работы"
-                                             onChange={(event, index, value) => this.onChangeSelect("executorRepresentative", value)}>
+                                <SelectField value={executorRepresentativeId} floatingLabelText="Представитель исполнителя работы"
+                                             onChange={(event, index, value) => this.onChangeSelect("executorRepresentative", value)}
+                                             disabled={isDisabled}>
                                     {executorRepresentatives}
                                 </SelectField>
                                 <br/>
                                 <div style={floatLeftStyle}>
                                     <Table
                                         height={tableHeight}
-                                        selectable={true}
+                                        selectable={!isDisabled}
                                         fixedHeader={true}
                                         multiSelectable={true}
                                         className={"tableForSelecting"}
-                                        onRowSelection={(rows) => this.onRowSelection(rows, "otherRepresentatives")}>
+                                        onRowSelection={(rows) => this.onRowSelection(rows, "otherRepresentatives")}
+                                    >
                                         <TableHeader displaySelectAll={false} adjustForCheckbox={false} enableSelectAll={false}>
                                             <TableRow>
                                                 <TableHeaderColumn colSpan="2" style={{textAlign: 'center'}}>
@@ -300,7 +389,9 @@ class KindOfWorkDlg extends React.Component {
                                     <Table
                                         height={tableHeight}
                                         fixedHeader={true}
-                                        className={"tableForSelecting"}>
+                                        className={"tableForSelecting"}
+                                        disabled={isDisabled}
+                                    >
                                         <TableHeader displaySelectAll={false} adjustForCheckbox={false} enableSelectAll={false}>
                                             <TableRow>
                                                 <TableHeaderColumn colSpan="2" style={{textAlign: 'center'}}>
@@ -318,11 +409,12 @@ class KindOfWorkDlg extends React.Component {
                                 <div style={floatLeftStyle}>
                                     <Table
                                         height={tableHeight}
-                                        selectable={true}
+                                        selectable={!isDisabled}
                                         fixedHeader={true}
                                         multiSelectable={true}
                                         className={"tableForSelecting"}
-                                        onRowSelection={(rows) => this.onRowSelection(rows, "certificates")}>
+                                        onRowSelection={(rows) => this.onRowSelection(rows, "certificates")}
+                                    >
                                         <TableHeader displaySelectAll={false} adjustForCheckbox={false} enableSelectAll={false}>
                                             <TableRow>
                                                 <TableHeaderColumn colSpan="2" style={{textAlign: 'center'}}>
@@ -342,7 +434,9 @@ class KindOfWorkDlg extends React.Component {
                                     <Table
                                         height={tableHeight}
                                         fixedHeader={true}
-                                        className={"tableForSelecting"}>
+                                        className={"tableForSelecting"}
+                                        disabled={isDisabled}
+                                    >
                                         <TableHeader displaySelectAll={false} adjustForCheckbox={false} enableSelectAll={false}>
                                             <TableRow>
                                                 <TableHeaderColumn colSpan="2" style={{textAlign: 'center'}}>
@@ -359,11 +453,12 @@ class KindOfWorkDlg extends React.Component {
                                 <div style={floatLeftStyle}>
                                     <Table
                                         height={tableHeight}
-                                        selectable={true}
+                                        selectable={!isDisabled}
                                         fixedHeader={true}
                                         multiSelectable={true}
                                         className={"tableForSelecting"}
-                                        onRowSelection={(rows) => this.onRowSelection(rows, "confirmations")}>
+                                        onRowSelection={(rows) => this.onRowSelection(rows, "confirmations")}
+                                    >
                                         <TableHeader displaySelectAll={false} adjustForCheckbox={false} enableSelectAll={false}>
                                             <TableRow>
                                                 <TableHeaderColumn colSpan="2" style={{textAlign: 'center'}}>
@@ -383,7 +478,9 @@ class KindOfWorkDlg extends React.Component {
                                     <Table
                                         height={tableHeight}
                                         fixedHeader={true}
-                                        className={"tableForSelecting"}>
+                                        className={"tableForSelecting"}
+                                        disabled={isDisabled}
+                                    >
                                         <TableHeader displaySelectAll={false} adjustForCheckbox={false} enableSelectAll={false}>
                                             <TableRow>
                                                 <TableHeaderColumn colSpan="2" style={{textAlign: 'center'}}>
@@ -403,6 +500,11 @@ class KindOfWorkDlg extends React.Component {
                         {actions}
                     </form>
                 </Dialog>
+        }
+
+        return (
+            <div>
+                {dialog}
             </div>
         );
     }

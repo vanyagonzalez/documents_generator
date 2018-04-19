@@ -121,4 +121,34 @@ public class KindOfWork {
         this.presentationDate = presentationDate;
         this.documentationSheet = documentationSheet;
     }
+
+    public KindOfWork(Long id,
+                      String name,
+                      String amountOfWork,
+                      String measureUnit,
+                      Organization executor,
+                      Employee executorRepresentative,
+                      Set<Employee> otherRepresentatives,
+                      Set<Certificate> certificates,
+                      Set<Confirmation> confirmations,
+                      String additionalReason,
+                      Date beginDate,
+                      Date endDate,
+                      Date presentationDate,
+                      DocumentationSheet documentationSheet) {
+        this.id = id;
+        this.name = name;
+        this.amountOfWork = amountOfWork;
+        this.measureUnit = measureUnit;
+        this.executor = executor;
+        this.executorRepresentative = executorRepresentative;
+        this.otherRepresentatives = otherRepresentatives;
+        this.certificates = certificates;
+        this.confirmations = confirmations;
+        this.additionalReason = additionalReason;
+        this.beginDate = beginDate;
+        this.endDate = endDate;
+        this.presentationDate = presentationDate;
+        this.documentationSheet = documentationSheet;
+    }
 }

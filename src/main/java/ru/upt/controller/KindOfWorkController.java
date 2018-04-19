@@ -32,8 +32,19 @@ public class KindOfWorkController {
     }
 
     @RequestMapping(method = RequestMethod.POST, value = "/kindOfWork")
-    public KindOfWorkDto createKindOfWork(@RequestBody KindOfWorkDto kindOfWorkDto) {
+    public KindOfWorkDto postKindOfWork(@RequestBody KindOfWorkDto kindOfWorkDto) {
         return KindOfWorkConverter.convertToDto(kindOfWorkService.save(KindOfWorkConverter.convertFromDto(kindOfWorkDto)));
+    }
+
+    @RequestMapping(method = RequestMethod.PUT, value = "/kindOfWork")
+    public KindOfWorkDto putKindOfWork(@RequestBody KindOfWorkDto kindOfWorkDto) {
+        return KindOfWorkConverter.convertToDto(kindOfWorkService.save(KindOfWorkConverter.convertFromDto(kindOfWorkDto)));
+    }
+
+    @RequestMapping(method = RequestMethod.DELETE, value = "/kindOfWork")
+    public Boolean deleteKindOfWork(@RequestBody KindOfWorkDto kindOfWorkDto) {
+        kindOfWorkService.delete(KindOfWorkConverter.convertFromDto(kindOfWorkDto));
+        return Boolean.TRUE;
     }
 
     @RequestMapping(
