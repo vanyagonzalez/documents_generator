@@ -63,15 +63,9 @@ class DocumentationSheet extends React.Component {
                 <Add/>
             </IconButton>;
 
-        return (
-            <div>
-                <ButtonsBlock
-                    onCreate={() => this.onOpenDlg(true, Constants.CREATE)}
-                    onCopy={() => this.onOpenDlg(true, Constants.COPY)}
-                    onUpdate={() => this.onOpenDlg(true, Constants.UPDATE)}
-                    onDelete={() => this.onOpenDlg(true, Constants.DELETE)}
-                    otherButtons={otherButtons}
-                />
+        let documentationSheetDlg = "";
+        if (this.state.openParentDlg) {
+            documentationSheetDlg =
                 <DocumentationSheetDlg
                     open={this.state.openParentDlg}
                     operation={this.state.operation}
@@ -82,6 +76,11 @@ class DocumentationSheet extends React.Component {
                     constrObjId={this.props.constrObjId}
                     onClose={() => this.onCloseDlg(true)}
                 />
+        }
+
+        let kindOfWorkDlg = "";
+        if (this.state.openChildDlg) {
+            kindOfWorkDlg =
                 <KindOfWorkDlg
                     open={this.state.openChildDlg}
                     parentId={this.props.item.id}
@@ -95,6 +94,19 @@ class DocumentationSheet extends React.Component {
                     confirmations={this.props.allConfirmations}
                     onClose={() => this.onCloseDlg(false)}
                 />
+        }
+
+        return (
+            <div>
+                <ButtonsBlock
+                    onCreate={() => this.onOpenDlg(true, Constants.CREATE)}
+                    onCopy={() => this.onOpenDlg(true, Constants.COPY)}
+                    onUpdate={() => this.onOpenDlg(true, Constants.UPDATE)}
+                    onDelete={() => this.onOpenDlg(true, Constants.DELETE)}
+                    otherButtons={otherButtons}
+                />
+                {documentationSheetDlg}
+                {kindOfWorkDlg}
                 <br/>
                 <Table>
                     <TableBody

@@ -75,16 +75,9 @@ class ProjectDocument extends React.Component {
             <IconButton tooltip="Добавить лист проектной документации" onClick={() => this.onOpenDlg(false, Constants.CREATE)}>
                 <Add/>
             </IconButton>;
-
-        return (
-            <div>
-                <ButtonsBlock
-                    onCreate={() => this.onOpenDlg(true, Constants.CREATE)}
-                    onCopy={() => this.onOpenDlg(true, Constants.COPY)}
-                    onUpdate={() => this.onOpenDlg(true, Constants.UPDATE)}
-                    onDelete={() => this.onOpenDlg(true, Constants.DELETE)}
-                    otherButtons={otherButtons}
-                />
+        let projectDocumentDlg = "";
+        if (this.state.openParentDlg) {
+            projectDocumentDlg =
                 <ProjectDocumentDlg
                     open={this.state.openParentDlg}
                     operation={this.state.operation}
@@ -97,6 +90,11 @@ class ProjectDocument extends React.Component {
                     developerRepresentatives={this.props.developerRepresentatives}
                     onClose={() => this.onCloseDlg(true)}
                 />
+        }
+
+        let documentationSheetDlg = "";
+        if (this.state.openChildDlg) {
+            documentationSheetDlg =
                 <DocumentationSheetDlg
                     open={this.state.openChildDlg}
                     operation={this.state.operation}
@@ -105,6 +103,19 @@ class ProjectDocument extends React.Component {
                     updateSelectedItem={this.props.updateSelectedItem}
                     onClose={() => this.onCloseDlg(false)}
                 />
+        }
+
+        return (
+            <div>
+                <ButtonsBlock
+                    onCreate={() => this.onOpenDlg(true, Constants.CREATE)}
+                    onCopy={() => this.onOpenDlg(true, Constants.COPY)}
+                    onUpdate={() => this.onOpenDlg(true, Constants.UPDATE)}
+                    onDelete={() => this.onOpenDlg(true, Constants.DELETE)}
+                    otherButtons={otherButtons}
+                />
+                {projectDocumentDlg}
+                {documentationSheetDlg}
                 <br/>
                 <Table>
                     <TableBody

@@ -65,6 +65,8 @@ class KindOfWorkDlg extends React.Component {
         this.onRowSelection = this.onRowSelection.bind(this);
         this.onChangeDate = this.onChangeDate.bind(this);
         this.handleChange = this.handleChange.bind(this);
+
+        this.componentWillReceiveProps(props)
     }
 
     componentWillReceiveProps(nextProps) {

@@ -63,15 +63,9 @@ class ProjectPartition extends React.Component {
                 <Add/>
             </IconButton>;
 
-        return (
-            <div>
-                <ButtonsBlock
-                    onCreate={() => this.onOpenDlg(true, Constants.CREATE)}
-                    onCopy={() => this.onOpenDlg(true, Constants.COPY)}
-                    onUpdate={() => this.onOpenDlg(true, Constants.UPDATE)}
-                    onDelete={() => this.onOpenDlg(true, Constants.DELETE)}
-                    otherButtons={otherButtons}
-                />
+        let projectPartitionDlg = "";
+        if (this.state.openParentDlg) {
+            projectPartitionDlg =
                 <ProjectPartitionDlg
                     open={this.state.openParentDlg}
                     operation={this.state.operation}
@@ -81,6 +75,11 @@ class ProjectPartition extends React.Component {
                     updateSelectedItem={this.props.updateSelectedItem}
                     onClose={() => this.onCloseDlg(true)}
                 />
+        }
+
+        let projectDocumentDlg = "";
+        if(this.state.openChildDlg) {
+            projectDocumentDlg =
                 <ProjectDocumentDlg
                     open={this.state.openChildDlg}
                     operation={this.state.operation}
@@ -92,6 +91,19 @@ class ProjectPartition extends React.Component {
                     developerRepresentatives={this.props.developerRepresentatives}
                     onClose={() => this.onCloseDlg(false)}
                 />
+        }
+
+        let data =
+            <div>
+                <ButtonsBlock
+                    onCreate={() => this.onOpenDlg(true, Constants.CREATE)}
+                    onCopy={() => this.onOpenDlg(true, Constants.COPY)}
+                    onUpdate={() => this.onOpenDlg(true, Constants.UPDATE)}
+                    onDelete={() => this.onOpenDlg(true, Constants.DELETE)}
+                    otherButtons={otherButtons}
+                />
+                {projectPartitionDlg}
+                {projectDocumentDlg}
                 <br/>
                 <Table>
                     <TableBody
@@ -106,6 +118,11 @@ class ProjectPartition extends React.Component {
                         </TableRow>
                     </TableBody>
                 </Table>
+            </div>;
+
+        return (
+            <div>
+                {data}
             </div>
         )
     }

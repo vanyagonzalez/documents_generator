@@ -20,6 +20,8 @@ class ProjectPartitionDlg extends React.Component {
         };
         this.handleSubmit = this.handleSubmit.bind(this);
         this.onChange = this.onChange.bind(this);
+
+        this.componentWillReceiveProps(props)
     }
 
     componentWillReceiveProps(nextProps) {

@@ -113,15 +113,9 @@ class KindOfWork extends React.Component {
             presentationDate = presentationDate.toLocaleDateString();
         }
 
-        return (
-            <div>
-                <ButtonsBlock
-                    onCreate={() => this.onOpenDlg(true, "create")}
-                    onCopy={() => this.onOpenDlg(true, "copy")}
-                    onUpdate={() => this.onOpenDlg(true, "update")}
-                    onDelete={() => this.onOpenDlg(true, "delete")}
-                    otherButtons={<FlatButton label="Форма АОСР1" primary={true} onClick={() => this.generateDocument(this.props.item.id, "aosr1")}/>}
-                />
+        let kindOfWorkDlg = "";
+        if (this.state.openParentDlg) {
+            kindOfWorkDlg =
                 <KindOfWorkDlg
                     open={this.state.openParentDlg}
                     operation={this.state.operation}
@@ -136,6 +130,18 @@ class KindOfWork extends React.Component {
                     confirmations={this.props.allConfirmations}
                     onClose={() => this.onCloseDlg(true)}
                 />
+        }
+
+        return (
+            <div>
+                <ButtonsBlock
+                    onCreate={() => this.onOpenDlg(true, "create")}
+                    onCopy={() => this.onOpenDlg(true, "copy")}
+                    onUpdate={() => this.onOpenDlg(true, "update")}
+                    onDelete={() => this.onOpenDlg(true, "delete")}
+                    otherButtons={<FlatButton label="Форма АОСР1" primary={true} onClick={() => this.generateDocument(this.props.item.id, "aosr1")}/>}
+                />
+                {kindOfWorkDlg}
 
                 <br/>
                 <Table>

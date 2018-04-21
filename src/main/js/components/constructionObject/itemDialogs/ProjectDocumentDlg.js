@@ -24,6 +24,8 @@ class ProjectDocumentDlg extends React.Component {
         this.handleSubmit = this.handleSubmit.bind(this);
         this.onChange = this.onChange.bind(this);
         this.onChangeSelect = this.onChangeSelect.bind(this);
+
+        this.componentWillReceiveProps(props)
     }
 
     componentWillReceiveProps(nextProps) {
