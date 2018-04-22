@@ -10,6 +10,8 @@ import {
     TableRowColumn,
 } from 'material-ui/Table';
 
+const selectedItemStyle = {fontWeight: "bold", fontStyle: "italic"};
+
 class Confirmations extends React.Component {
     constructor(props) {
         super(props);
@@ -30,9 +32,15 @@ class Confirmations extends React.Component {
 
     render() {
         let allConfirmations = [];
+        const selectedId = this.props.confirmation.id;
+
         this.props.allConfirmations.forEach(function(confirmation) {
+            let style;
+            if (selectedId === confirmation.id) {
+                style = selectedItemStyle;
+            }
             allConfirmations.push(
-                <TableRow key={"confirmation_" + confirmation.id}>
+                <TableRow key={"confirmation_" + confirmation.id} style={style}>
                     <TableRowColumn>{confirmation.name}</TableRowColumn>
                 </TableRow>
             );

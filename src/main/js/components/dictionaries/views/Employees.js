@@ -11,6 +11,8 @@ import {
 } from 'material-ui/Table';
 import {List, ListItem} from 'material-ui/List';
 
+const selectedItemStyle = {fontWeight: "bold", fontStyle: "italic"};
+
 class Employees extends React.Component {
     constructor(props) {
         super(props);
@@ -54,6 +56,7 @@ class Employees extends React.Component {
         let selectEmployee = this.selectEmployee;
         let openByKey = this.state.openByKey;
         let handleNestedListToggle = this.handleNestedListToggle;
+        const selectedId = this.props.employee.id;
 
         Object.keys(data).forEach(function(key, index) {
             let root = data[key];
@@ -64,11 +67,16 @@ class Employees extends React.Component {
                     if (employee.person) {
                         personFio = employee.person.fio;
                     }
+                    let style;
+                    if (selectedId === employee.id) {
+                        style = selectedItemStyle;
+                    }
                     employees.push(
                         <ListItem
                             key={key + employee.id}
                             primaryText={personFio + "; " + employee.position}
                             onClick={() => selectEmployee(employee.id)}
+                            style={style}
                         />
                     );
                 });

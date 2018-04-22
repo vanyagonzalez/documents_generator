@@ -10,6 +10,8 @@ import {
     TableRowColumn,
 } from 'material-ui/Table';
 
+const selectedItemStyle = {fontWeight: "bold", fontStyle: "italic"};
+
 class Organizations extends React.Component {
     constructor(props) {
         super(props);
@@ -29,10 +31,16 @@ class Organizations extends React.Component {
     };
 
     render() {
-        let allOrganizations = [];
+        const allOrganizations = [];
+        const selectedId = this.props.organization.id;
+
         this.props.allOrganizations.forEach(function(organization) {
+            let style;
+            if (selectedId === organization.id) {
+                style = selectedItemStyle;
+            }
             allOrganizations.push(
-                <TableRow key={"organization_" + organization.id}>
+                <TableRow key={"organization_" + organization.id} style={style}>
                     <TableRowColumn>{organization.name}</TableRowColumn>
                 </TableRow>
             );

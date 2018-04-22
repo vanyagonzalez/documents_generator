@@ -10,6 +10,8 @@ import {
     TableRowColumn,
 } from 'material-ui/Table';
 
+const selectedItemStyle = {fontWeight: "bold", fontStyle: "italic"};
+
 class Certificates extends React.Component {
     constructor(props) {
         super(props);
@@ -29,10 +31,16 @@ class Certificates extends React.Component {
     };
 
     render() {
-        let allCertificates = [];
+        const allCertificates = [];
+        const selectedId = this.props.certificate.id;
+
         this.props.allCertificates.forEach(function(certificate) {
+            let style;
+            if (selectedId === certificate.id) {
+                style = selectedItemStyle;
+            }
             allCertificates.push(
-                <TableRow key={"certificate_" + certificate.id}>
+                <TableRow key={"certificate_" + certificate.id} style={style}>
                     <TableRowColumn>{certificate.material}</TableRowColumn>
                 </TableRow>
             );
