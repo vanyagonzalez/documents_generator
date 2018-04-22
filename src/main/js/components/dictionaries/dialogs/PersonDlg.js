@@ -3,12 +3,8 @@ const React = require('react');
 import Dialog from 'material-ui/Dialog';
 import FlatButton from 'material-ui/FlatButton';
 import TextField from 'material-ui/TextField';
-import DatePicker from 'material-ui/DatePicker';
+import * as Constants from '../../../AppConstants';
 import $ from 'jquery';
-
-const create = "create";
-const update = "update";
-const del = "delete";
 
 class PersonDlg extends React.Component {
     constructor(props) {
@@ -29,22 +25,27 @@ class PersonDlg extends React.Component {
 
         let state = this.state;
         state.newPerson={};
-        if (operation === create) {
+        if (operation === Constants.CREATE) {
             state.restMethod = "POST";
             state.dlgTitle = "Новая персона";
             state.btnLabel = "Создать";
-        } else if (operation === update || operation === del) {
+        } else if (operation === Constants.COPY || operation === Constants.UPDATE || operation === Constants.DELETE) {
             const dlgData = nextProps.dlgData;
-            state.newPerson.id=dlgData.id;
             state.newPerson.surname=dlgData.surname;
             state.newPerson.name=dlgData.name;
             state.newPerson.middleName=dlgData.middleName;
 
-            if (operation === update) {
+            if (operation === Constants.COPY) {
+                state.restMethod = "POST";
+                state.dlgTitle = "Новая персона";
+                state.btnLabel = "Создать";
+            } else if (operation === Constants.UPDATE) {
+                state.newPerson.id=dlgData.id;
                 state.restMethod = "PUT";
                 state.dlgTitle = "Изменение персоны: " + dlgData.fio;
                 state.btnLabel = "Редактировать";
             } else {
+                state.newPerson.id=dlgData.id;
                 state.restMethod = "DELETE";
                 state.dlgTitle = "Удаление персоны: " + dlgData.fio;
                 state.btnLabel = "Удалить";
@@ -68,10 +69,10 @@ class PersonDlg extends React.Component {
             async: false,
             success: function(msg) {
                 loadPersons();
-                if (operation !== create) {
+                if (operation !== Constants.CREATE) {
                     loadEmployees();
                 }
-                if (operation !== del) {
+                if (operation !== Constants.DELETE) {
                     onDataUpdate("person", msg.id);
                 } else {
                     onDataUpdate("person", null);
@@ -98,7 +99,7 @@ class PersonDlg extends React.Component {
             <FlatButton type="submit" label={this.state.btnLabel} primary={true} key="submit"/>,
         ];
 
-        const isDisabled = this.props.operation === del;
+        const isDisabled = this.props.operation === Constants.DELETE;
 
         return (
             <div>

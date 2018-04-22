@@ -4,11 +4,8 @@ import Dialog from 'material-ui/Dialog';
 import FlatButton from 'material-ui/FlatButton';
 import TextField from 'material-ui/TextField';
 import DatePicker from 'material-ui/DatePicker';
+import * as Constants from '../../../AppConstants';
 import $ from 'jquery';
-
-const create = "create";
-const update = "update";
-const del = "delete";
 
 class CertificateDlg extends React.Component {
     constructor(props) {
@@ -28,13 +25,12 @@ class CertificateDlg extends React.Component {
         const operation = nextProps.operation;
         let state = this.state;
         state.newCertificate={};
-        if (operation === create) {
+        if (operation === Constants.CREATE) {
             state.restMethod = "POST";
             state.dlgTitle = "Новый сертификат";
             state.btnLabel = "Создать";
-        } else if (operation === update || operation === del) {
+        } else if (operation === Constants.COPY || operation === Constants.UPDATE || operation === Constants.DELETE) {
             const dlgData = nextProps.dlgData;
-            state.newCertificate.id=dlgData.id;
             state.newCertificate.material=dlgData.material;
             state.newCertificate.standardDocument=dlgData.standardDocument;
             state.newCertificate.documentKind=dlgData.documentKind;
@@ -45,11 +41,17 @@ class CertificateDlg extends React.Component {
             state.newCertificate.measureUnit=dlgData.measureUnit;
             state.newCertificate.documentCopy=dlgData.documentCopy;
 
-            if (operation === update) {
+            if (operation === Constants.COPY) {
+                state.restMethod = "POST";
+                state.dlgTitle = "Новый сертификат";
+                state.btnLabel = "Создать";
+            } else if (operation === Constants.UPDATE) {
+                state.newCertificate.id=dlgData.id;
                 state.restMethod = "PUT";
                 state.dlgTitle = "Изменение сертификата: " + dlgData.material;
                 state.btnLabel = "Редактировать";
             } else {
+                state.newCertificate.id=dlgData.id;
                 state.restMethod = "DELETE";
                 state.dlgTitle = "Удаление сертификата: " + dlgData.material;
                 state.btnLabel = "Удалить";
@@ -72,7 +74,7 @@ class CertificateDlg extends React.Component {
             async: false,
             success: function(msg) {
                 loadCertificates();
-                if (operation !== del) {
+                if (operation !== Constants.DELETE) {
                     onDataUpdate("certificate", msg.id);
                 } else {
                     onDataUpdate("certificate", null);
@@ -110,7 +112,7 @@ class CertificateDlg extends React.Component {
             documentEndDate = new Date(this.state.newCertificate.documentEndDate);
         }
 
-        const isDisabled = this.props.operation === del;
+        const isDisabled = this.props.operation === Constants.DELETE;
 
         return (
             <div>

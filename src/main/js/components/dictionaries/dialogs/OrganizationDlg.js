@@ -4,11 +4,8 @@ import Dialog from 'material-ui/Dialog';
 import FlatButton from 'material-ui/FlatButton';
 import TextField from 'material-ui/TextField';
 import DatePicker from 'material-ui/DatePicker';
+import * as Constants from '../../../AppConstants';
 import $ from 'jquery';
-
-const create = "create";
-const update = "update";
-const del = "delete";
 
 class OrganizationDlg extends React.Component {
     constructor(props) {
@@ -29,18 +26,17 @@ class OrganizationDlg extends React.Component {
 
         let state = this.state;
         state.newOrganization={};
-        if (operation === create) {
+        if (operation === Constants.CREATE) {
             state.restMethod = "POST";
             state.dlgTitle = "Новая организация";
             state.btnLabel = "Создать";
             state.sroIssuedDate = null;
-        } else if (operation === update || operation === del){
+        } else if (operation === Constants.COPY || operation === Constants.UPDATE || operation === Constants.DELETE){
             const dlgData = nextProps.dlgData;
 
             if (dlgData.sroIssuedDate) {
                 state.sroIssuedDate = new Date(dlgData.sroIssuedDate);
             }
-            state.newOrganization.id=dlgData.id;
             state.newOrganization.name=dlgData.name;
             state.newOrganization.ogrn=dlgData.ogrn;
             state.newOrganization.inn=dlgData.inn;
@@ -51,11 +47,17 @@ class OrganizationDlg extends React.Component {
             state.newOrganization.phoneNumber=dlgData.phoneNumber;
             state.newOrganization.faxNumber=dlgData.faxNumber;
 
-            if (operation === update) {
+            if (operation === Constants.COPY) {
+                state.restMethod = "POST";
+                state.dlgTitle = "Новая организация";
+                state.btnLabel = "Создать";
+            } else if (operation === Constants.UPDATE) {
+                state.newOrganization.id=dlgData.id;
                 state.restMethod = "PUT";
                 state.dlgTitle = "Редактирование организации: " + dlgData.name;
                 state.btnLabel = "Редактировать";
             } else {
+                state.newOrganization.id=dlgData.id;
                 state.restMethod = "DELETE";
                 state.dlgTitle = "Удаление организации: " + dlgData.name;
                 state.btnLabel = "Удалить";
@@ -79,10 +81,10 @@ class OrganizationDlg extends React.Component {
             async: false,
             success: function(msg) {
                 loadOrganizations();
-                if (operation !== create) {
+                if (operation !== Constants.CREATE) {
                     loadEmployees();
                 }
-                if (operation !== del) {
+                if (operation !== Constants.DELETE) {
                     onDataUpdate("organization", msg.id);
                 } else {
                     onDataUpdate("organization", null);
@@ -109,7 +111,7 @@ class OrganizationDlg extends React.Component {
             <FlatButton type="submit" label={this.state.btnLabel} primary={true} key="submit"/>,
         ];
 
-        const isDisabled = this.props.operation === del;
+        const isDisabled = this.props.operation === Constants.DELETE;
 
         return (
             <div>

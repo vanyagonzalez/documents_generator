@@ -6,15 +6,12 @@ import TextField from 'material-ui/TextField';
 import DatePicker from 'material-ui/DatePicker';
 import SelectField from 'material-ui/SelectField';
 import MenuItem from 'material-ui/MenuItem';
+import * as Constants from '../../../AppConstants';
 import $ from 'jquery';
 
 const marginRight = {
     marginRight: '50px',
 };
-
-const create = "create";
-const update = "update";
-const del = "delete";
 
 class  EmployeeDlg extends React.Component {
     constructor(props) {
@@ -39,13 +36,12 @@ class  EmployeeDlg extends React.Component {
             person: {},
             organization: {},
         };
-        if (operation === create) {
+        if (operation === Constants.CREATE) {
             state.restMethod = "POST";
             state.dlgTitle = "Новый сотррудник";
             state.btnLabel = "Создать";
-        } else if (operation === update || operation === del) {
+        } else if (operation === Constants.COPY || operation === Constants.UPDATE || operation === Constants.DELETE) {
             const dlgData = nextProps.dlgData;
-            state.newEmployee.id=dlgData.id;
             if (dlgData.person) {
                 state.newEmployee.person = dlgData.person;
             }
@@ -59,11 +55,17 @@ class  EmployeeDlg extends React.Component {
                 fio = dlgData.person.fio;
             }
 
-            if (operation === update) {
+            if (operation === Constants.COPY) {
+                state.restMethod = "POST";
+                state.dlgTitle = "Новый сотррудник";
+                state.btnLabel = "Создать";
+            } else if (operation === Constants.UPDATE) {
+                state.newEmployee.id=dlgData.id;
                 state.restMethod = "PUT";
                 state.dlgTitle = "Изменение рабочего: " + fio;
                 state.btnLabel = "Редактировать";
             } else {
+                state.newEmployee.id=dlgData.id;
                 state.restMethod = "DELETE";
                 state.dlgTitle = "Удаление рабочего: " + fio;
                 state.btnLabel = "Удалить";
@@ -86,7 +88,7 @@ class  EmployeeDlg extends React.Component {
             async: false,
             success: function(msg) {
                 loadEmployees();
-                if (operation !== del) {
+                if (operation !== Constants.DELETE) {
                     onDataUpdate("employee", msg.id);
                 } else {
                     onDataUpdate("employee", null);
@@ -146,7 +148,7 @@ class  EmployeeDlg extends React.Component {
             organizationId = this.state.newEmployee.organization.id;
         }
 
-        const isDisabled = this.props.operation === del;
+        const isDisabled = this.props.operation === Constants.DELETE;
 
         return (
             <div>

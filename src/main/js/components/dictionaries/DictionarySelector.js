@@ -14,6 +14,7 @@ import Certificates from './views/Certificates'
 import CertificateDlg from './dialogs/CertificateDlg'
 import Confirmations from './views/Confirmations'
 import ConfirmationDlg from './dialogs/ConfirmationDlg'
+import * as Constants from '../../AppConstants';
 import $ from 'jquery';
 
 const width = '45%';
@@ -87,14 +88,6 @@ class DictionarySelector extends React.Component {
         this.handleCloseError = this.handleCloseError.bind(this);
     }
 
-    onCreate(type) {
-        let self = this.state;
-        self.dlgOpeningState[type] = true;
-        self.dlgData[type] = null;
-        self.operation = "create";
-        this.setState(self);
-    }
-
     prepareDlgData(type) {
         let self = this.state;
         if (!self.selectedData[type].id) {
@@ -105,17 +98,32 @@ class DictionarySelector extends React.Component {
         }
     }
 
+    onCreate(type) {
+        let self = this.state;
+        self.dlgOpeningState[type] = true;
+        self.dlgData[type] = null;
+        self.operation = Constants.CREATE;
+        this.setState(self);
+    }
+
+    onCopy(type) {
+        this.prepareDlgData(type);
+        let self = this.state;
+        self.operation = Constants.COPY;
+        this.setState(self);
+    }
+
     onUpdate(type) {
         this.prepareDlgData(type);
         let self = this.state;
-        self.operation = "update";
+        self.operation = Constants.UPDATE;
         this.setState(self);
     }
 
     onDelete(type) {
         this.prepareDlgData(type);
         let self = this.state;
-        self.operation = "delete";
+        self.operation = Constants.DELETE;
         this.setState(self);
     }
 
@@ -161,6 +169,7 @@ class DictionarySelector extends React.Component {
                 <div style={heightStyle}>
                     <ButtonsBlock
                         onCreate={() => this.onCreate("organization")}
+                        onCopy={() => this.onCopy("organization")}
                         onUpdate={() => this.onUpdate("organization")}
                         onDelete={() => this.onDelete("organization")}
                     />
@@ -185,6 +194,7 @@ class DictionarySelector extends React.Component {
                 <div style={heightStyle}>
                     <ButtonsBlock
                         onCreate={() => this.onCreate("person")}
+                        onCopy={() => this.onCopy("person")}
                         onUpdate={() => this.onUpdate("person")}
                         onDelete={() => this.onDelete("person")}
                     />
@@ -209,6 +219,7 @@ class DictionarySelector extends React.Component {
                 <div style={heightStyle}>
                     <ButtonsBlock
                         onCreate={() => this.onCreate("employee")}
+                        onCopy={() => this.onCopy("employee")}
                         onUpdate={() => this.onUpdate("employee")}
                         onDelete={() => this.onDelete("employee")}
                     />
@@ -234,6 +245,7 @@ class DictionarySelector extends React.Component {
                 <div style={heightStyle}>
                     <ButtonsBlock
                         onCreate={() => this.onCreate("certificate")}
+                        onCopy={() => this.onCopy("certificate")}
                         onUpdate={() => this.onUpdate("certificate")}
                         onDelete={() => this.onDelete("certificate")}
                     />
@@ -257,6 +269,7 @@ class DictionarySelector extends React.Component {
                 <div style={heightStyle}>
                     <ButtonsBlock
                         onCreate={() => this.onCreate("confirmation")}
+                        onCopy={() => this.onCopy("confirmation")}
                         onUpdate={() => this.onUpdate("confirmation")}
                         onDelete={() => this.onDelete("confirmation")}
                     />

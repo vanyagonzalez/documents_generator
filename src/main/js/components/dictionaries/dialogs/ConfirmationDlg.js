@@ -4,11 +4,8 @@ import Dialog from 'material-ui/Dialog';
 import FlatButton from 'material-ui/FlatButton';
 import TextField from 'material-ui/TextField';
 import DatePicker from 'material-ui/DatePicker';
+import * as Constants from '../../../AppConstants';
 import $ from 'jquery';
-
-const create = "create";
-const update = "update";
-const del = "delete";
 
 class ConfirmationDlg extends React.Component {
     constructor(props) {
@@ -28,23 +25,28 @@ class ConfirmationDlg extends React.Component {
         const operation = nextProps.operation;
         let state = this.state;
         state.newCertificate={};
-        if (operation === create) {
+        if (operation === Constants.CREATE) {
             state.restMethod = "POST";
             state.dlgTitle = "Новое подтверждение";
             state.btnLabel = "Создать";
-        } else if (operation === update || operation === del) {
+        } else if (operation === Constants.COPY || operation === Constants.UPDATE || operation === Constants.DELETE) {
             const dlgData = nextProps.dlgData;
-            state.newConfirmation.id=dlgData.id;
             state.newConfirmation.name=dlgData.name;
             state.newConfirmation.number=dlgData.number;
             state.newConfirmation.issueDate=dlgData.issueDate;
             state.newConfirmation.copy=dlgData.copy;
 
-            if (operation === update) {
+            if (operation === Constants.COPY) {
+                state.restMethod = "POST";
+                state.dlgTitle = "Новое подтверждение";
+                state.btnLabel = "Создать";
+            } else if (operation === Constants.UPDATE) {
+                state.newConfirmation.id=dlgData.id;
                 state.restMethod = "PUT";
                 state.dlgTitle = "Изменение подтверждения: " + dlgData.name;
                 state.btnLabel = "Редактировать";
             } else {
+                state.newConfirmation.id=dlgData.id;
                 state.restMethod = "DELETE";
                 state.dlgTitle = "Удаление подтверждения: " + dlgData.name;
                 state.btnLabel = "Удалить";
@@ -67,7 +69,7 @@ class ConfirmationDlg extends React.Component {
             async: false,
             success: function(msg) {
                 loadConfirmations();
-                if (operation !== del) {
+                if (operation !== Constants.DELETE) {
                     onDataUpdate("confirmation", msg.id);
                 } else {
                     onDataUpdate("confirmation", null);
@@ -101,7 +103,7 @@ class ConfirmationDlg extends React.Component {
             issueDate = new Date(this.state.newConfirmation.issueDate);
         }
 
-        const isDisabled = this.props.operation === del;
+        const isDisabled = this.props.operation === Constants.DELETE;
 
         return (
             <div>
