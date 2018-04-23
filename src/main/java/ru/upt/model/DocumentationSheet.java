@@ -28,7 +28,7 @@ public class DocumentationSheet {
     /**
      * Номер изменения листа проектной документации
      */
-    private Long change;
+    private Long changeNumber;
 
     @OneToMany(targetEntity=KindOfWork.class, mappedBy="documentationSheet", fetch= FetchType.EAGER)
     private Set<KindOfWork> kindOfWorks = new LinkedHashSet<>();
@@ -40,18 +40,18 @@ public class DocumentationSheet {
     @JoinColumn(name="projectDocumentId", referencedColumnName = "id")
     private ProjectDocument projectDocument;
 
-    public DocumentationSheet(String name, Long number, Long change, ProjectDocument projectDocument) {
+    public DocumentationSheet(String name, Long number, Long changeNumber, ProjectDocument projectDocument) {
         this.name = name;
         this.number = number;
-        this.change = change;
+        this.changeNumber = changeNumber;
         this.projectDocument = projectDocument;
     }
 
-    public DocumentationSheet(Long id, String name, Long number, Long change, ProjectDocument projectDocument) {
+    public DocumentationSheet(Long id, String name, Long number, Long changeNumber, ProjectDocument projectDocument) {
         this.id = id;
         this.name = name;
         this.number = number;
-        this.change = change;
+        this.changeNumber = changeNumber;
         this.projectDocument = projectDocument;
     }
 

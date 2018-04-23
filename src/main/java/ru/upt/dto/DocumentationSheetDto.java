@@ -20,7 +20,7 @@ public class DocumentationSheetDto extends BasicDocumentationSheetDto {
     /**
      * Номер изменения листа проектной документации
      */
-    private Long change;
+    private Long changeNumber;
 
     private BasicProjectDocumentDto projectDocument;
 
@@ -28,11 +28,11 @@ public class DocumentationSheetDto extends BasicDocumentationSheetDto {
                                  String name,
                                  List<BasicKindOfWorkDto> kindOfWorks,
                                  Long number,
-                                 Long change,
+                                 Long changeNumber,
                                  BasicProjectDocumentDto projectDocument) {
         super(id, name, kindOfWorks);
         this.number = number;
-        this.change = change;
+        this.changeNumber = changeNumber;
         this.projectDocument = projectDocument;
     }
 }

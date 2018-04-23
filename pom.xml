@@ -63,6 +63,11 @@
             <artifactId>docx4j</artifactId>
             <version>3.3.6</version>
         </dependency>
+        <dependency>
+            <groupId>mysql</groupId>
+            <artifactId>mysql-connector-java</artifactId>
+            <version>8.0.11</version>
+        </dependency>
     </dependencies>
 
     <build>
@@ -80,7 +85,7 @@
                     <installDirectory>target</installDirectory>
                 </configuration>
                 <executions>
-                    <execution>
+                    <!--<execution>
                         <id>install node and npm</id>
                         <goals>
                             <goal>install-node-and-npm</goal>
@@ -98,7 +103,7 @@
                         <configuration>
                             <arguments>install</arguments>
                         </configuration>
-                    </execution>
+                    </execution>-->
                     <execution>
                         <id>webpack build</id>
                         <goals>
@@ -106,6 +111,18 @@
                         </goals>
                     </execution>
                 </executions>
+            </plugin>
+
+            <plugin>
+                <groupId>org.flywaydb</groupId>
+                <artifactId>flyway-maven-plugin</artifactId>
+                <version>5.0.7</version>
+                <configuration>
+                    <driver>com.mysql.jdbc.Driver</driver>
+                    <url><![CDATA[jdbc:mysql://127.0.0.1:3306/docgentest?useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC]]></url>
+                    <user>root</user>
+                    <password>ivan1703</password>
+                </configuration>
             </plugin>
         </plugins>
     </build>

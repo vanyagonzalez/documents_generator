@@ -52,6 +52,10 @@ public class DatabaseLoader implements CommandLineRunner {
 
     @Override
     public void run(String... strings) throws Exception {
+//        loadData();
+    }
+
+    private void loadData() {
         Set<Certificate> certificateSet = new HashSet<>();
         for (int i = 1; i < 5; i ++) {
             certificateSet.add(certificates.save(new Certificate(
