@@ -8,14 +8,9 @@ import Dictionaries from './Dictionaries'
 import {Tabs, Tab} from 'material-ui/Tabs';
 import $ from 'jquery';
 
-const styles = {
-    headline: {
-        fontSize: 24,
-        paddingTop: 16,
-        marginBottom: 12,
-        fontWeight: 400,
-    },
-};
+import getMuiTheme from 'material-ui/styles/getMuiTheme';
+import * as colors from 'material-ui/styles/colors';
+
 
 const bodyHeight = '90vh';
 
@@ -125,8 +120,15 @@ class App extends React.Component {
     };
 
     render() {
+        const darkBlack = colors.darkBlack;
+        const muiTheme = getMuiTheme({
+            textField: {
+                floatingLabelColor: darkBlack,
+            }
+        });
+
         return (
-            <MuiThemeProvider>
+            <MuiThemeProvider muiTheme={muiTheme}>
                 <Tabs
                     value={this.state.value}
                     onChange={this.handleChange}
